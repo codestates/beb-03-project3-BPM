@@ -14,3 +14,5 @@ router.patch("/signup", signup);
 router.get("/mypage", mypage);
 
 router.patch("/update", update);
+
+module.exports = router;

@@ -32,3 +32,5 @@ router.delete("/:postid/comment", deleteComment);
 router.post("/:postid/like", like);
 
 router.delete("/:postid/unlike", unlike);
+
+module.exports = router;

@@ -7,3 +7,5 @@ router.post("/create", create);
 router.get("/read", read);
 
 router.get("/update", update);
+
+module.exports = router;

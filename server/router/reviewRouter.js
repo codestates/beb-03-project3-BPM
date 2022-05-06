@@ -29,3 +29,5 @@ router.delete("/:reviewid/comment", deleteComment);
 router.post("/:reviewid/like", like);
 
 router.delete("/:reviewid/unlike", unlike);
+
+module.exports = router;

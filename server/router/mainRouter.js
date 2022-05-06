@@ -7,3 +7,5 @@ router.get("/allchart", allchart);
 router.get("/ourchart", ourchart);
 
 router.post("/create", create);
+
+module.exports = router;

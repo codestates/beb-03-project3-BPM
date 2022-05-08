@@ -1,12 +1,17 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// 아직 뭐가 들어올지 모르므로 보류
-// const chartsSchema = new Schema(
-//   {
-
-//   },
-//   { timestamps: true }
-// );
+const chartsSchema = new Schema(
+	{
+		image: { type: String, required: true },
+		title: { type: String, required: true },
+		artist: { type: String, required: true },
+		evaluations_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Evaluations",
+		},
+	},
+	{ timestamps: true }
+);
 
 module.exports = mongoose.model("Charts", chartsSchema);

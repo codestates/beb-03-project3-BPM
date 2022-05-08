@@ -2,14 +2,25 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const reviewsSchema = new Schema(
-  {
-    title: String,
-    body: String,
-    users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
-    charts_id: { type: mongoose.Schema.Types.ObjectId, ref: "Charts" },
-    evaluations_id: { type: mongoose.Schema.Types.ObjectId, ref: "Charts" },
-  },
-  { timestamps: true }
+	{
+		username: { type: String, required: true },
+		title: { type: String, required: true },
+		body: { type: String, required: true },
+		comments: [
+			{
+				users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+				username: { type: String, required: true },
+				comment: { type: String, required: true },
+			},
+		],
+		users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+		charts_id: { type: mongoose.Schema.Types.ObjectId, ref: "Charts" },
+		evaluations_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Evaluations",
+		},
+	},
+	{ timestamps: true }
 );
 
 module.exports = mongoose.model("Reviews", reviewsSchema);

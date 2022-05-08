@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const reviewsSchema = new Schema(
 	{
+		users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
 		username: { type: String, required: true },
 		title: { type: String, required: true },
 		body: { type: String, required: true },
@@ -13,7 +14,11 @@ const reviewsSchema = new Schema(
 				comment: { type: String, required: true },
 			},
 		],
-		users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+		likes: [
+			{
+				users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+			},
+		],
 		charts_id: { type: mongoose.Schema.Types.ObjectId, ref: "Charts" },
 		evaluations_id: {
 			type: mongoose.Schema.Types.ObjectId,

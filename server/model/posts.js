@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const postsSchema = new Schema(
 	{
+		users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+		boards_id: { type: mongoose.Schema.Types.ObjectId, ref: "Boards" },
 		username: { type: String, required: true },
 		title: { type: String, required: true },
 		body: { type: String, required: true },
@@ -13,8 +15,11 @@ const postsSchema = new Schema(
 				comment: { type: String, required: true },
 			},
 		],
-		users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
-		boards_id: { type: mongoose.Schema.Types.ObjectId, ref: "Boards" },
+		likes: [
+			{
+				users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+			},
+		],
 	},
 	{ timestamps: true }
 );

@@ -20,10 +20,6 @@ const reviewsSchema = new Schema(
 			},
 		],
 		charts_id: { type: mongoose.Schema.Types.ObjectId, ref: "Charts" },
-		evaluations_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Evaluations",
-		},
 	},
 	{ timestamps: true }
 );

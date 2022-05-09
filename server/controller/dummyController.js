@@ -17,6 +17,7 @@ module.exports = {
 		}
 		res.send({ message: "success create dummy" });
 	},
+	// 차트 평가 항목 삽입 테스트
 	update: async (req, res) => {
 		Charts.updateOne(
 			{ title: "봄여름가을겨울 (Still Life)" },

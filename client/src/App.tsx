@@ -4,11 +4,13 @@ import Home from './pages/Home';
 import Mypage from './pages/Mypage';
 import Nav from './components/Nav';
 import Community from './pages/Community';
+import { CssBaseline } from '@mui/material';
 
 function App() {
   return (
     <>
       <div>
+        <CssBaseline />
         <Nav />
         <Routes>
           <Route path='/' element={<Home />} />

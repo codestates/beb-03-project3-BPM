@@ -27,7 +27,7 @@ export default function Mypage() {
   };
   return (
     <>
-      <Container>
+      <Container sx={{ fontFamily: 'Nanum Gothic Coding' }}>
         <Grid container justifyContent='center' p={5}>
           <Grid item xs={2}>
             <Box
@@ -37,7 +37,9 @@ export default function Mypage() {
           <Grid item xs={4}>
             <Box ml={3}>
               {/* 이 본인 닉네임 정보 있는 box 컴포넌트가 // isMobile에서는
-              프로필사진의 하단으로 가게! */}
+              프로필사진의 하단으로 가게!
+              프로필 사진 
+              */}
               <Box
                 sx={{
                   display: 'flex',

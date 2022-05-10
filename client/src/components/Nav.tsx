@@ -7,6 +7,7 @@ import {
   Toolbar,
   BottomNavigation,
   BottomNavigationAction,
+  useTheme,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -18,9 +19,13 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 export default function Nav() {
+  const theme = useTheme();
   return (
     <>
-      <AppBar position='sticky' sx={{ bgcolor: '#333' }}>
+      <AppBar
+        position='sticky'
+        sx={{ bgcolor: '#333', zIndex: theme.zIndex.drawer + 1 }}
+      >
         <Toolbar>
           <Grid container alignItems='center'>
             <Grid color={'#fff'} xs={2}>

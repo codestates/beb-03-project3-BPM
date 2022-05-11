@@ -9,14 +9,20 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
-  CssBaseline,
 } from '@mui/material';
 import React, { useState } from 'react';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 import StarIcon from '@mui/icons-material/Star';
 import MenuIcon from '@mui/icons-material/Menu';
 import StoreIcon from '@mui/icons-material/LocalGroceryStore';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
+async function getBoard() {
+  let res = await axios.get('http://localhost:4000/post/readAll');
+  console.log(res);
+}
+getBoard();
 export default function CommuNav() {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -31,7 +37,7 @@ export default function CommuNav() {
       ) {
         return;
       }
-      setOpen(open);
+      setOpen(!open);
       // setOpen(!open)
     };
   return (
@@ -39,13 +45,14 @@ export default function CommuNav() {
       <IconButton
         color='inherit'
         aria-label='open drawer'
-        edge='start'
-        // onClick={toggleDrawer}
-        // sx={{ [theme.breakpoints.up('md')]: { display: 'none' } }}
+        onClick={() => toggleDrawer}
+        sx={{
+          p: 2,
+          // [theme.breakpoints.up('md')]: { display: 'none' },
+        }}
       >
         <MenuIcon />
       </IconButton>
-      <CssBaseline />
       <Drawer
         variant={isMdUp ? 'permanent' : 'temporary'}
         anchor='left'
@@ -56,14 +63,22 @@ export default function CommuNav() {
           <Button fullWidth>게시판 만들기</Button>
           <Divider sx={{ mt: 2, mb: 2 }} />
 
-          {['자유게시판', '음악 리뷰'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {/* 음악리뷰만 별 나머지는 키보드 아이콘으로 해놓음! 필요하면 바꿀 수 있는 부부누누우우눈 */}
-                {index === 1 ? <StarIcon /> : <KeyboardIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <StarIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Music Market'} />
+          </ListItem>
+
+          {['자유게시판', '아무개 게시판'].map((text, index) => (
+            <Link to={`/:${text}`}>
+              <ListItem button key={index}>
+                <ListItemIcon>
+                  <KeyboardIcon />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            </Link>
           ))}
           <Divider sx={{ mt: 2, mb: 2 }} />
 

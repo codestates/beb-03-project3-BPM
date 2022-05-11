@@ -1,6 +1,6 @@
 import React from 'react';
-import FreeBoard from '../components/community/FreeBoard';
-import CommuNav from '../components/community/CommuNav';
+import FreeBoard from '../components/commuComponents/FreeBoard';
+import CommuNav from '../components/commuComponents/CommuNav';
 import { Grid } from '@mui/material';
 
 export default function Community() {

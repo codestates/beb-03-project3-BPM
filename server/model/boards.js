@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const boardsSchema = new Schema(
   {
     title: { type: String, required: true, unique: true },
+    subtitle: { type: String, required: true, unique: true },
   },
   { timestamps: true }
 );

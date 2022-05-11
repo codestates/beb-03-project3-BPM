@@ -3,22 +3,14 @@ const Boards = require("../model/boards");
 module.exports = {
 	// 게시판 생성 핸들러
 	create: async (req, res) => {
-		const { title } = req.body;
+		const { title, subtitle } = req.body;
 		try {
 			const existed = await Boards.findOne({ title: title });
 			if (!existed) {
-				// id 설정
-				const boardList = await Boards.find();
-				let id;
-				if (boardList.length === 0) {
-					id = 1;
-				} else {
-					id = boardList[boardList.length - 1].id + 1;
-				}
 				// db 생성
 				await Boards.create({
-					id,
 					title,
+					subtitle,
 				});
 				return res.status(201).send({
 					success: true,
@@ -41,7 +33,7 @@ module.exports = {
 		try {
 			const boardInfo = await Boards.find(
 				{},
-				{ _id: false, "id": true, "title": true }
+				{ _id: true, "title": true, "subtitle": true }
 			);
 			console.log("🌸🌸🌸🌸🌸", boardInfo); // 데이터 형태 확인
 
@@ -58,12 +50,12 @@ module.exports = {
 	},
 	// 게시판 이름 변경 핸들러
 	update: async (req, res) => {
-		const { id, title } = req.body;
+		const { id, title, subtitle } = req.body;
 		try {
 			const existed = await Boards.updateOne(
-				{ id: id },
+				{ _id: id },
 				{
-					$set: { title: title },
+					$set: { title: title, subtitle: subtitle },
 				}
 			);
 			res.status(201).send({
@@ -75,7 +67,7 @@ module.exports = {
 			console.error(e);
 			res
 				.status(500)
-				.send({ success: falwe, message: "Failed to update board title" });
+				.send({ success: false, message: "Failed to update board title" });
 		}
 	},
 };

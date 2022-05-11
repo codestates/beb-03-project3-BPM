@@ -22,9 +22,9 @@ router.post("/", create);
 
 router.post("/:reviewid/comment", createComment);
 
-router.patch("/:reviewid/comment", updateComment);
+router.patch("/:reviewid/comment/:commentid", updateComment);
 
-router.delete("/:reviewid/comment", deleteComment);
+router.delete("/:reviewid/comment/:commentid", deleteComment);
 
 router.post("/:reviewid/like", like);
 

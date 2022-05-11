@@ -5,8 +5,7 @@ import {
   IconButton,
   AppBar,
   Toolbar,
-  BottomNavigation,
-  BottomNavigationAction,
+  useTheme,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -18,9 +17,13 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 export default function Nav() {
+  const theme = useTheme();
   return (
     <>
-      <AppBar position='sticky' sx={{ bgcolor: '#333' }}>
+      <AppBar
+        position='sticky'
+        sx={{ bgcolor: '#333', zIndex: theme.zIndex.drawer + 1 }}
+      >
         <Toolbar>
           <Grid container alignItems='center'>
             <Grid color={'#fff'} xs={2}>
@@ -48,17 +51,32 @@ export default function Nav() {
               xs={3}
               sx={{ display: 'flex', justifyContent: 'space-evenly' }}
             >
-              <IconButton sx={{ color: '#fff' }}>
-                <InsertChartIcon />
-              </IconButton>
+              {/* chart 버튼 */}
+              <Link to='/chart'>
+                <IconButton sx={{ color: '#fff' }}>
+                  <InsertChartIcon />
+                </IconButton>
+              </Link>
+
+              {/* community 버튼 */}
               <Link to='/community'>
                 <IconButton>
                   <GroupsIcon sx={{ color: '#fff' }} />
                 </IconButton>
               </Link>
-              <IconButton>
+
+              {/* wallet 버튼 */}
+              <IconButton
+              // onClick={async () => {
+              //   const accounts = await window.ethereum.request({
+              //     method: 'eth_requestAccounts',
+              //   });
+              // }}
+              >
                 <AccountBalanceWalletIcon sx={{ color: '#fff' }} />
               </IconButton>
+
+              {/* mypage 버튼 */}
               <Link to='/mypage'>
                 <IconButton>
                   <AccountBoxIcon sx={{ color: '#fff' }} />

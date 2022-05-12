@@ -6,6 +6,7 @@ import Chart from './pages/Chart';
 import Community from './pages/Community';
 import Mypage from './pages/Mypage';
 import { CssBaseline } from '@mui/material';
+import SignUp from './pages/SignUp';
 
 // export const Context = createContext();
 
@@ -20,6 +21,7 @@ function App() {
           <Route path='/chart' element={<Chart />} />
           <Route path='/community' element={<Community />} />
           <Route path='/mypage' element={<Mypage />} />
+          <Route path='/signup' element={<SignUp />} />
         </Routes>
       </div>
     </>

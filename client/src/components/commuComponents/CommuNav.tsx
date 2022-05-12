@@ -10,7 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 import StarIcon from '@mui/icons-material/Star';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,34 +18,45 @@ import StoreIcon from '@mui/icons-material/LocalGroceryStore';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-async function getBoard() {
-  let res = await axios.get('http://localhost:4000/post/readAll');
-  console.log(res);
-}
-getBoard();
 export default function CommuNav() {
+  // useEffect(() => {
+  //   async function getBoard() {
+  //     let res = await axios.get('http://localhost:4000/post/readAll');
+  //     console.log(res);
+  //   }
+  //   getBoard();
+  // }, []);
+
+  async function getBoard() {
+    let res = await axios.get('http://localhost:4000/board/read', {});
+    // commuNav
+    // console.log(res);
+  }
+  getBoard();
+
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
   const toggleDrawer =
-    (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+    //이거 안됨 open 쓰면 안됨
+    // (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event &&
         event.type === 'keydown' &&
-        (event as KeyboardEvent).key === 'Tab'
+        (event as React.KeyboardEvent).key === 'Tab'
       ) {
         return;
       }
       setOpen(!open);
-      // setOpen(!open)
     };
   return (
     <>
       <IconButton
         color='inherit'
         aria-label='open drawer'
-        onClick={() => toggleDrawer}
+        onClick={toggleDrawer}
         sx={{
           p: 2,
           // [theme.breakpoints.up('md')]: { display: 'none' },

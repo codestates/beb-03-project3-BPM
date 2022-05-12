@@ -12,9 +12,6 @@ export default function Home() {
 
   const ref = useRef(null);
   const scrollTrigger = useScrollTrigger();
-  const path1 = document.querySelector('.path1');
-  // path1.style.strokeDasharry;
-  console.log(path1);
   return (
     <>
       <Container

@@ -21,6 +21,8 @@ export default function FreeBoard() {
           fontFamily='Papyrus'
           // fontFamily='Lucida Handwriting'
           // fontFamily='Monaco'
+          // fontFamily='cursive'
+          // fontFamily='fantasy'
         >
           Free Board
         </Typography>

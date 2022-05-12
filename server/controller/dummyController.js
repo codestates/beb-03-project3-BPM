@@ -14,7 +14,7 @@ module.exports = {
       // Boards.create(dummy(Boards, { returnDate: true }));
       // NFTs.create(dummy(NFTs, { returnDate: true }));
       // Posts.create(dummy(Posts, { returnDate: true }));
-      Reviews.create(dummy(Reviews, { returnDate: true }));
+      //Reviews.create(dummy(Reviews, { returnDate: true }));
       evaluations.create(dummy(evaluations, { returnDate: true }));
     }
     res.send({ message: "success create dummy" });

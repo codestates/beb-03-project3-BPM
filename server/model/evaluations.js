@@ -3,26 +3,11 @@ const Schema = mongoose.Schema;
 
 const evaluationsSchema = new Schema(
   {
-    popularity: {
-      score: { type: Number, default: 0 },
-      body: { type: String },
-    },
-    artistry: {
-      score: { type: Number, default: 0 },
-      body: { type: String },
-    },
-    lyrics: {
-      score: { type: Number, default: 0 },
-      body: { type: String },
-    },
-    individuality: {
-      score: { type: Number, default: 0 },
-      body: { type: String },
-    },
-    Addictive: {
-      score: { type: Number, default: 0 },
-      body: { type: String },
-    },
+    popularity: { type: Number, default: 0 },
+    artistry: { type: Number, default: 0 },
+    lyrics: { type: Number, default: 0 },
+    individuality: { type: Number, default: 0 },
+    Addictive: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

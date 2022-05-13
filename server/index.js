@@ -11,6 +11,7 @@ const mainRouter = require("./router/mainRouter");
 const boardRouter = require("./router/boardRouter");
 const reviewRouter = require("./router/reviewRouter");
 const chartRouter = require("./router/chartRouter");
+const contractRouter = require("./router/contractRouter");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -34,7 +35,7 @@ app.use("/post", postRouter);
 app.use("/review", reviewRouter);
 // 차트 생성
 app.use("/chart", chartRouter);
-
+app.use("contract", contractRouter);
 //mongoose 연결
 mongoose
 	.connect(process.env.MONGODB_URI, {

@@ -14,10 +14,6 @@ export default function Community() {
         </Grid>
         <Grid item xs={8}>
           // 링크에 따라서 여기서 board가 바뀌어서 보여짐
-          <Routes>
-            <Route path='/community/:boardid' element={<FreeBoard />} />
-            <Route path='/community/musicreview' element={<MusicReview />} />
-          </Routes>
         </Grid>
       </Grid>
     </>

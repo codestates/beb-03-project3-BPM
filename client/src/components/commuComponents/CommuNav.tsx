@@ -3,8 +3,8 @@ import {
   Button,
   Divider,
   Drawer,
-  List,
-  ListItem,
+  Tabs,
+  Tab,
   ListItemIcon,
   ListItemText,
   useMediaQuery,
@@ -70,25 +70,30 @@ export default function CommuNav() {
         open={open}
         onClose={toggleDrawer}
       >
-        <List sx={{ mt: 10, p: 3 }}>
+        <Tabs sx={{ mt: 10, p: 3 }}>
           <Button fullWidth>게시판 만들기</Button>
           <Divider sx={{ mt: 2, mb: 2 }} />
 
-          <ListItem component={Link} to='/community/musicreview' button>
+          <Tab
+            aria-valuetext='1'
+            component={Link}
+            to='/community/musicreview'
+            button
+          >
             <ListItemIcon>
               <StarIcon />
             </ListItemIcon>
             <ListItemText primary={'Music Review'} />
-          </ListItem>
+          </Tab>
 
           {/* {['자유게시판', '아무개 게시판'].map((text, index) => (
             <Link to={`/:${text}`}>
-              <ListItem button key={index}>
+              <Tab button key={index}>
                 <ListItemIcon>
                   <KeyboardIcon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem>
+              </Tab>
             </Link>
           ))} */}
           <Async promiseFn={getBoard}>
@@ -99,7 +104,7 @@ export default function CommuNav() {
               const boardList = data.map((el: any, idx: number) => {
                 return (
                   <>
-                    <ListItem
+                    <Tab
                       component={Link}
                       to={`/community/${el._id}`}
                       button
@@ -109,7 +114,7 @@ export default function CommuNav() {
                         <KeyboardIcon />
                       </ListItemIcon>
                       <ListItemText primary={el.title} />
-                    </ListItem>
+                    </Tab>
                   </>
                 );
               });
@@ -118,13 +123,13 @@ export default function CommuNav() {
           </Async>
           <Divider sx={{ mt: 2, mb: 2 }} />
 
-          <ListItem button>
+          <Tab button>
             <ListItemIcon>
               <StoreIcon />
             </ListItemIcon>
             <ListItemText primary={'Music Market'} />
-          </ListItem>
-        </List>
+          </Tab>
+        </Tabs>
       </Drawer>
     </>
   );

@@ -2,6 +2,8 @@ import React from 'react';
 import FreeBoard from '../components/commuComponents/FreeBoard';
 import CommuNav from '../components/commuComponents/CommuNav';
 import { Grid } from '@mui/material';
+import { Route, Routes } from 'react-router';
+import MusicReview from '../components/commuComponents/reviewComponents/MusicReview';
 
 export default function Community() {
   return (
@@ -11,7 +13,11 @@ export default function Community() {
           <CommuNav />
         </Grid>
         <Grid item xs={8}>
-          <FreeBoard />
+          // 링크에 따라서 여기서 board가 바뀌어서 보여짐
+          <Routes>
+            <Route path='/community/:boardid' element={<FreeBoard />} />
+            <Route path='/community/musicreview' element={<MusicReview />} />
+          </Routes>
         </Grid>
       </Grid>
     </>

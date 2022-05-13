@@ -1,4 +1,5 @@
 const Posts = require("../model/posts");
+const Users = require("../model/users");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 
@@ -125,10 +126,11 @@ module.exports = {
           .send({ message: "invalid accesstoken, please login again" });
       } else {
         const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+        const user = await Users.find({ _id: userinfo.id }, { username: true });
         const newPost = await Posts.create({
           users_id: userinfo.id,
           boards_id: boardid,
-          username: userinfo.username,
+          username: user[0].username,
           title: title,
           body: body,
         });
@@ -190,6 +192,7 @@ module.exports = {
           .send({ message: "invalid accesstoken, please login again" });
       } else {
         const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+        const user = await Users.find({ _id: userinfo.id }, { username: true });
         const comments = await Posts.updateOne(
           { $and: [{ boards_id: ObjectId(boardid) }, { _id: postid }] },
           {
@@ -197,7 +200,7 @@ module.exports = {
               comments: [
                 {
                   users_id: userinfo.id,
-                  username: userinfo.username,
+                  username: user[0].username,
                   body: body,
                 },
               ],

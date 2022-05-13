@@ -113,11 +113,11 @@ module.exports = {
           .status(400)
           .send({ message: "invalid accesstoken, please login again" });
       } else {
-        const data = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+        const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
         //username이 있다면
         if (username) {
           const update = await Users.updateOne(
-            { _id: data.id },
+            { _id: userinfo.id },
             {
               $set: { username },
             }

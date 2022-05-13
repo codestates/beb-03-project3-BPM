@@ -1,7 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const {} = require("../controller/chartController");
+const {
+  createWallet,
+  getBalance,
+  deploy,
+} = require("../controller/contractController");
 
-router.post("/", create); // 예시
+router.post("/create", createWallet);
+router.get("/getbalance", getBalance);
+router.post("/deploy", deploy);
 
 module.exports = router;

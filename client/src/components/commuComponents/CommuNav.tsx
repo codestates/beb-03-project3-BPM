@@ -9,15 +9,15 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
-} from '@mui/material';
-import React, { useState } from 'react';
-import KeyboardIcon from '@mui/icons-material/Keyboard';
-import StarIcon from '@mui/icons-material/Star';
-import MenuIcon from '@mui/icons-material/Menu';
-import StoreIcon from '@mui/icons-material/LocalGroceryStore';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Async from 'react-async';
+} from "@mui/material";
+import React, { useState } from "react";
+import KeyboardIcon from "@mui/icons-material/Keyboard";
+import StarIcon from "@mui/icons-material/Star";
+import MenuIcon from "@mui/icons-material/Menu";
+import StoreIcon from "@mui/icons-material/LocalGroceryStore";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Async from "react-async";
 
 export default function CommuNav() {
   // useEffect(() => {
@@ -29,14 +29,14 @@ export default function CommuNav() {
   // }, []);
 
   async function getBoard() {
-    let res = await axios.get('http://localhost:4000/board/read');
+    let res = await axios.get("http://localhost:4000/board/read");
     let boardData = res.data.data;
     console.log(boardData);
     return boardData;
   }
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const toggleDrawer =
     //이거 안됨 open 쓰면 안됨
@@ -44,8 +44,8 @@ export default function CommuNav() {
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event &&
-        event.type === 'keydown' &&
-        (event as React.KeyboardEvent).key === 'Tab'
+        event.type === "keydown" &&
+        (event as React.KeyboardEvent).key === "Tab"
       ) {
         return;
       }
@@ -54,8 +54,8 @@ export default function CommuNav() {
   return (
     <>
       <IconButton
-        color='inherit'
-        aria-label='open drawer'
+        color="inherit"
+        aria-label="open drawer"
         onClick={toggleDrawer}
         sx={{
           p: 2,
@@ -65,8 +65,8 @@ export default function CommuNav() {
         <MenuIcon />
       </IconButton>
       <Drawer
-        variant={isMdUp ? 'permanent' : 'temporary'}
-        anchor='left'
+        variant={isMdUp ? "permanent" : "temporary"}
+        anchor="left"
         open={open}
         onClose={toggleDrawer}
       >
@@ -74,11 +74,11 @@ export default function CommuNav() {
           <Button fullWidth>게시판 만들기</Button>
           <Divider sx={{ mt: 2, mb: 2 }} />
 
-          <ListItem component={Link} to='/community/musicreview' button>
+          <ListItem component={Link} to="/community/musicreview" button>
             <ListItemIcon>
               <StarIcon />
             </ListItemIcon>
-            <ListItemText primary={'Music Review'} />
+            <ListItemText primary={"Music Review"} />
           </ListItem>
 
           {/* {['자유게시판', '아무개 게시판'].map((text, index) => (
@@ -93,7 +93,7 @@ export default function CommuNav() {
           ))} */}
           <Async promiseFn={getBoard}>
             {({ data, error, isPending }) => {
-              if (isPending) return 'Pending...';
+              if (isPending) return "Pending...";
               if (error) return `Something went wrong: ${error.message}`;
 
               const boardList = data.map((el: any, idx: number) => {
@@ -122,7 +122,7 @@ export default function CommuNav() {
             <ListItemIcon>
               <StoreIcon />
             </ListItemIcon>
-            <ListItemText primary={'Music Market'} />
+            <ListItemText primary={"Music Market"} />
           </ListItem>
         </List>
       </Drawer>

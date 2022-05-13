@@ -13,7 +13,11 @@ export default function Community() {
           <CommuNav />
         </Grid>
         <Grid item xs={8}>
-          // 링크에 따라서 여기서 board가 바뀌어서 보여짐
+          {/* 링크에 따라서 여기서 board가 바뀌어서 보여짐 */}
+          <Routes>
+            <Route path=':boardid' element={<FreeBoard />} />
+            <Route path='musicreview' element={<MusicReview />} />
+          </Routes>
         </Grid>
       </Grid>
     </>

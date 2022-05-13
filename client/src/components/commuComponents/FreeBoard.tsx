@@ -23,6 +23,7 @@ export default function FreeBoard() {
           // fontFamily='Monaco'
           // fontFamily='cursive'
           // fontFamily='fantasy'
+          // fontFamily: 'Tahoma'
         >
           Free Board
         </Typography>

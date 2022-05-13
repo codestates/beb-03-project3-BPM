@@ -10,13 +10,14 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 import StarIcon from '@mui/icons-material/Star';
 import MenuIcon from '@mui/icons-material/Menu';
 import StoreIcon from '@mui/icons-material/LocalGroceryStore';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Async from 'react-async';
 
 export default function CommuNav() {
   // useEffect(() => {
@@ -28,12 +29,11 @@ export default function CommuNav() {
   // }, []);
 
   async function getBoard() {
-    let res = await axios.get('http://localhost:4000/board/read', {});
-    // commuNav
-    // console.log(res);
+    let res = await axios.get('http://localhost:4000/board/read');
+    let boardData = res.data.data;
+    console.log(boardData);
+    return boardData;
   }
-  getBoard();
-
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
@@ -74,14 +74,14 @@ export default function CommuNav() {
           <Button fullWidth>게시판 만들기</Button>
           <Divider sx={{ mt: 2, mb: 2 }} />
 
-          <ListItem button>
+          <ListItem component={Link} to='/community/musicreview' button>
             <ListItemIcon>
               <StarIcon />
             </ListItemIcon>
-            <ListItemText primary={'Music Market'} />
+            <ListItemText primary={'Music Review'} />
           </ListItem>
 
-          {['자유게시판', '아무개 게시판'].map((text, index) => (
+          {/* {['자유게시판', '아무개 게시판'].map((text, index) => (
             <Link to={`/:${text}`}>
               <ListItem button key={index}>
                 <ListItemIcon>
@@ -90,7 +90,32 @@ export default function CommuNav() {
                 <ListItemText primary={text} />
               </ListItem>
             </Link>
-          ))}
+          ))} */}
+          <Async promiseFn={getBoard}>
+            {({ data, error, isPending }) => {
+              if (isPending) return 'Pending...';
+              if (error) return `Something went wrong: ${error.message}`;
+
+              const boardList = data.map((el: any, idx: number) => {
+                return (
+                  <>
+                    <ListItem
+                      component={Link}
+                      to={`/community/${el._id}`}
+                      button
+                      key={idx}
+                    >
+                      <ListItemIcon>
+                        <KeyboardIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={el.title} />
+                    </ListItem>
+                  </>
+                );
+              });
+              return <>{boardList}</>;
+            }}
+          </Async>
           <Divider sx={{ mt: 2, mb: 2 }} />
 
           <ListItem button>

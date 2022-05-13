@@ -26,14 +26,11 @@ export default function SignUp() {
         sx={{
           bgcolor: '#111',
           height: '100vh',
-          scrollbarWidth: 'none',
-          overflow: 'hidden',
-          paddingRight: '{ScrollBarWidth}px',
         }}
       >
         metamask login 만약 없는 유저면 이 회원가입 페이지로 오는데 닉네임이랑
         이메일 입력하는 칸 만들고 SignUp sumbmit!
-        <Container sx={{ bgcolor: '#111', overflow: 'hidden' }}>
+        <Container sx={{ bgcolor: '#111' }}>
           <CssBaseline />
           <Box
             sx={{
@@ -56,8 +53,13 @@ export default function SignUp() {
             <Typography
               component='h1'
               variant='h2'
-              sx={{ fontFamily: 'cursive', color: '#fff' }}
-              mb={5}
+              sx={{
+                fontFamily: 'cursive',
+                // fontFamily: 'Tahoma',
+                color: '#fff',
+                textAlign: 'center',
+              }}
+              mb={10}
             >
               Better Paricipation in Music
             </Typography>

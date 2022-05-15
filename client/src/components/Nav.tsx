@@ -26,7 +26,7 @@ export default function Nav() {
       >
         <Toolbar>
           <Grid container alignItems='center'>
-            <Grid color={'#fff'} xs={2}>
+            <Grid item color={'#fff'} xs={2}>
               <Link to='/'>
                 <p style={{ color: '#fff' }}>Logo</p>
               </Link>
@@ -59,7 +59,7 @@ export default function Nav() {
               </Link>
 
               {/* community 버튼 */}
-              <Link to='/community'>
+              <Link to='/community/627b5e9dd6b52cc4fe03a75d'>
                 <IconButton>
                   <GroupsIcon sx={{ color: '#fff' }} />
                 </IconButton>

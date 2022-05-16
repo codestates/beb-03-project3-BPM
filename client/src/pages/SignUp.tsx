@@ -52,10 +52,19 @@ export default function SignUp() {
           </Typography> */}
             <Typography
               component='h1'
-              variant='h2'
+              fontSize='5rem'
+              // fontFamily='Copperplate'
+              // fontFamily='Papyrus'
+              // fontFamily='Lucida Handwriting'
+              // fontFamily='Monaco'
+              // fontFamily='cursive'
+              // fontFamily='fantasy'
+              // fontFamily='Tahoma'
+              // fontFamily='Teko'
+              // fontFamily='Play'
+              // fontFamily='Great Vibes'
+              fontFamily='Sacramento'
               sx={{
-                fontFamily: 'cursive',
-                // fontFamily: 'Tahoma',
                 color: '#fff',
                 textAlign: 'center',
               }}
@@ -74,7 +83,26 @@ export default function SignUp() {
                     id='nickName'
                     label='닉네임'
                     autoFocus
-                    sx={{ bgcolor: '#fff', borderRadius: '0' }}
+                    sx={{
+                      bgcolor: 'darkviolet',
+                      '& label.Mui-focused': {
+                        color: 'yellow',
+                      },
+                      '& .MuiInput-underline:after': {
+                        borderBottomColor: 'yellow',
+                      },
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                          // borderColor: 'white',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: 'white',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: 'yellow',
+                        },
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -85,7 +113,26 @@ export default function SignUp() {
                     label='이메일'
                     name='email'
                     autoComplete='email'
-                    sx={{ bgcolor: '#fff', borderRadius: '0' }}
+                    sx={{
+                      bgcolor: 'darkviolet',
+                      '& label.Mui-focused': {
+                        color: 'yellow',
+                      },
+                      '& .MuiInput-underline:after': {
+                        borderBottomColor: 'yellow',
+                      },
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                          // borderColor: 'white',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: 'white',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: 'yellow',
+                        },
+                      },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -99,6 +146,10 @@ export default function SignUp() {
                   p: 2,
                   fontSize: '1.2rem',
                   bgcolor: 'darkviolet',
+                  '&: hover': {
+                    bgcolor: 'white',
+                    color: '#000',
+                  },
                 }}
               >
                 회원가입

@@ -5,11 +5,10 @@ import Nav from './components/Nav';
 import Chart from './pages/Chart';
 import Community from './pages/Community';
 import Mypage from './pages/Mypage';
-import { CssBaseline } from '@mui/material';
 import SignUp from './pages/SignUp';
 import MusicReview from './components/commuComponents/reviewComponents/MusicReview';
-
-// export const Context = createContext();
+import SignIn from './pages/SignIn';
+import { CssBaseline } from '@mui/material';
 
 function App() {
   return (
@@ -23,6 +22,7 @@ function App() {
           <Route path='/community/*' element={<Community />} />
           <Route path='/review/*' element={<MusicReview />} />
           <Route path='/mypage' element={<Mypage />} />
+          <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
         </Routes>
       </div>

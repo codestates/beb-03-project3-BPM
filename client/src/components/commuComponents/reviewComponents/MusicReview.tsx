@@ -46,10 +46,14 @@ export default function MusicReview() {
                     // fontFamily='Copperplate'
                     // fontFamily='Papyrus'
                     // fontFamily='Lucida Handwriting'
-                    fontFamily='Monaco'
+                    // fontFamily='Monaco'
                     // fontFamily='cursive'
                     // fontFamily='fantasy'
                     // fontFamily='Tahoma'
+                    // fontFamily='Teko'
+                    fontFamily='Play'
+                    // fontFamily='Great Vibes'
+                    // fontFamily='Tapestry'
                     textAlign='center'
                   >
                     Music Review

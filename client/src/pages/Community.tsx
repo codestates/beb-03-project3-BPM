@@ -3,7 +3,6 @@ import Boards from '../components/commuComponents/Boards';
 import CommuNav from '../components/commuComponents/CommuNav';
 import { Box } from '@mui/material';
 import { Route, Routes } from 'react-router';
-import MusicReview from '../components/commuComponents/reviewComponents/MusicReview';
 
 export default function Community() {
   return (

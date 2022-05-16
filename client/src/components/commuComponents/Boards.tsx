@@ -12,7 +12,6 @@ import {
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { Async } from 'react-async';
-import { lightBlue } from '@mui/material/colors';
 
 export default function FreeBoard() {
   let params = useParams();
@@ -44,13 +43,18 @@ export default function FreeBoard() {
                 <Typography
                   variant='h2'
                   m='80px 0 10px 0'
+                  fontSize='4.5rem'
                   // fontFamily='Copperplate'
-                  fontFamily='Papyrus'
+                  // fontFamily='Papyrus'
                   // fontFamily='Lucida Handwriting'
                   // fontFamily='Monaco'
                   // fontFamily='cursive'
                   // fontFamily='fantasy'
-                  // fontFamily: 'Tahoma'
+                  // fontFamily='Tahoma'
+                  fontFamily='Teko'
+                  // fontFamily='Play'
+                  // fontFamily='Great Vibes'
+                  // fontFamily='Tapestry'
                 >
                   {data[0].boards_id.title}
                 </Typography>

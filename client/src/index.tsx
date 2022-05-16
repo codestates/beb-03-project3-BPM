@@ -2,19 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { Web3ReactProvider } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
 import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+function getLibrary(provider: any): Web3Provider {
+  const library = new Web3Provider(provider);
+  library.pollingInterval = 12000;
+  return library;
+}
+
 root.render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Web3ReactProvider getLibrary={getLibrary}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Web3ReactProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

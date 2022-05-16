@@ -66,15 +66,11 @@ export default function Nav() {
               </Link>
 
               {/* wallet 버튼 */}
-              <IconButton
-              // onClick={async () => {
-              //   const accounts = await window.ethereum.request({
-              //     method: 'eth_requestAccounts',
-              //   });
-              // }}
-              >
-                <AccountBalanceWalletIcon sx={{ color: '#fff' }} />
-              </IconButton>
+              <Link to='/signin'>
+                <IconButton>
+                  <AccountBalanceWalletIcon sx={{ color: '#fff' }} />
+                </IconButton>
+              </Link>
 
               {/* mypage 버튼 */}
               <Link to='/mypage'>

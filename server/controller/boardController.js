@@ -35,8 +35,6 @@ module.exports = {
 				{},
 				{ _id: true, "title": true, "subtitle": true }
 			);
-			console.log("🌸🌸🌸🌸🌸", boardInfo); // 데이터 형태 확인
-
 			res.status(200).send({
 				success: true,
 				data: boardInfo,

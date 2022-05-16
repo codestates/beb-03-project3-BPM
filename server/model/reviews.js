@@ -12,6 +12,7 @@ const reviewsSchema = new Schema(
         username: { type: String },
         comment: { type: String, required: true },
       },
+      { timestamps: true },
     ],
     likes: [
       {

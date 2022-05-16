@@ -14,6 +14,7 @@ const postsSchema = new Schema(
         username: { type: String, required: true },
         body: { type: String, required: true },
       },
+      { timestamps: true },
     ],
     likes: [
       {

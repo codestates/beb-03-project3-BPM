@@ -1,7 +1,7 @@
 const { ethers } = require("ethers");
-const Admin = require("../model/admin");
+const Admin = require("../../model/admin");
 const dotenv = require("dotenv");
-const { tempoabi } = require("../contract/tempoabi");
+const { tempoabi } = require("../../contract/tempoabi");
 dotenv.config();
 const provider = new ethers.providers.JsonRpcProvider(
   process.env.INFURA_APIKEY

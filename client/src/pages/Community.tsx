@@ -1,26 +1,24 @@
-import React from "react";
-import FreeBoard from "../components/commuComponents/FreeBoard";
-import CommuNav from "../components/commuComponents/CommuNav";
-import { Grid } from "@mui/material";
-import { Route, Routes } from "react-router";
-import MusicReview from "../components/commuComponents/reviewComponents/MusicReview";
+import React from 'react';
+import Boards from '../components/commuComponents/Boards';
+import CommuNav from '../components/commuComponents/CommuNav';
+import { Box } from '@mui/material';
+import { Route, Routes } from 'react-router';
 
 export default function Community() {
   return (
     <>
-      <Grid container sx={{ fontFamily: "Nanum Gothic Coding" }}>
-        <Grid item xs={2}>
+      <Box sx={{ display: 'flex' }}>
+        <Box position='sticky'>
           <CommuNav />
-        </Grid>
-        <Grid item xs={8}>
-          {/* 링크에 따라서 여기서 board가 바뀌어서 보여짐 */}
-
+        </Box>
+        {/* 링크에 따라서 여기서 board가 바뀌어서 보여짐 */}
+        <Box sx={{ flexGrow: 1 }}>
           <Routes>
-            <Route path=":boardid" element={<FreeBoard />} />
-            <Route path="musicreview" element={<MusicReview />} />
+            <Route path=':boardid' element={<Boards />} />
+            {/* <Route path='/review' element={<MusicReview />} /> */}
           </Routes>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback, UIEvent } from 'react';
 import { Box, Container, useScrollTrigger, Grow } from '@mui/material';
-import practiceSvg from '../Frame 2.svg';
+import practiceSvg from '../asset/Frame 2.svg';
 import { Theme } from '@mui/material/styles';
 
 export default function Home() {

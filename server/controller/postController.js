@@ -48,6 +48,7 @@ module.exports = {
   readById: async (req, res) => {
     const boardid = req.params.boardid;
     const postid = req.params.postid;
+
     try {
       const post = await Posts.find(
         { $and: [{ boards_id: ObjectId(boardid) }, { _id: postid }] },

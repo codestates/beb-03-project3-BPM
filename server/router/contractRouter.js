@@ -5,13 +5,15 @@ const {
   getBalance,
   deploy,
   balanceOf,
-  transfer,
+  bpmtransfer,
+  tempotransfer,
 } = require("../controller/contractController");
 
 router.post("/create", createWallet);
 router.get("/getbalance", getBalance);
 router.post("/deploy", deploy);
-router.get("/balanceof", balanceOf);
-router.post("/transfer", transfer);
+router.post("/balanceof", balanceOf);
+router.post("/bpmtransfer", bpmtransfer);
+router.post("/tempotransfer", tempotransfer);
 
 module.exports = router;

@@ -19,10 +19,8 @@ export default function FreeBoard() {
   async function getBoard() {
     let res = await axios.get(`http://localhost:4000/post/${params.boardid}`);
     let boardPostData = res.data.data;
-    // return boardPostData;
-    console.log(res);
+    return boardPostData;
   }
-  getBoard();
 
   return (
     <>

@@ -10,15 +10,36 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios';
+
+import { useWeb3React } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+import { sign } from 'crypto';
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const handleSubmit = async (
-    event: React.KeyboardEvent | React.MouseEvent
-  ) => {
+  const { account } = useWeb3React<Web3Provider>();
+  console.log('===>>', account);
+
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    console.log(formData.get('username'));
+    const data = await axios.post(
+      'http://localhost:4000/signup',
+      // { 'Content-type': 'application/x-www-form-urlencoded' },
+      {
+        address: account,
+        username: formData.get('username'),
+        email: formData.get('email'),
+      }
+    );
+    console.log(data);
+    // if (data) {
+    //   // alert(data.data.message);
+    //   // navigate('/');
+    //   console.log(data);
+    // }
   };
   return (
     <>
@@ -72,15 +93,20 @@ export default function SignUp() {
             >
               Better Paricipation in Music
             </Typography>
-            <Box component='form' noValidate sx={{ mt: 3 }}>
+            <Box
+              component='form'
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
+            >
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
                     autoComplete='given-name'
-                    name='nickName'
+                    name='username'
                     required
                     fullWidth
-                    id='nickName'
+                    id='username'
                     label='닉네임'
                     autoFocus
                     sx={{

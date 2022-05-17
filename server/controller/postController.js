@@ -244,6 +244,43 @@ module.exports = {
           }
         );
         if (comments) {
+          const dateComment = await Posts.aggregate([
+            { $unwind: "$comments" },
+            {
+              $match: {
+                "comments.username": user[0].username,
+                "comments.createdAt": {
+                  $gte: new Date(`${year}-${month}-${date}`),
+                  $lt: new Date(`${year}-${month}-${date + 1}`),
+                },
+              },
+            },
+            {
+              $group: {
+                _id: "$comments.username",
+                comments: { $push: "$comments.createdAt" },
+              },
+            },
+          ]);
+
+          if (dateComment[0].comments.length < 4) {
+            bpmtransfer(userinfo.address, "5");
+            res.status(200).send({
+              success: true,
+              data: null,
+              message: "댓글 작성 성공, 토큰 지급",
+            });
+          } else {
+            res.status(200).send({
+              success: true,
+              data: null,
+              message: "댓글 작성 성공, 토큰 미지급",
+            });
+          }
+        } else {
+          res
+            .status(404)
+            .send({ success: false, data: null, message: "댓글 작성 실패 " });
         }
       }
     } catch (e) {

@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  CssBaseline,
-  TextField,
-  Typography,
-  Grid,
-} from '@mui/material';
+import { Box, Button, CssBaseline, Typography, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
@@ -19,7 +12,7 @@ import { ReactComponent as Klaytn } from '../asset/klaytn-logo1.svg';
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const [address, setAddress] = useState('');
+
   const [balance, setBalance] = useState('');
 
   const injectedConnector = new InjectedConnector({
@@ -36,20 +29,33 @@ export default function SignIn() {
 
   const onLogin = () => {
     activate(injectedConnector);
-    onSignIn();
+    onSign();
+  };
+
+  const onSign = () => {
+    axios
+      .post('http://localhost:4000/user/signin', {
+        address: account,
+      })
+      .then(function (res) {
+        console.log('res==>>', res);
+        if (res.data.message === '계정 생성') {
+          // alert('가입된 계정이 없습니다. 회원가입 페이지로 이동합니다.');
+          navigate('/signup');
+        } else if (res.data.message === '로그인 성공') {
+          console.log('account>>', account);
+          console.log('data===>>', res.data);
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
     console.log(chainId, account, active, balance);
   });
 
-  async function onSignIn() {
-    let res = await axios.post('http://localhost:4000/user/signin', {
-      address: account,
-    });
-
-    console.log('res==>>>', res);
-  }
   return (
     <>
       <Box>
@@ -124,7 +130,6 @@ export default function SignIn() {
                       </Typography>
                     </Button>
                   </Grid>
-                  <Button onClick={onSignIn}>Connect</Button>
                 </Grid>
               )}
             </Box>

@@ -3,7 +3,9 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 const Charts = require("../model/charts");
+const Users = require("../model/users");
 const Evaluations = require("../model/evaluations");
+const { tempotransfer } = require("./transfer/tempotransfer");
 
 module.exports = {
 	//리뷰 전체 조회 핸들러
@@ -94,6 +96,11 @@ module.exports = {
 
 	//리뷰 작성 핸들러
 	create: async (req, res) => {
+		// 날짜 함수
+		const today = new Date();
+		const year = today.getUTCFullYear();
+		const month = today.getUTCMonth() + 1;
+		const date = today.getUTCDate();
 		try {
 			const accessToken = req.cookies.accessToken;
 			const { title, body } = req.body;
@@ -117,26 +124,55 @@ module.exports = {
 					individuality,
 					Addictive,
 				};
-				// 평가항목을 추가하고 id 받아오기
-				const evaluations_id = await Evaluations.create(evaluation);
 				// 리뷰 중복 확인
-				const user = await Reviews.find({
+				const reviewUser = await Reviews.find({
 					$and: [
 						{ charts_id: String(charts_id._id) },
 						{ users_id: userinfo.id },
 					],
 				});
 				// 해당 유저가 작성한 글이 없으면 0
-				if (user.length === 0) {
+				if (reviewUser.length === 0) {
+					// 평가항목을 추가하고 id 받아오기
+					const evaluations_id = await Evaluations.create(evaluation);
+					const user = await Users.find(
+						{ _id: userinfo.id },
+						{ username: true }
+					);
 					//쿠키에 있던 유저정보와 받아온 차트id, 평가id, 글내용 넣고 리뷰 생성
 					const newReview = await Reviews.create({
 						users_id: userinfo.id,
-						username: userinfo.username,
+						username: user[0].username,
 						body: body,
 						charts_id: String(charts_id._id),
 						evaluations_id: String(evaluations_id._id),
 					});
-					res.status(201).send({ success: true, message: "리뷰 작성 성공" });
+
+					const dateReview = await Reviews.find({
+						$and: [
+							{
+								createdAt: {
+									"$gte": new Date(`${year}-${month}-${date}`),
+									"$lte": new Date(`${year}-${month}-${date + 1}`),
+								},
+							},
+							{ users_id: userinfo.id },
+						],
+					});
+					if (dateReview.length === 1) {
+						tempotransfer(userinfo.address, "40");
+						res.status(201).send({
+							success: true,
+							data: null,
+							message: "리뷰 작성 성공, 토큰 지급",
+						});
+					} else {
+						res.status(201).send({
+							success: true,
+							data: null,
+							message: "리뷰 작성 성공, 토큰 미지급",
+						});
+					}
 				} else {
 					res.status(400).send({ success: false, message: "리뷰 작성 실패" });
 				}
@@ -161,6 +197,7 @@ module.exports = {
 					.send({ message: "invalid accesstoken, please login again" });
 			} else {
 				const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+				const user = await Users.find({ _id: userinfo.id }, { username: true });
 				const comments = await Reviews.findOneAndUpdate(
 					{ _id: id },
 					{
@@ -168,7 +205,7 @@ module.exports = {
 							comments: [
 								{
 									users_id: userinfo.id,
-									username: userinfo.username,
+									username: user[0].username,
 									comment: comment,
 								},
 							],

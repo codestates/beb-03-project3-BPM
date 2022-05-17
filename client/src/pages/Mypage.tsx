@@ -71,7 +71,6 @@ export default function Mypage() {
                 }}
               >
                 <Typography mb={1}>지갑주소</Typography>
-                <Typography>지갑잔액</Typography>
               </Box>
             </Box>
           </Grid>

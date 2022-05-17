@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import CommuNav from '../CommuNav';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function MusicReview() {
   async function getReview() {
@@ -51,9 +52,9 @@ export default function MusicReview() {
                     // fontFamily='fantasy'
                     // fontFamily='Tahoma'
                     // fontFamily='Teko'
-                    fontFamily='Play'
                     // fontFamily='Great Vibes'
                     // fontFamily='Tapestry'
+                    fontFamily='Play'
                     textAlign='center'
                   >
                     Music Review
@@ -88,7 +89,10 @@ export default function MusicReview() {
                         return (
                           <>
                             <TableBody>
-                              <TableRow>
+                              <TableRow
+                                component={Link}
+                                to={`${reviewData._id}`}
+                              >
                                 <TableCell
                                   scope='row'
                                   sx={{

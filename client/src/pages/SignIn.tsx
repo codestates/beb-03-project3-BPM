@@ -22,11 +22,11 @@ export default function SignIn() {
       42, // Kovan],
     ],
   });
-  const { connector, chainId, account, activate, active, library, deactivate } =
+  const { chainId, account, activate, active, library, deactivate } =
     useWeb3React<Web3Provider>();
 
-  const onLogin = async () => {
-    await activate(injectedConnector);
+  const onLogin = () => {
+    activate(injectedConnector);
     onSign();
   };
 

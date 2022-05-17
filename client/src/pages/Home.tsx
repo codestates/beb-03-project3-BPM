@@ -41,7 +41,6 @@ export default function Home() {
   // const handleScroll = useCallback((): void => {
   // // 내용 구현
   // }, [])
-  console.log('===>>>', ref);
 
   const handleScroll = (event: UIEvent<HTMLDivElement>) => {};
 

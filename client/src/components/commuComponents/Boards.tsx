@@ -12,6 +12,7 @@ import {
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { Async } from 'react-async';
+import { Link } from 'react-router-dom';
 
 export default function FreeBoard() {
   let params = useParams();
@@ -38,6 +39,7 @@ export default function FreeBoard() {
               fontWeight: '700',
               fontSize: '1rem',
             };
+
             return (
               <>
                 <Typography
@@ -51,10 +53,10 @@ export default function FreeBoard() {
                   // fontFamily='cursive'
                   // fontFamily='fantasy'
                   // fontFamily='Tahoma'
-                  fontFamily='Teko'
                   // fontFamily='Play'
                   // fontFamily='Great Vibes'
                   // fontFamily='Tapestry'
+                  fontFamily='Teko'
                 >
                   {data[0].boards_id.title}
                 </Typography>
@@ -87,9 +89,14 @@ export default function FreeBoard() {
                       return (
                         <>
                           <TableBody>
-                            <TableRow>
+                            <TableRow
+                              component={Link}
+                              to={`${postData._id}`}
+                              sx={{ textDecoration: 'none' }}
+                            >
                               <TableCell
                                 scope='row'
+                                key={index}
                                 sx={{
                                   fontWeight: '550',
                                   color: '#333',

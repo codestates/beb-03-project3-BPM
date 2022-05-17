@@ -24,16 +24,16 @@ export default function SignIn() {
       42, // Kovan],
     ],
   });
-  const { chainId, account, activate, active, library, deactivate } =
+  const { connector, chainId, account, activate, active, library, deactivate } =
     useWeb3React<Web3Provider>();
 
-  const onLogin = () => {
-    activate(injectedConnector);
+  const onLogin = async () => {
+    await activate(injectedConnector);
     onSign();
   };
 
-  const onSign = () => {
-    axios
+  const onSign = async () => {
+    await axios
       .post('http://localhost:4000/user/signin', {
         address: account,
       })
@@ -43,7 +43,6 @@ export default function SignIn() {
           // alert('가입된 계정이 없습니다. 회원가입 페이지로 이동합니다.');
           navigate('/signup');
         } else if (res.data.message === '로그인 성공') {
-          console.log('account>>', account);
           console.log('data===>>', res.data);
         }
       })
@@ -51,10 +50,16 @@ export default function SignIn() {
         console.log(err);
       });
   };
-
   useEffect(() => {
+    if (account) {
+      library?.getBalance(account).then((result) => setBalance(result._hex));
+    }
     console.log(chainId, account, active, balance);
-  });
+  }, [account, library]);
+
+  const onClickDeactivate = () => {
+    deactivate(connector);
+  };
 
   return (
     <>
@@ -87,9 +92,12 @@ export default function SignIn() {
                   <Grid item p={5} textAlign='left'>
                     <Typography variant='h6'>ChainId: {chainId}</Typography>
                     <Typography variant='h6'>Account: {account}</Typography>
-                    <Typography variant='h6'>Balance: {balance}</Typography>
+                    <Typography variant='h6'>
+                      Balance: {balance && Number(balance).toFixed(4)}
+                    </Typography>
                   </Grid>
-                  <Button onClick={deactivate}>
+                  <Button onClick={onClickDeactivate}>
+                    {/* 쿠키도 같이 지워줘야 함 */}
                     <Typography variant='h6'>Disconnect</Typography>
                   </Button>
                 </>

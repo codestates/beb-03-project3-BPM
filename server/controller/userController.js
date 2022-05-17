@@ -6,9 +6,8 @@ dotenv.config();
 module.exports = {
   //로그인 핸들러
   signin: async (req, res) => {
+    const address = req.body.address;
     try {
-      const address = req.body.address;
-
       //db에서 address값으로 조회
       const user = await Users.findOne({ address });
 

@@ -14,7 +14,6 @@ import axios from 'axios';
 
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { sign } from 'crypto';
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -26,13 +25,14 @@ export default function SignUp() {
     const formData = new FormData(event.currentTarget);
     console.log(formData.get('username'));
     const data = await axios.post(
-      'http://localhost:4000/signup',
+      'http://localhost:4000/user/signup',
       // { 'Content-type': 'application/x-www-form-urlencoded' },
       {
         address: account,
         username: formData.get('username'),
         email: formData.get('email'),
-      }
+      },
+      { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }
     );
     console.log(data);
     // if (data) {

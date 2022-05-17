@@ -9,7 +9,7 @@ const {
 
 router.post("/signin", signin);
 
-router.patch("/signup", signup);
+router.post("/signup", signup);
 
 router.get("/mypage", mypage);
 

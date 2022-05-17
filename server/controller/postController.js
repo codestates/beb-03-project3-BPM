@@ -243,40 +243,8 @@ module.exports = {
             },
           }
         );
-        // if (comments) {
-        const dateComment = await Posts.aggregate([
-      {$match:{
-        "_id": postid,
-        "comments.username": userinfo.username,
-        "comments.createdAt": {
-          $gte: new Date(`${year}-${month}-${date}`),
-          $lte: new Date(`${year}-${month}-${date + 1}`),
+        if (comments) {
         }
-      }
-    ]}
-        );
-
-        console.log(dateComment);
-        /* 
-					if (dateComment.length < 4) {
-						bpmtransfer(userinfo.address, "5");
-						res.status(200).send({
-							success: true,
-							data: null,
-							message: "댓글 작성 성공, 토큰 지급",
-						});
-					} else {
-						res.status(200).send({
-							success: true,
-							data: null,
-							message: "댓글 작성 성공, 토큰 미지급",
-						});
-					} */
-        // } else {
-        //   res
-        //     .status(404)
-        //     .send({ success: false, data: null, message: "댓글 작성 실패 " });
-        // }
       }
     } catch (e) {
       console.error(e);

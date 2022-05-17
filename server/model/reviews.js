@@ -11,8 +11,8 @@ const reviewsSchema = new Schema(
         users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
         username: { type: String },
         comment: { type: String, required: true },
+        createdAt: { type: Date, required: true },
       },
-      { timestamps: true },
     ],
     likes: [
       {

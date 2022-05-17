@@ -2,6 +2,7 @@ const Posts = require("../model/posts");
 const Users = require("../model/users");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
+const { bpmtransfer } = require("./transfer/bpmtransfer");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -117,6 +118,12 @@ module.exports = {
   create: async (req, res) => {
     const boardid = req.params.boardid;
     const { title, body } = req.body;
+    // 날짜 함수
+    const today = new Date();
+    const year = today.getUTCFullYear();
+    const month = today.getUTCMonth() + 1;
+    const date = today.getUTCDate();
+
     try {
       const accessToken = req.cookies.accessToken;
       if (!accessToken) {
@@ -136,9 +143,31 @@ module.exports = {
           body: body,
         });
         if (newPost) {
-          res
-            .status(201)
-            .send({ success: true, data: null, message: "글 작성 성공" });
+          const datePost = await Posts.find({
+            $and: [
+              {
+                createdAt: {
+                  $gte: new Date(`${year}-${month}-${date}`),
+                  $lte: new Date(`${year}-${month}-${date + 1}`),
+                },
+              },
+              { users_id: userinfo.id },
+            ],
+          });
+          if (datePost.length === 1) {
+            bpmtransfer(userinfo.address, "15");
+            res.status(201).send({
+              success: true,
+              data: null,
+              message: "글 작성 성공, 토큰 지급",
+            });
+          } else {
+            res.status(201).send({
+              success: true,
+              data: null,
+              message: "글 작성 성공, 토큰 미지급",
+            });
+          }
         } else {
           res
             .status(404)
@@ -158,7 +187,6 @@ module.exports = {
       const existed = await Posts.find({
         $and: [{ boards_id: ObjectId(boardid) }, { _id: postid }],
       });
-      console.log("🌸🌸🌸🌸🌸", existed.length);
       if (existed.length === 1) {
         await Posts.deleteOne({
           $and: [{ boards_id: ObjectId(boardid) }, { _id: postid }],
@@ -183,6 +211,12 @@ module.exports = {
     const boardid = req.params.boardid;
     const postid = req.params.postid;
     const { body } = req.body;
+    // 날짜 함수
+    const today = new Date();
+    const year = today.getUTCFullYear();
+    const month = today.getUTCMonth() + 1;
+    const date = today.getUTCDate();
+
     try {
       const accessToken = req.cookies.accessToken;
       if (!accessToken) {
@@ -203,20 +237,46 @@ module.exports = {
                   users_id: userinfo.id,
                   username: user[0].username,
                   body: body,
+                  createdAt: today,
                 },
               ],
             },
           }
         );
-        if (comments) {
-          res
-            .status(200)
-            .send({ success: true, data: null, message: "댓글 작성 성공" });
-        } else {
-          res
-            .status(404)
-            .send({ success: false, data: null, message: "댓글 작성 실패 " });
+        // if (comments) {
+        const dateComment = await Posts.aggregate([
+      {$match:{
+        "_id": postid,
+        "comments.username": userinfo.username,
+        "comments.createdAt": {
+          $gte: new Date(`${year}-${month}-${date}`),
+          $lte: new Date(`${year}-${month}-${date + 1}`),
         }
+      }
+    ]}
+        );
+
+        console.log(dateComment);
+        /* 
+					if (dateComment.length < 4) {
+						bpmtransfer(userinfo.address, "5");
+						res.status(200).send({
+							success: true,
+							data: null,
+							message: "댓글 작성 성공, 토큰 지급",
+						});
+					} else {
+						res.status(200).send({
+							success: true,
+							data: null,
+							message: "댓글 작성 성공, 토큰 미지급",
+						});
+					} */
+        // } else {
+        //   res
+        //     .status(404)
+        //     .send({ success: false, data: null, message: "댓글 작성 실패 " });
+        // }
       }
     } catch (e) {
       console.error(e);

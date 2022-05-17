@@ -159,7 +159,7 @@ module.exports = {
 							{ users_id: userinfo.id },
 						],
 					});
-					if (dateReview.length === 1) {
+					if (dateReview.length < 4) {
 						tempotransfer(userinfo.address, "40");
 						res.status(201).send({
 							success: true,

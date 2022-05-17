@@ -152,8 +152,8 @@ module.exports = {
 						$and: [
 							{
 								createdAt: {
-									"$gte": new Date(`${year}-${month}-${date}`),
-									"$lte": new Date(`${year}-${month}-${date + 1}`),
+									$gte: new Date(`${year}-${month}-${date}`),
+									$lte: new Date(`${year}-${month}-${date + 1}`),
 								},
 							},
 							{ users_id: userinfo.id },

@@ -11,29 +11,23 @@ import {
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
-
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 export default function SignUp() {
   const navigate = useNavigate();
+
   const { account } = useWeb3React<Web3Provider>();
-  console.log('===>>', account);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     console.log(formData.get('username'));
-    const data = await axios.post(
-      'http://localhost:4000/user/signup',
-      // { 'Content-type': 'application/x-www-form-urlencoded' },
-      {
-        address: account,
-        username: formData.get('username'),
-        email: formData.get('email'),
-      },
-      { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }
-    );
+    const data = await axios.post('http://localhost:4000/user/signup', {
+      address: account,
+      username: formData.get('username'),
+      email: formData.get('email'),
+    });
     console.log(data);
     // if (data) {
     //   // alert(data.data.message);

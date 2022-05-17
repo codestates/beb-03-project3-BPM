@@ -1,8 +1,7 @@
 import { Box, Button, CssBaseline, Typography, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { InjectedConnector } from '@web3-react/injected-connector';
@@ -12,7 +11,6 @@ import { ReactComponent as Klaytn } from '../asset/klaytn-logo1.svg';
 
 export default function SignIn() {
   const navigate = useNavigate();
-
   const [balance, setBalance] = useState('');
 
   const injectedConnector = new InjectedConnector({
@@ -32,8 +30,9 @@ export default function SignIn() {
     onSign();
   };
 
-  const onSign = async () => {
-    await axios
+  const onSign = () => {
+    //console.log(account);
+    axios
       .post('http://localhost:4000/user/signin', {
         address: account,
       })
@@ -43,6 +42,7 @@ export default function SignIn() {
           // alert('가입된 계정이 없습니다. 회원가입 페이지로 이동합니다.');
           navigate('/signup');
         } else if (res.data.message === '로그인 성공') {
+          console.log('account>>', account);
           console.log('data===>>', res.data);
         }
       })
@@ -50,16 +50,27 @@ export default function SignIn() {
         console.log(err);
       });
   };
-  useEffect(() => {
-    if (account) {
-      library?.getBalance(account).then((result) => setBalance(result._hex));
-    }
-    console.log(chainId, account, active, balance);
-  }, [account, library]);
 
-  const onClickDeactivate = () => {
-    deactivate(connector);
-  };
+  // useEffect(() => {
+  //   console.log("실행중이니?");
+  //   axios
+  //     .post("http://localhost:4000/user/signin", {
+  //       address: account,
+  //     })
+  //     .then(function (res) {
+  //       console.log("res==>>", res);
+  //       if (res.data.message === "계정 생성") {
+  //         // alert('가입된 계정이 없습니다. 회원가입 페이지로 이동합니다.');
+  //         navigate("/signup");
+  //       } else if (res.data.message === "로그인 성공") {
+  //         console.log("account>>", account);
+  //         console.log("data===>>", res.data);
+  //       }
+  //     })
+  //     .catch(function (err) {
+  //       console.log(err);
+  //     });
+  // }, [onLogin]);
 
   return (
     <>
@@ -92,12 +103,9 @@ export default function SignIn() {
                   <Grid item p={5} textAlign='left'>
                     <Typography variant='h6'>ChainId: {chainId}</Typography>
                     <Typography variant='h6'>Account: {account}</Typography>
-                    <Typography variant='h6'>
-                      Balance: {balance && Number(balance).toFixed(4)}
-                    </Typography>
+                    <Typography variant='h6'>Balance: {balance}</Typography>
                   </Grid>
-                  <Button onClick={onClickDeactivate}>
-                    {/* 쿠키도 같이 지워줘야 함 */}
+                  <Button onClick={deactivate}>
                     <Typography variant='h6'>Disconnect</Typography>
                   </Button>
                 </>

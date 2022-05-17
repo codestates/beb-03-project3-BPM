@@ -244,20 +244,26 @@ module.exports = {
 					}
 				);
 				if (comments) {
-					const dateComment = await Posts.comments.find({
-						$and: [
-							{
-								createdAt: {
-									"$gte": new Date(`${year}-${month}-${date}`),
-									"$lte": new Date(`${year}-${month}-${date + 1}`),
+					const dateComment = await Posts.aggregate([
+						{ $unwind: "$comments" },
+						{
+							$match: {
+								"comments.username": user[0].username,
+								"comments.createdAt": {
+									$gte: new Date(`${year}-${month}-${date}`),
+									$lt: new Date(`${year}-${month}-${date + 1}`),
 								},
 							},
-							{ users_id: userinfo.id },
-						],
-					});
+						},
+						{
+							$group: {
+								_id: "$comments.username",
+								comments: { $push: "$comments.createdAt" },
+							},
+						},
+					]);
 
-					/* 
-					if (dateComment.length < 4) {
+					if (dateComment[0].comments.length < 4) {
 						bpmtransfer(userinfo.address, "5");
 						res.status(200).send({
 							success: true,
@@ -270,7 +276,7 @@ module.exports = {
 							data: null,
 							message: "댓글 작성 성공, 토큰 미지급",
 						});
-					} */
+					}
 				} else {
 					res
 						.status(404)

@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import CommuNav from '../CommuNav';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function MusicReview() {
   async function getReview() {
@@ -26,7 +27,6 @@ export default function MusicReview() {
         <Box position='sticky'>
           <CommuNav />
         </Box>
-        {/* 링크에 따라서 여기서 board가 바뀌어서 보여짐 */}
         <Box sx={{ flexGrow: 1 }}>
           <Async promiseFn={getReview}>
             {({ data, error, isPending }) => {
@@ -51,9 +51,9 @@ export default function MusicReview() {
                     // fontFamily='fantasy'
                     // fontFamily='Tahoma'
                     // fontFamily='Teko'
-                    fontFamily='Play'
                     // fontFamily='Great Vibes'
                     // fontFamily='Tapestry'
+                    fontFamily='Play'
                     textAlign='center'
                   >
                     Music Review
@@ -88,7 +88,11 @@ export default function MusicReview() {
                         return (
                           <>
                             <TableBody>
-                              <TableRow>
+                              <TableRow
+                                component={Link}
+                                to={`${reviewData._id}`}
+                                sx={{ textDecoration: 'none' }}
+                              >
                                 <TableCell
                                   scope='row'
                                   sx={{

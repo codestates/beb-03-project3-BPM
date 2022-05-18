@@ -7,27 +7,37 @@ import {
   Grid,
   TextField,
   Button,
+<<<<<<< HEAD
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import axios from 'axios';
+import { useWeb3React } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+=======
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
-import { useWeb3React } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
-import { sign } from "crypto";
+>>>>>>> 341155d024d3c9220e316d214ff7a9e237cffb4f
 
-export default function SignUp() {
+interface propstype {
+  account: string;
+  setIsLogin: any;
+}
+
+export default function SignUp({ account, setIsLogin }: propstype) {
   const navigate = useNavigate();
 
-  const { account } = useWeb3React<Web3Provider>();
-
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    console.log(formData.get("username"));
-    const data = await axios.post("http://localhost:4000/user/signup", {
+<<<<<<< HEAD
+    console.log(formData.get('username'));
+    const data = await axios.post('http://localhost:4000/user/signup', {
       address: account,
-      username: formData.get("username"),
-      email: formData.get("email"),
+      username: formData.get('username'),
+      email: formData.get('email'),
     });
     console.log(data);
     // if (data) {
@@ -35,25 +45,41 @@ export default function SignUp() {
     //   // navigate('/');
     //   console.log(data);
     // }
+=======
+
+    axios
+      .post("http://localhost:4000/user/signup", {
+        address: account,
+        username: formData.get("username"),
+        email: formData.get("email"),
+      })
+      .then(() => {
+        setIsLogin(true);
+        navigate("/signin");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+>>>>>>> 341155d024d3c9220e316d214ff7a9e237cffb4f
   };
   return (
     <>
       <Box
         sx={{
-          bgcolor: "#111",
-          height: "100vh",
+          bgcolor: '#111',
+          height: '100vh',
         }}
       >
         metamask login 만약 없는 유저면 이 회원가입 페이지로 오는데 닉네임이랑
         이메일 입력하는 칸 만들고 SignUp sumbmit!
-        <Container sx={{ bgcolor: "#111" }}>
+        <Container sx={{ bgcolor: '#111' }}>
           <CssBaseline />
           <Box
             sx={{
               marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
             {/* <Avatar sx={{ m: 1, bgcolor: 'success.main' }}>
@@ -67,8 +93,8 @@ export default function SignUp() {
             회원가입
           </Typography> */}
             <Typography
-              component="h1"
-              fontSize="5rem"
+              component='h1'
+              fontSize='5rem'
               // fontFamily='Copperplate'
               // fontFamily='Papyrus'
               // fontFamily='Lucida Handwriting'
@@ -79,17 +105,17 @@ export default function SignUp() {
               // fontFamily='Teko'
               // fontFamily='Play'
               // fontFamily='Great Vibes'
-              fontFamily="Sacramento"
+              fontFamily='Sacramento'
               sx={{
-                color: "#fff",
-                textAlign: "center",
+                color: '#fff',
+                textAlign: 'center',
               }}
               mb={10}
             >
               Better Paricipation in Music
             </Typography>
             <Box
-              component="form"
+              component='form'
               noValidate
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}
@@ -97,30 +123,30 @@ export default function SignUp() {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    autoComplete="given-name"
-                    name="username"
+                    autoComplete='given-name'
+                    name='username'
                     required
                     fullWidth
-                    id="username"
-                    label="닉네임"
+                    id='username'
+                    label='닉네임'
                     autoFocus
                     sx={{
-                      bgcolor: "darkviolet",
-                      "& label.Mui-focused": {
-                        color: "yellow",
+                      bgcolor: 'darkviolet',
+                      '& label.Mui-focused': {
+                        color: 'yellow',
                       },
-                      "& .MuiInput-underline:after": {
-                        borderBottomColor: "yellow",
+                      '& .MuiInput-underline:after': {
+                        borderBottomColor: 'yellow',
                       },
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
                           // borderColor: 'white',
                         },
-                        "&:hover fieldset": {
-                          borderColor: "white",
+                        '&:hover fieldset': {
+                          borderColor: 'white',
                         },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "yellow",
+                        '&.Mui-focused fieldset': {
+                          borderColor: 'yellow',
                         },
                       },
                     }}
@@ -130,27 +156,27 @@ export default function SignUp() {
                   <TextField
                     required
                     fullWidth
-                    id="email"
-                    label="이메일"
-                    name="email"
-                    autoComplete="email"
+                    id='email'
+                    label='이메일'
+                    name='email'
+                    autoComplete='email'
                     sx={{
-                      bgcolor: "darkviolet",
-                      "& label.Mui-focused": {
-                        color: "yellow",
+                      bgcolor: 'darkviolet',
+                      '& label.Mui-focused': {
+                        color: 'yellow',
                       },
-                      "& .MuiInput-underline:after": {
-                        borderBottomColor: "yellow",
+                      '& .MuiInput-underline:after': {
+                        borderBottomColor: 'yellow',
                       },
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
                           // borderColor: 'white',
                         },
-                        "&:hover fieldset": {
-                          borderColor: "white",
+                        '&:hover fieldset': {
+                          borderColor: 'white',
                         },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "yellow",
+                        '&.Mui-focused fieldset': {
+                          borderColor: 'yellow',
                         },
                       },
                     }}
@@ -158,18 +184,18 @@ export default function SignUp() {
                 </Grid>
               </Grid>
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
+                variant='contained'
                 sx={{
                   mt: 3,
                   mb: 2,
                   p: 2,
-                  fontSize: "1.2rem",
-                  bgcolor: "darkviolet",
-                  "&: hover": {
-                    bgcolor: "white",
-                    color: "#000",
+                  fontSize: '1.2rem',
+                  bgcolor: 'darkviolet',
+                  '&: hover': {
+                    bgcolor: 'white',
+                    color: '#000',
                   },
                 }}
               >

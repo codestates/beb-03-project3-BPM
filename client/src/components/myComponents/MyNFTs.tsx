@@ -23,7 +23,7 @@ export default function MyNFTs() {
           <TableBody>
             <TableRow>
               {/* <TableCell></TableCell> */}
-              Hello My NFT!
+              보유한 NFT가 없습니다.
             </TableRow>
           </TableBody>
         </Table>

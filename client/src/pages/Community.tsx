@@ -17,7 +17,6 @@ export default function Community() {
           <Routes>
             <Route path=':boardid/' element={<Boards />} />
             <Route path=':boardid/:postid' element={<PostDetail />} />
-            {/* <Route path='/review' element={<MusicReview />} /> */}
           </Routes>
         </Box>
       </Box>

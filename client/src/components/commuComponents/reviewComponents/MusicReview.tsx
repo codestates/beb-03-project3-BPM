@@ -27,7 +27,6 @@ export default function MusicReview() {
         <Box position='sticky'>
           <CommuNav />
         </Box>
-        {/* 링크에 따라서 여기서 board가 바뀌어서 보여짐 */}
         <Box sx={{ flexGrow: 1 }}>
           <Async promiseFn={getReview}>
             {({ data, error, isPending }) => {
@@ -92,6 +91,7 @@ export default function MusicReview() {
                               <TableRow
                                 component={Link}
                                 to={`${reviewData._id}`}
+                                sx={{ textDecoration: 'none' }}
                               >
                                 <TableCell
                                   scope='row'

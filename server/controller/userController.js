@@ -9,11 +9,11 @@ module.exports = {
     const address = req.body.address;
     try {
       //db에서 address값으로 조회
-      const user = await Users.findOne({ address });
 
+      const user = await Users.findOne({ address: address });
       if (user === null) {
         res.status(201).send({ message: "계정 생성" });
-      } else if (user !== null) {
+      } else if (user !== []) {
         //조회했을때 있다면 accesstoken을 생성 후 쿠키에 실어보냄
         const { id, address, username, email } = user;
         const payload = { id, address, username, email };
@@ -39,11 +39,13 @@ module.exports = {
   signup: async (req, res) => {
     try {
       const { address, email, username } = req.body;
+      console.log(address, email, username);
+      const name = await Users.findOne({ username });
 
-      //address로 조회하여 email과 name 업데이트
-      const createUser = await Users.create({ address, email, username });
+      if (name === null) {
+        //address로 조회하여 email과 name 업데이트
+        const createUser = await Users.create({ address, email, username });
 
-      if (createUser) {
         //업데이트가 성공하면
         const payload = { address, username, email };
         const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
@@ -53,9 +55,9 @@ module.exports = {
         res
           .status(200)
           .cookie("accessToken", accessToken)
-          .send({ message: "유저 이름, 이메일 업데이트 성공" });
+          .send({ success: true, message: "유저 이름, 이메일 업데이트 성공" });
       } else {
-        res.status(409).send({ message: "유저 이름, 이메일 업데이트 실패" });
+        res.status(404).send({ success: false, message: "계정 생성 실패" });
       }
     } catch (e) {
       console.log(e);

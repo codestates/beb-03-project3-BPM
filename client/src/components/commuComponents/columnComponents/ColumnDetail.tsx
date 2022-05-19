@@ -13,10 +13,9 @@ export default function ColumnDetail() {
       .get(`http://localhost:4000/column/${params.columnid}`)
       .then((res) => {
         let columnDetailData = res.data.data;
-        console.log(columnDetailData);
         return columnDetailData;
       });
-  getColumnPost();
+
   return (
     <>
       <Box display="flex" mr={2}>

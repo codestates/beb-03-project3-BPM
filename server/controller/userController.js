@@ -19,12 +19,17 @@ module.exports = {
         const payload = { id, address, username, email };
         //액세스토큰 생성용 비밀키 추후 업데이트
         const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
-          expiresIn: "10d",
+          expiresIn: "6h",
         });
 
         res
           .status(200)
-          .cookie("accessToken", accessToken)
+          .cookie("accessToken", accessToken, {
+            httpOnly: true,
+            domain: "localhost",
+            path: "/",
+            maxAge: 1000 * 60 * 60,
+          })
           .send({ message: "로그인 성공", data: payload });
       } else {
         res.status(404).send({ success: false, message: "잘못된 요청" });
@@ -39,30 +44,54 @@ module.exports = {
   signup: async (req, res) => {
     try {
       const { address, email, username } = req.body;
-      console.log(address, email, username);
-      const name = await Users.findOne({ username });
 
-      if (name === null) {
-        //address로 조회하여 email과 name 업데이트
-        const createUser = await Users.create({ address, email, username });
-
-        //업데이트가 성공하면
-        const payload = { address, username, email };
-        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
-          expiresIn: "10d",
-        });
-
-        res
-          .status(200)
-          .cookie("accessToken", accessToken)
-          .send({ success: true, message: "유저 이름, 이메일 업데이트 성공" });
+      if (address === "") {
+        res.status(404).send({ message: "주소 없음" });
       } else {
-        res.status(404).send({ success: false, message: "계정 생성 실패" });
+        const name = await Users.findOne({ username });
+
+        if (name === null) {
+          //address로 조회하여 email과 name 업데이트
+          const createUser = await Users.create({ address, email, username });
+
+          //업데이트가 성공하면
+          const payload = { address, username, email };
+          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+            expiresIn: "6h",
+          });
+
+          res
+            .status(200)
+            .cookie("accessToken", accessToken, {
+              httpOnly: true,
+              domain: "localhost",
+              path: "/",
+              maxAge: 1000 * 60 * 60,
+            })
+            .send({
+              success: true,
+              message: "유저 이름, 이메일 업데이트 성공",
+            });
+        } else {
+          res.status(400).send({ success: false, message: "이름 중복" });
+        }
       }
     } catch (e) {
       console.log(e);
       res.status(500).send({ message: "서버오류" });
     }
+  },
+
+  logout: async (req, res) => {
+    res
+      .status(201)
+      .clearCookie("accessToken", {
+        httpOnly: true,
+        domain: "localhost",
+        path: "/",
+        expires: new Date(),
+      })
+      .send({ message: "로그아웃" });
   },
 
   //mypage 조회 핸들러
@@ -78,13 +107,14 @@ module.exports = {
           .send({ message: "invalid accesstoken, please login again" });
       } else {
         const data = jwt.verify(accessToken, process.env.ACCESS_SECRET);
-        const user = await Users.findOne({ id: data.id });
-        console.log(user);
-        if (user) {
-          res.status(200).send({ message: "유저 정보 조회 성공", data: user });
-        } else {
-          res.status(400).send({ message: "유저 정보 조회 실패" });
-        }
+        console.log(data);
+        // const user = await Users.findOne({ id: data.id });
+        // console.log(user);
+        // if (user) {
+        //   res.status(200).send({ message: "유저 정보 조회 성공", data: user });
+        // } else {
+        //   res.status(400).send({ message: "유저 정보 조회 실패" });
+        // }
       }
     } catch (e) {
       console.log(e);

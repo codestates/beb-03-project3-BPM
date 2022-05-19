@@ -111,7 +111,7 @@ export default function MusicReview() {
                                     src={reviewData.charts_id.image}
                                     style={{
                                       width: 35,
-                                      border: "1px solid #333",
+                                      border: "1px solid #ccc",
 
                                       margin: "0 20px 0 30px",
                                     }}

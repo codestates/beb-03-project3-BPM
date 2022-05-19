@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { Async } from "react-async";
@@ -25,7 +25,7 @@ export default function ColumnDetail() {
         <Box flexGrow={1} textAlign="center">
           <Async promiseFn={getColumnPost}>
             {({ data, error, isPending }) => {
-              if (isPending) return "Loding...";
+              if (isPending) return <CircularProgress color="inherit" />;
               if (error) return `Something went wrong: ${error.message}`;
 
               return (

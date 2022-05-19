@@ -9,6 +9,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  CircularProgress,
 } from "@mui/material";
 import CommuNav from "../CommuNav";
 import axios from "axios";
@@ -30,7 +31,7 @@ export default function Column() {
         <Box sx={{ flexGrow: 1 }}>
           <Async promiseFn={getReview}>
             {({ data, error, isPending }) => {
-              if (isPending) return "Loding...";
+              if (isPending) return <CircularProgress color="inherit" />;
               if (error) return `Something went wrong: ${error.message}`;
 
               const tableHeadStyle = {

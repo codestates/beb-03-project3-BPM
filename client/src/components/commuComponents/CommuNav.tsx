@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  CircularProgress,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -83,7 +84,7 @@ export default function CommuNav() {
           </ListItem>
           <Async promiseFn={getBoardName}>
             {({ data, error, isPending }) => {
-              if (isPending) return "Pending...";
+              if (isPending) return <CircularProgress color="inherit" />;
               if (error) return `Something went wrong: ${error.message}`;
 
               const boardList = data.map((el: any, index: number) => {

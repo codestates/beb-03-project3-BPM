@@ -11,6 +11,7 @@ import {
   Button,
   TextField,
   Rating,
+  CircularProgress,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 
@@ -40,7 +41,7 @@ export default function MusicDetail() {
         <Box sx={{ flexGrow: 1, textAlign: "center" }}>
           <Async promiseFn={getMusicPost}>
             {({ data, error, isPending }) => {
-              if (isPending) return "Loding...";
+              if (isPending) return <CircularProgress color="inherit" />;
               if (error) return `Something went wrong: ${error.message}`;
 
               let comments = data.comments;

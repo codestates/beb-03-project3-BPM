@@ -7,19 +7,10 @@ import {
   Grid,
   TextField,
   Button,
-<<<<<<< HEAD
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
-import { useWeb3React } from '@web3-react/core';
-import { Web3Provider } from '@ethersproject/providers';
-=======
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import React from "react";
-import axios from "axios";
->>>>>>> 341155d024d3c9220e316d214ff7a9e237cffb4f
 
 interface propstype {
   account: string;
@@ -32,35 +23,20 @@ export default function SignUp({ account, setIsLogin }: propstype) {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-<<<<<<< HEAD
-    console.log(formData.get('username'));
-    const data = await axios.post('http://localhost:4000/user/signup', {
-      address: account,
-      username: formData.get('username'),
-      email: formData.get('email'),
-    });
-    console.log(data);
-    // if (data) {
-    //   // alert(data.data.message);
-    //   // navigate('/');
-    //   console.log(data);
-    // }
-=======
 
     axios
-      .post("http://localhost:4000/user/signup", {
+      .post('http://localhost:4000/user/signup', {
         address: account,
-        username: formData.get("username"),
-        email: formData.get("email"),
+        username: formData.get('username'),
+        email: formData.get('email'),
       })
       .then(() => {
         setIsLogin(true);
-        navigate("/signin");
+        navigate('/signin');
       })
       .catch((e) => {
         console.log(e);
       });
->>>>>>> 341155d024d3c9220e316d214ff7a9e237cffb4f
   };
   return (
     <>

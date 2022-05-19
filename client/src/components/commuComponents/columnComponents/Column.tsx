@@ -1,40 +1,42 @@
+import React from 'react';
+import { Async } from 'react-async';
 import {
   Box,
+  Typography,
   TableContainer,
   Table,
   TableHead,
   TableBody,
   TableRow,
   TableCell,
-  Typography,
 } from '@mui/material';
-import axios from 'axios';
-import React from 'react';
-import { Async } from 'react-async';
-import { useParams } from 'react-router';
 import CommuNav from '../CommuNav';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-export default function PostDetail() {
-  let params = useParams();
-
-  async function getMusicPost() {
-    let res = await axios.get(
-      `http://localhost:4000/post/review/${params._id}`
-    );
+export default function Column() {
+  async function getReview() {
+    let res = await axios.get('http://localhost:4000/column');
+    let columnData = res.data.data;
+    return columnData;
   }
 
   return (
     <>
-      <Box display='flex'>
+      <Box sx={{ display: 'flex' }}>
         <Box position='sticky'>
           <CommuNav />
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          <Async promiseFn={getMusicPost}>
+          <Async promiseFn={getReview}>
             {({ data, error, isPending }) => {
               if (isPending) return 'Loding...';
               if (error) return `Something went wrong: ${error.message}`;
 
+              const tableHeadStyle = {
+                fontWeight: '700',
+                fontSize: '1rem',
+              };
               return (
                 <>
                   <Typography
@@ -67,17 +69,29 @@ export default function PostDetail() {
                     <Table sx={{ fontFamily: 'Nanum Gothic Coding' }}>
                       <TableHead>
                         <TableRow>
-                          <TableCell align='center'>가수 - 곡명</TableCell>
-                          <TableCell align='center'>작성자</TableCell>
-                          <TableCell align='center'>작성일</TableCell>
-                          <TableCell align='center'>추천수</TableCell>
+                          <TableCell align='center' style={tableHeadStyle}>
+                            가수 - 곡명
+                          </TableCell>
+                          <TableCell align='center' style={tableHeadStyle}>
+                            작성자
+                          </TableCell>
+                          <TableCell align='center' style={tableHeadStyle}>
+                            작성일
+                          </TableCell>
+                          <TableCell align='center' style={tableHeadStyle}>
+                            추천수
+                          </TableCell>
                         </TableRow>
                       </TableHead>
-                      {/* {data.map((reviewData: any, index: number) => {
+                      {data.map((reviewData: any, index: number) => {
                         return (
                           <>
                             <TableBody>
-                              <TableRow>
+                              <TableRow
+                                component={Link}
+                                to={`${reviewData._id}`}
+                                sx={{ textDecoration: 'none' }}
+                              >
                                 <TableCell
                                   scope='row'
                                   sx={{
@@ -107,7 +121,7 @@ export default function PostDetail() {
                                   {reviewData.username}
                                 </TableCell>
                                 <TableCell align='center'>
-                                  {/* 이건 시간까지 {reviewData.createdAt.slice(0, 16)}
+                                  {/* 이건 시간까지 {reviewData.createdAt.slice(0, 16)} */}
                                   {reviewData.updatedAt.slice(0, 10)}
                                 </TableCell>
                                 <TableCell align='center'>
@@ -117,7 +131,7 @@ export default function PostDetail() {
                             </TableBody>
                           </>
                         );
-                      })} */}
+                      })}
                     </Table>
                   </TableContainer>
                 </>

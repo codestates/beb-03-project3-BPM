@@ -19,7 +19,7 @@ export default function ColumnDetail() {
   getColumnPost();
   return (
     <>
-      <Box>
+      <Box display="flex" mr={2}>
         <Box position="sticky">
           <CommuNav />
         </Box>

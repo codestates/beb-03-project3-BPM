@@ -10,10 +10,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { ethers } from "ethers";
-
 import { ReactComponent as Meatamask } from "../asset/metamask-logo1.svg";
 import { ReactComponent as Klaytn } from "../asset/klaytn-logo1.svg";
-import createMixins from "@mui/material/styles/createMixins";
+
 declare let window: any;
 
 interface propstype {

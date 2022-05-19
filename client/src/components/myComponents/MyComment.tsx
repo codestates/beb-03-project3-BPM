@@ -1,4 +1,5 @@
 import {
+	ListItem,
 	TableContainer,
 	Table,
 	TableHead,
@@ -7,14 +8,17 @@ import {
 	TableCell,
 	Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { log } from "console";
 import { Async } from "react-async";
 
 export default function MyComment() {
 	async function Comments() {
-		const com = await axios.get("http://localhost:4000/mypage/comments");
-		return com.data.data;
+		const comment = await axios.get("http://localhost:4000/mypage/comments", {
+			withCredentials: true,
+		});
+		return comment.data.data;
 	}
 
 	return (
@@ -23,6 +27,7 @@ export default function MyComment() {
 				<Table>
 					<TableHead>
 						<TableRow>
+							<TableCell align="center">번호</TableCell>
 							<TableCell align="center">내용</TableCell>
 							<TableCell align="center">작성일</TableCell>
 						</TableRow>
@@ -39,15 +44,20 @@ export default function MyComment() {
 								if (error) return `Something went wrong: ${error.message}`;
 								return (
 									<>
-										{data.map((comment: any) => {
+										{data.map((comment: any, index: number) => {
 											return (
 												<>
-													<TableRow>
-														<TableCell align="center">
+													<TableRow
+														component={Link}
+														to={`/community/${comment.boards_id}/${comment._id}`}
+														sx={{ textDecoration: "none" }}
+													>
+														<TableCell align="center">{index + 1}</TableCell>
+														<TableCell align="left">
 															{comment.comments.body}
 														</TableCell>
 														<TableCell align="center">
-															{comment.comments.createdAt}
+															{comment.comments.createdAt.slice(0, 10)}
 														</TableCell>
 													</TableRow>
 												</>

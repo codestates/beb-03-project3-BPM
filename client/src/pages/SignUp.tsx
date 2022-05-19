@@ -8,9 +8,9 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import axios from "axios";
 
 interface propstype {
   account: string;
@@ -50,6 +50,7 @@ export default function SignUp({ account, setIsLogin }: propstype) {
         });
     }
   };
+
   return (
     <Stack
       sx={{
@@ -67,16 +68,6 @@ export default function SignUp({ account, setIsLogin }: propstype) {
             alignItems: "center",
           }}
         >
-          {/* <Avatar sx={{ m: 1, bgcolor: 'success.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography
-            component='h1'
-            variant='h5'
-            sx={{ fontFamily: 'Nanum Gothic' }}
-          >
-            회원가입
-          </Typography> */}
           <Typography
             component="h1"
             fontSize="5rem"

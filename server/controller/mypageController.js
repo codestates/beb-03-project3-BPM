@@ -93,8 +93,6 @@ module.exports = {
 						},
 					},
 				]);
-				console.log("🌼🌼🌼", comments);
-
 				if (comments.length > 0) {
 					res.status(200).send({
 						message: "작성 댓글 조회 성공",

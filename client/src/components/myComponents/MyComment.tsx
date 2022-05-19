@@ -18,7 +18,6 @@ export default function MyComment() {
 		const comment = await axios.get("http://localhost:4000/mypage/comments", {
 			withCredentials: true,
 		});
-		console.log(comment.data.data);
 		return comment.data.data;
 	}
 

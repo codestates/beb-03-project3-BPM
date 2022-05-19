@@ -15,6 +15,7 @@ import KeyboardIcon from '@mui/icons-material/Keyboard';
 import StarIcon from '@mui/icons-material/Star';
 import MenuIcon from '@mui/icons-material/Menu';
 import StoreIcon from '@mui/icons-material/LocalGroceryStore';
+import ArticleIcon from '@mui/icons-material/Article';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Async from 'react-async';
@@ -23,6 +24,7 @@ export default function CommuNav() {
   async function getBoardName() {
     let res = await axios.get('http://localhost:4000/board/read');
     let boardData = res.data.data;
+    console.log(boardData);
     return boardData;
   }
   const [open, setOpen] = useState(false);
@@ -70,11 +72,16 @@ export default function CommuNav() {
 
           <ListItem component={Link} to='/review' button>
             <ListItemIcon>
-              <StarIcon />
+              <StarIcon sx={{ color: 'coral' }} />
             </ListItemIcon>
             <ListItemText primary={'Music Review'} />
           </ListItem>
-
+          <ListItem component={Link} to='/column' button>
+            <ListItemIcon>
+              <ArticleIcon sx={{ color: 'coral' }} />
+            </ListItemIcon>
+            <ListItemText primary={'Column Board'} />
+          </ListItem>
           <Async promiseFn={getBoardName}>
             {({ data, error, isPending }) => {
               if (isPending) return 'Pending...';

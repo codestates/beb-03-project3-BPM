@@ -21,8 +21,8 @@ import { useParams } from "react-router";
 import CommuNav from "../CommuNav";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-export default function PostDetail() {
-  let params = useParams();
+export default function MusicDetail() {
+  const params = useParams();
 
   const getMusicPost = async () =>
     await axios
@@ -43,7 +43,6 @@ export default function PostDetail() {
               if (isPending) return "Loding...";
               if (error) return `Something went wrong: ${error.message}`;
 
-              console.log("data>>", data);
               let comments = data.comments;
 
               return (

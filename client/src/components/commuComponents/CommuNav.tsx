@@ -24,7 +24,6 @@ export default function CommuNav() {
   async function getBoardName() {
     let res = await axios.get("http://localhost:4000/board/read");
     let boardData = res.data.data;
-    console.log(boardData);
     return boardData;
   }
   const [open, setOpen] = useState(false);

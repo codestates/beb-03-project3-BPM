@@ -1,18 +1,4 @@
 import {
-<<<<<<< HEAD
-  Container,
-  CssBaseline,
-  Avatar,
-  Typography,
-  Box,
-  Grid,
-  TextField,
-  Button,
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import React from 'react';
-import axios from 'axios';
-=======
 	Container,
 	CssBaseline,
 	Avatar,
@@ -25,7 +11,6 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
->>>>>>> 2b701b83f2008d63bc0bc0d40b342c4a510bbb15
 
 interface propstype {
 	account: string;
@@ -35,47 +20,6 @@ interface propstype {
 export default function SignUp({ account, setIsLogin }: propstype) {
 	const navigate = useNavigate();
 
-<<<<<<< HEAD
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-
-    axios
-      .post('http://localhost:4000/user/signup', {
-        address: account,
-        username: formData.get('username'),
-        email: formData.get('email'),
-      })
-      .then(() => {
-        setIsLogin(true);
-        navigate('/signin');
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-  return (
-    <>
-      <Box
-        sx={{
-          bgcolor: '#111',
-          height: '100vh',
-        }}
-      >
-        metamask login 만약 없는 유저면 이 회원가입 페이지로 오는데 닉네임이랑
-        이메일 입력하는 칸 만들고 SignUp sumbmit!
-        <Container sx={{ bgcolor: '#111' }}>
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            {/* <Avatar sx={{ m: 1, bgcolor: 'success.main' }}>
-=======
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
@@ -115,7 +59,6 @@ export default function SignUp({ account, setIsLogin }: propstype) {
 						}}
 					>
 						{/* <Avatar sx={{ m: 1, bgcolor: 'success.main' }}>
->>>>>>> 2b701b83f2008d63bc0bc0d40b342c4a510bbb15
             <LockOutlinedIcon />
           </Avatar>
           <Typography

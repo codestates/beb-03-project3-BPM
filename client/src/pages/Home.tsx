@@ -1,7 +1,7 @@
-import { useRef, useEffect, useCallback, UIEvent } from 'react';
-import { Box, Container, useScrollTrigger, Grow } from '@mui/material';
-import practiceSvg from '../asset/Frame 2.svg';
-import { Theme } from '@mui/material/styles';
+import { useRef, useEffect, useCallback, UIEvent } from "react";
+import { Box, Container, useScrollTrigger, Grow } from "@mui/material";
+import practiceSvg from "../asset/Frame 2.svg";
+import { Theme } from "@mui/material/styles";
 
 export default function Home() {
   // interface UseScrollTriggerOptions {
@@ -48,61 +48,61 @@ export default function Home() {
     <>
       <Container
         sx={{
-          height: '2500px',
-          bgcolor: 'black',
-          fontFamily: 'Nanum Gothic',
-          color: '#fff',
+          height: "2500px",
+          bgcolor: "black",
+          fontFamily: "Nanum Gothic",
+          color: "#fff",
         }}
       >
         <Box>Hello Home!</Box>
 
         <Grow
-          className='path1'
+          className="path1"
           ref={ref}
           mountOnEnter
           in={scrollTrigger}
           // timeout={1000}
           onScroll={handleScroll}
         >
-          <img src={practiceSvg} stroke-dashoffset='50px' />
+          <img src={practiceSvg} stroke-dashoffset="50px" />
         </Grow>
-        <svg viewBox='0 0 30 10' xmlns='http://www.w3.org/2000/svg'>
-          <line x1='0' y1='1' x2='30' y2='1' stroke='red' />
+        <svg viewBox="0 0 30 10" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="1" x2="30" y2="1" stroke="red" />
 
           <line
-            x1='0'
-            y1='3'
-            x2='30'
-            y2='3'
-            stroke='red'
-            stroke-dasharray='4'
+            x1="0"
+            y1="3"
+            x2="30"
+            y2="3"
+            stroke="red"
+            stroke-dasharray="4"
           />
 
           <line
-            x1='0'
-            y1='5'
-            x2='30'
-            y2='5'
-            stroke='red'
-            stroke-dasharray='4 1'
+            x1="0"
+            y1="5"
+            x2="30"
+            y2="5"
+            stroke="red"
+            stroke-dasharray="4 1"
           />
 
           <line
-            x1='0'
-            y1='7'
-            x2='30'
-            y2='7'
-            stroke='red'
-            stroke-dasharray='4 1 2'
+            x1="0"
+            y1="7"
+            x2="30"
+            y2="7"
+            stroke="red"
+            stroke-dasharray="4 1 2"
           />
 
           <line
-            x1='0'
-            y1='9'
-            x2='30'
-            y2='9'
-            stroke='red'
-            stroke-dasharray='4 1 2 3'
+            x1="0"
+            y1="9"
+            x2="30"
+            y2="9"
+            stroke="red"
+            stroke-dasharray="4 1 2 3"
           />
         </svg>
 

@@ -9,27 +9,27 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
-} from '@mui/material';
-import React, { useState } from 'react';
-import KeyboardIcon from '@mui/icons-material/Keyboard';
-import StarIcon from '@mui/icons-material/Star';
-import MenuIcon from '@mui/icons-material/Menu';
-import StoreIcon from '@mui/icons-material/LocalGroceryStore';
-import ArticleIcon from '@mui/icons-material/Article';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Async from 'react-async';
+} from "@mui/material";
+import React, { useState } from "react";
+import KeyboardIcon from "@mui/icons-material/Keyboard";
+import StarIcon from "@mui/icons-material/Star";
+import MenuIcon from "@mui/icons-material/Menu";
+import StoreIcon from "@mui/icons-material/LocalGroceryStore";
+import ArticleIcon from "@mui/icons-material/Article";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Async from "react-async";
 
 export default function CommuNav() {
   async function getBoardName() {
-    let res = await axios.get('http://localhost:4000/board/read');
+    let res = await axios.get("http://localhost:4000/board/read");
     let boardData = res.data.data;
     console.log(boardData);
     return boardData;
   }
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up('lg'));
+  const isMdUp = useMediaQuery(theme.breakpoints.up("lg"));
 
   const toggleDrawer =
     //이거 안됨 open 쓰면 안됨
@@ -37,8 +37,8 @@ export default function CommuNav() {
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event &&
-        event.type === 'keydown' &&
-        (event as React.KeyboardEvent).key === 'Tab'
+        event.type === "keydown" &&
+        (event as React.KeyboardEvent).key === "Tab"
       ) {
         return;
       }
@@ -49,18 +49,18 @@ export default function CommuNav() {
   return (
     <>
       <IconButton
-        color='inherit'
-        aria-label='open drawer'
+        color="inherit"
+        aria-label="open drawer"
         onClick={toggleDrawer}
         sx={{
           p: 2,
-          [theme.breakpoints.up('lg')]: { display: 'none' },
+          [theme.breakpoints.up("lg")]: { display: "none" },
         }}
       >
         <MenuIcon />
       </IconButton>
       <Drawer
-        variant={isMdUp ? 'permanent' : 'temporary'}
+        variant={isMdUp ? "permanent" : "temporary"}
         // anchor='left'
         open={open}
         onClose={toggleDrawer}
@@ -70,21 +70,21 @@ export default function CommuNav() {
           <Button fullWidth>게시판 만들기</Button>
           <Divider sx={{ mt: 2, mb: 2 }} />
 
-          <ListItem component={Link} to='/review' button>
+          <ListItem component={Link} to="/review" button>
             <ListItemIcon>
-              <StarIcon sx={{ color: 'coral' }} />
+              <StarIcon sx={{ color: "coral" }} />
             </ListItemIcon>
-            <ListItemText primary={'Music Review'} />
+            <ListItemText primary={"Music Review"} />
           </ListItem>
-          <ListItem component={Link} to='/column' button>
+          <ListItem component={Link} to="/column" button>
             <ListItemIcon>
-              <ArticleIcon sx={{ color: 'coral' }} />
+              <ArticleIcon sx={{ color: "coral" }} />
             </ListItemIcon>
-            <ListItemText primary={'Column Board'} />
+            <ListItemText primary={"Column Board"} />
           </ListItem>
           <Async promiseFn={getBoardName}>
             {({ data, error, isPending }) => {
-              if (isPending) return 'Pending...';
+              if (isPending) return "Pending...";
               if (error) return `Something went wrong: ${error.message}`;
 
               const boardList = data.map((el: any, index: number) => {
@@ -113,7 +113,7 @@ export default function CommuNav() {
             <ListItemIcon>
               <StoreIcon />
             </ListItemIcon>
-            <ListItemText primary={'Music Market'} />
+            <ListItemText primary={"Music Market"} />
           </ListItem>
         </List>
       </Drawer>

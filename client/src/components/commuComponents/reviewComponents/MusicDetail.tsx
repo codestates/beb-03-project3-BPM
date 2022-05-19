@@ -7,12 +7,12 @@ import {
   TableRow,
   TableCell,
   Typography,
-} from '@mui/material';
-import axios from 'axios';
-import React from 'react';
-import { Async } from 'react-async';
-import { useParams } from 'react-router';
-import CommuNav from '../CommuNav';
+} from "@mui/material";
+import axios from "axios";
+import React from "react";
+import { Async } from "react-async";
+import { useParams } from "react-router";
+import CommuNav from "../CommuNav";
 
 export default function PostDetail() {
   let params = useParams();
@@ -25,21 +25,21 @@ export default function PostDetail() {
 
   return (
     <>
-      <Box display='flex'>
-        <Box position='sticky'>
+      <Box display="flex">
+        <Box position="sticky">
           <CommuNav />
         </Box>
         <Box sx={{ flexGrow: 1 }}>
           <Async promiseFn={getMusicPost}>
             {({ data, error, isPending }) => {
-              if (isPending) return 'Loding...';
+              if (isPending) return "Loding...";
               if (error) return `Something went wrong: ${error.message}`;
 
               return (
                 <>
                   <Typography
-                    variant='h2'
-                    m='80px 0 10px 0'
+                    variant="h2"
+                    m="80px 0 10px 0"
                     // fontFamily='Copperplate'
                     // fontFamily='Papyrus'
                     // fontFamily='Lucida Handwriting'
@@ -50,27 +50,27 @@ export default function PostDetail() {
                     // fontFamily='Teko'
                     // fontFamily='Great Vibes'
                     // fontFamily='Tapestry'
-                    fontFamily='Play'
-                    textAlign='center'
+                    fontFamily="Play"
+                    textAlign="center"
                   >
                     Column Board
                   </Typography>
                   <Typography
-                    variant='subtitle1'
-                    mb='100px'
-                    fontFamily='Nanum Gothic'
-                    textAlign='center'
+                    variant="subtitle1"
+                    mb="100px"
+                    fontFamily="Nanum Gothic"
+                    textAlign="center"
                   >
                     Why So Serious?
                   </Typography>
                   <TableContainer>
-                    <Table sx={{ fontFamily: 'Nanum Gothic Coding' }}>
+                    <Table sx={{ fontFamily: "Nanum Gothic Coding" }}>
                       <TableHead>
                         <TableRow>
-                          <TableCell align='center'>가수 - 곡명</TableCell>
-                          <TableCell align='center'>작성자</TableCell>
-                          <TableCell align='center'>작성일</TableCell>
-                          <TableCell align='center'>추천수</TableCell>
+                          <TableCell align="center">가수 - 곡명</TableCell>
+                          <TableCell align="center">작성자</TableCell>
+                          <TableCell align="center">작성일</TableCell>
+                          <TableCell align="center">추천수</TableCell>
                         </TableRow>
                       </TableHead>
                       {/* {data.map((reviewData: any, index: number) => {

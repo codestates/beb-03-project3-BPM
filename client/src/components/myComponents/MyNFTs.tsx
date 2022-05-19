@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   TableContainer,
   Table,
@@ -6,7 +6,7 @@ import {
   TableRow,
   TableBody,
   TableCell,
-} from '@mui/material';
+} from "@mui/material";
 
 export default function MyNFTs() {
   return (
@@ -15,9 +15,9 @@ export default function MyNFTs() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align='center'>곡명</TableCell>
-              <TableCell align='center'>구매일</TableCell>
-              <TableCell align='center'>다운로드</TableCell>
+              <TableCell align="center">곡명</TableCell>
+              <TableCell align="center">구매일</TableCell>
+              <TableCell align="center">다운로드</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

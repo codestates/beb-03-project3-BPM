@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Typography,
   Container,
@@ -8,11 +8,11 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from '@mui/material';
-import { useParams } from 'react-router';
-import axios from 'axios';
-import { Async } from 'react-async';
-import { Link } from 'react-router-dom';
+} from "@mui/material";
+import { useParams } from "react-router";
+import axios from "axios";
+import { Async } from "react-async";
+import { Link } from "react-router-dom";
 
 export default function FreeBoard() {
   let params = useParams();
@@ -25,27 +25,27 @@ export default function FreeBoard() {
 
   return (
     <>
-      <Container sx={{ textAlign: 'center' }}>
+      <Container sx={{ textAlign: "center" }}>
         <Async promiseFn={getBoard}>
           {({ data, error, isPending }) => {
             if (isPending)
               return (
                 <>
-                  <Typography m='100px'>Loding....</Typography>
+                  <Typography m="100px">Loding....</Typography>
                 </>
               );
             if (error) return `Something went wrong: ${error.message}`;
             const tableHeadStyle = {
-              fontWeight: '700',
-              fontSize: '1rem',
+              fontWeight: "700",
+              fontSize: "1rem",
             };
 
             return (
               <>
                 <Typography
-                  variant='h2'
-                  m='80px 0 10px 0'
-                  fontSize='4.5rem'
+                  variant="h2"
+                  m="80px 0 10px 0"
+                  fontSize="4.5rem"
                   // fontFamily='Copperplate'
                   // fontFamily='Papyrus'
                   // fontFamily='Lucida Handwriting'
@@ -56,31 +56,31 @@ export default function FreeBoard() {
                   // fontFamily='Play'
                   // fontFamily='Great Vibes'
                   // fontFamily='Tapestry'
-                  fontFamily='Teko'
+                  fontFamily="Teko"
                 >
                   {data[0].boards_id.title}
                 </Typography>
                 <Typography
-                  variant='subtitle1'
-                  mb='100px'
-                  fontFamily='Nanum Gothic'
+                  variant="subtitle1"
+                  mb="100px"
+                  fontFamily="Nanum Gothic"
                 >
                   {data[0].boards_id.subtitle}
                 </Typography>
                 <TableContainer>
-                  <Table sx={{ fontFamily: 'Nanum Gothic Coding' }}>
+                  <Table sx={{ fontFamily: "Nanum Gothic Coding" }}>
                     <TableHead>
                       <TableRow>
-                        <TableCell align='center' style={tableHeadStyle}>
+                        <TableCell align="center" style={tableHeadStyle}>
                           제목
                         </TableCell>
-                        <TableCell align='center' style={tableHeadStyle}>
+                        <TableCell align="center" style={tableHeadStyle}>
                           작성자
                         </TableCell>
-                        <TableCell align='center' style={tableHeadStyle}>
+                        <TableCell align="center" style={tableHeadStyle}>
                           작성일
                         </TableCell>
-                        <TableCell align='center' style={tableHeadStyle}>
+                        <TableCell align="center" style={tableHeadStyle}>
                           추천수
                         </TableCell>
                       </TableRow>
@@ -92,31 +92,31 @@ export default function FreeBoard() {
                             <TableRow
                               component={Link}
                               to={`${postData._id}`}
-                              sx={{ textDecoration: 'none' }}
+                              sx={{ textDecoration: "none" }}
                             >
                               <TableCell
-                                scope='row'
+                                scope="row"
                                 key={index}
                                 sx={{
-                                  fontWeight: '550',
-                                  color: '#333',
-                                  '&:hover': {
-                                    cursor: 'pointer',
-                                    color: 'lightBlue',
-                                    transition: 'color .2s',
+                                  fontWeight: "550",
+                                  color: "#333",
+                                  "&:hover": {
+                                    cursor: "pointer",
+                                    color: "lightBlue",
+                                    transition: "color .2s",
                                   },
                                 }}
                               >
                                 {postData.title}
                               </TableCell>
-                              <TableCell align='center'>
+                              <TableCell align="center">
                                 {postData.username}
                               </TableCell>
-                              <TableCell align='center'>
+                              <TableCell align="center">
                                 {/* 이건 시간까지 {postData.createdAt.slice(0, 16)} */}
                                 {postData.createdAt.slice(0, 10)}
                               </TableCell>
-                              <TableCell align='center'>
+                              <TableCell align="center">
                                 {postData.likes.length}
                               </TableCell>
                             </TableRow>

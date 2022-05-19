@@ -18,7 +18,7 @@ import {
 import { Async } from "react-async";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-export default function PostDetail(title: any) {
+export default function PostDetail() {
   let params = useParams();
 
   // 상세페이지 불러오기

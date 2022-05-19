@@ -45,28 +45,32 @@ export default function MyReview() {
 								if (error) return `Something went wrong: ${error.message}`;
 								return (
 									<>
-										{data.map((post: any, index: number) => {
-											return (
-												<>
-													<TableRow
-														component={Link}
-														to={`/review/${post._id}`}
-														sx={{ textDecoration: "none" }}
-													>
-														<TableCell align="center">{index + 1}</TableCell>
-														<TableCell align="center">
-															{post.charts_id.title}
-														</TableCell>
-														<TableCell align="center">
-															{post.createdAt.slice(0, 10)}
-														</TableCell>
-														<TableCell align="center">
-															{post.likes.length}
-														</TableCell>
-													</TableRow>
-												</>
-											);
-										})}
+										{data.length !== 0 ? (
+											data.map((post: any, index: number) => {
+												return (
+													<>
+														<TableRow
+															component={Link}
+															to={`/review/${post._id}`}
+															sx={{ textDecoration: "none" }}
+														>
+															<TableCell align="center">{index + 1}</TableCell>
+															<TableCell align="center">
+																{post.charts_id.title}
+															</TableCell>
+															<TableCell align="center">
+																{post.createdAt.slice(0, 10)}
+															</TableCell>
+															<TableCell align="center">
+																{post.likes.length}
+															</TableCell>
+														</TableRow>
+													</>
+												);
+											})
+										) : (
+											<Typography m="100px">아직 리뷰가 없습니다.</Typography>
+										)}
 									</>
 								);
 							}}

@@ -47,26 +47,32 @@ export default function MyPost() {
 								if (error) return `Something went wrong: ${error.message}`;
 								return (
 									<>
-										{data.map((post: any, index: number) => {
-											return (
-												<>
-													<TableRow
-														component={Link}
-														to={`/community/${post.boards_id}/${post._id}`}
-														sx={{ textDecoration: "none" }}
-													>
-														<TableCell align="center">{index + 1}</TableCell>
-														<TableCell align="left">{post.title}</TableCell>
-														<TableCell align="center">
-															{post.createdAt.slice(0, 10)}
-														</TableCell>
-														<TableCell align="center">
-															{post.likes.length}
-														</TableCell>
-													</TableRow>
-												</>
-											);
-										})}
+										{data.length !== 0 ? (
+											data.map((post: any, index: number) => {
+												return (
+													<>
+														<TableRow
+															component={Link}
+															to={`/community/${post.boards_id}/${post._id}`}
+															sx={{ textDecoration: "none" }}
+														>
+															<TableCell align="center">{index + 1}</TableCell>
+															<TableCell align="left">{post.title}</TableCell>
+															<TableCell align="center">
+																{post.createdAt.slice(0, 10)}
+															</TableCell>
+															<TableCell align="center">
+																{post.likes.length}
+															</TableCell>
+														</TableRow>
+													</>
+												);
+											})
+										) : (
+											<Typography m="100px">
+												아직 작성한 글이 없습니다.
+											</Typography>
+										)}
 									</>
 								);
 							}}

@@ -44,25 +44,31 @@ export default function MyComment() {
 								if (error) return `Something went wrong: ${error.message}`;
 								return (
 									<>
-										{data.map((comment: any, index: number) => {
-											return (
-												<>
-													<TableRow
-														component={Link}
-														to={`/community/${comment.boards_id}/${comment._id}`}
-														sx={{ textDecoration: "none" }}
-													>
-														<TableCell align="center">{index + 1}</TableCell>
-														<TableCell align="left">
-															{comment.comments.body}
-														</TableCell>
-														<TableCell align="center">
-															{comment.comments.createdAt.slice(0, 10)}
-														</TableCell>
-													</TableRow>
-												</>
-											);
-										})}
+										{data.length !== 0 ? (
+											data.map((comment: any, index: number) => {
+												return (
+													<>
+														<TableRow
+															component={Link}
+															to={`/community/${comment.boards_id}/${comment._id}`}
+															sx={{ textDecoration: "none" }}
+														>
+															<TableCell align="center">{index + 1}</TableCell>
+															<TableCell align="left">
+																{comment.comments.body}
+															</TableCell>
+															<TableCell align="center">
+																{comment.comments.createdAt.slice(0, 10)}
+															</TableCell>
+														</TableRow>
+													</>
+												);
+											})
+										) : (
+											<Typography m="100px">
+												아직 작성한 댓글이 없습니다.
+											</Typography>
+										)}
 									</>
 								);
 							}}

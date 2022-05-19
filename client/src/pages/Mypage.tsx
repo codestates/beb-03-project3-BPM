@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -16,11 +16,18 @@ import MyReview from "../components/myComponents/MyReview";
 import MyPost from "../components/myComponents/MyPost";
 import MyComment from "../components/myComponents/MyComment";
 import MyNFTs from "../components/myComponents/MyNFTs";
+import axios from "axios";
 
 export default function Mypage() {
   const isTablet = useMediaQuery("(max-width: 1100px");
   const isMobile = useMediaQuery("(max-width: 750px");
   const [value, setValue] = useState("1");
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/user/mypage", {
+      withCredentials: true,
+    });
+  });
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);

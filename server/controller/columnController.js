@@ -59,22 +59,22 @@ module.exports = {
       });
 
       if (column) {
-        const data = [
-          {
-            id: column[0]._id,
-            title: column[0].title,
-            body: column[0].body,
-            username: column.username,
-            chart: column[0].charts_id,
-            likes: column[0].likes.length,
-            updatedAt: column[0].updatedAt,
-          },
-        ];
+        const data = {
+          id: column._id,
+          title: column.title,
+          body: column.body,
+          username: column.username,
+          chart: column.charts_id,
+          likes: column.likes.length,
+          updatedAt: column.updatedAt,
+        };
+
         res.status(200).send({ message: "칼럼 상세 조회 성공", data: data });
       } else {
         res.status(400).send({ message: "칼럼 상세 조회 실패" });
       }
     } catch (e) {
+      console.log(e);
       res.status(500).send({ message: "칼럼 상세 조회 실패" });
     }
   },

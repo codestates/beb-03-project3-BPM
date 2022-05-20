@@ -32,6 +32,7 @@ function App() {
 					<Route path="/review" element={<MusicReview />} />
 					<Route path="/review/:reviewid" element={<MusicDetail />} />
 					<Route path="/column" element={<Column />} />
+					<Route path="/column/:columnid" element={<ColumnDetail />} />
 					<Route path="/mypage" element={<Mypage />} />
 					<Route
 						path="/signin"

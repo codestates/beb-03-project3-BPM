@@ -8,11 +8,14 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Box,
+  Fab,
 } from "@mui/material";
 import { useParams } from "react-router";
 import axios from "axios";
 import { Async } from "react-async";
 import { Link } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function FreeBoard() {
   let params = useParams();
@@ -26,6 +29,22 @@ export default function FreeBoard() {
   return (
     <>
       <Container sx={{ textAlign: "center" }}>
+        <Link to={`/community/${params.boardid}/create`}>
+          <Fab
+            color="secondary"
+            aria-label="edit"
+            sx={{
+              width: 65,
+              height: 65,
+              position: "fixed",
+              right: "45px",
+              bottom: "40px",
+            }}
+          >
+            <EditIcon sx={{ fontSize: "2rem" }} />
+          </Fab>
+        </Link>
+
         <Async promiseFn={getBoard}>
           {({ data, error, isPending }) => {
             if (isPending)

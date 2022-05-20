@@ -47,7 +47,7 @@ export default function SignIn({
     setIsLogin(false);
     setAccount("");
     axios
-      .post("http://localhost:4000/user/logout", { credential: "include" })
+      .post("http://localhost:4000/user/logout", { withCredentials: true })
       .then(() => {
         console.log("로그아웃");
       });
@@ -68,8 +68,6 @@ export default function SignIn({
         if (res.data.message === "계정 생성") {
           navigate("/signup");
         } else if (res.data.message === "로그인 성공") {
-          console.log("account>>", account);
-          console.log("data===>>", res.data);
           setIsLogin(true);
         }
       })

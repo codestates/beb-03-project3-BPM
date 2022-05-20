@@ -83,9 +83,13 @@ module.exports = {
   },
 
   logout: async (req, res) => {
+    const accessToken = jwt.sign({ data: null }, process.env.ACCESS_SECRET, {
+      expiresIn: "6h",
+    });
+
     res
       .status(201)
-      .clearCookie("accessToken", {
+      .cookie("accessToken", accessToken, {
         httpOnly: true,
         domain: "localhost",
         path: "/",
@@ -107,14 +111,13 @@ module.exports = {
           .send({ message: "invalid accesstoken, please login again" });
       } else {
         const data = jwt.verify(accessToken, process.env.ACCESS_SECRET);
-        console.log(data);
-        // const user = await Users.findOne({ id: data.id });
-        // console.log(user);
-        // if (user) {
-        //   res.status(200).send({ message: "유저 정보 조회 성공", data: user });
-        // } else {
-        //   res.status(400).send({ message: "유저 정보 조회 실패" });
-        // }
+        const user = await Users.findOne({ _id: data.id });
+        console.log(user);
+        if (user) {
+          res.status(200).send({ message: "유저 정보 조회 성공", data: user });
+        } else {
+          res.status(400).send({ message: "유저 정보 조회 실패" });
+        }
       }
     } catch (e) {
       console.log(e);
@@ -138,21 +141,27 @@ module.exports = {
         const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
         //username이 있다면
         if (username) {
-          const update = await Users.updateOne(
-            { _id: userinfo.id },
-            {
-              $set: { username },
-            }
-          );
+          const name = Users.findOne({ username });
 
-          if (update.modifiedCount === 1) {
-            res.status(201).send({ message: "업데이트 성공" });
+          if (name === null) {
+            const update = await Users.updateOne(
+              { _id: userinfo.id },
+              {
+                $set: { username },
+              }
+            );
+
+            if (update.modifiedCount === 1) {
+              res.status(201).send({ message: "업데이트 성공" });
+            } else {
+              res.status(400).send({ message: "업데이트 실패" });
+            }
           } else {
-            res.status(400).send({ message: "업데이트 실패" });
+            res.status(404).send({ message: "이름 중복" });
           }
         } else if (email) {
           const update = await Users.updateOne(
-            { _id: data.id },
+            { _id: userinfo.id },
             {
               $set: { email },
             }
@@ -165,7 +174,7 @@ module.exports = {
           }
         } else if (desc) {
           const update = await Users.updateOne(
-            { _id: data.id },
+            { _id: userinfo.id },
             {
               $set: { desc },
             }

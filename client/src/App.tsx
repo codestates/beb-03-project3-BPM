@@ -13,6 +13,7 @@ import SignIn from "./pages/SignIn";
 import Footer from "./components/Footer";
 import { CssBaseline } from "@mui/material";
 import Column from "./components/commuComponents/columnComponents/Column";
+import ColumnDetail from "./components/commuComponents/columnComponents/ColumnDetail";
 
 function App() {
 	const [account, setAccount] = useState("");

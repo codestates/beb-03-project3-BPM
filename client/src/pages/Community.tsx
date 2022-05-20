@@ -4,6 +4,8 @@ import CommuNav from "../components/commuComponents/CommuNav";
 import { Box } from "@mui/material";
 import { Route, Routes } from "react-router";
 import PostDetail from "../components/commuComponents/PostDetail";
+import PostWrite from "../components/commuComponents/PostWrite";
+import CreateBoard from "../components/commuComponents/CreateBoard";
 
 export default function Community() {
   return (
@@ -17,6 +19,7 @@ export default function Community() {
           <Routes>
             <Route path=":boardid/" element={<Boards />} />
             <Route path=":boardid/:postid" element={<PostDetail />} />
+            <Route path=":boardid/create" element={<PostWrite />} />
           </Routes>
         </Box>
       </Box>

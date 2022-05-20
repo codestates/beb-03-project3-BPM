@@ -7,24 +7,25 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  CircularProgress,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
-import StarIcon from "@mui/icons-material/Star";
+import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import MenuIcon from "@mui/icons-material/Menu";
 import StoreIcon from "@mui/icons-material/LocalGroceryStore";
 import ArticleIcon from "@mui/icons-material/Article";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Async from "react-async";
+import CreateBoard from "./CreateBoard";
 
 export default function CommuNav() {
   async function getBoardName() {
     let res = await axios.get("http://localhost:4000/board/read");
     let boardData = res.data.data;
-    console.log(boardData);
     return boardData;
   }
   const [open, setOpen] = useState(false);
@@ -67,12 +68,12 @@ export default function CommuNav() {
         sx={{ width: drawerWidth }}
       >
         <List sx={{ mt: 10, p: 3 }}>
-          <Button fullWidth>게시판 만들기</Button>
+          <CreateBoard />
           <Divider sx={{ mt: 2, mb: 2 }} />
 
           <ListItem component={Link} to="/review" button>
             <ListItemIcon>
-              <StarIcon sx={{ color: "coral" }} />
+              <QueueMusicIcon sx={{ color: "coral" }} />
             </ListItemIcon>
             <ListItemText primary={"Music Review"} />
           </ListItem>
@@ -84,7 +85,7 @@ export default function CommuNav() {
           </ListItem>
           <Async promiseFn={getBoardName}>
             {({ data, error, isPending }) => {
-              if (isPending) return "Pending...";
+              if (isPending) return <CircularProgress color="inherit" />;
               if (error) return `Something went wrong: ${error.message}`;
 
               const boardList = data.map((el: any, index: number) => {

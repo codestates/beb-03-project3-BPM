@@ -68,11 +68,13 @@ module.exports = {
           likes: column.likes.length,
           updatedAt: column.updatedAt,
         };
+
         res.status(200).send({ message: "칼럼 상세 조회 성공", data: data });
       } else {
         res.status(400).send({ message: "칼럼 상세 조회 실패" });
       }
     } catch (e) {
+      console.log(e);
       res.status(500).send({ message: "칼럼 상세 조회 실패" });
     }
   },

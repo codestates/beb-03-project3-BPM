@@ -20,6 +20,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Async from "react-async";
+import CreateBoard from "./CreateBoard";
 
 export default function CommuNav() {
   async function getBoardName() {
@@ -67,7 +68,7 @@ export default function CommuNav() {
         sx={{ width: drawerWidth }}
       >
         <List sx={{ mt: 10, p: 3 }}>
-          <Button fullWidth>게시판 만들기</Button>
+          <CreateBoard />
           <Divider sx={{ mt: 2, mb: 2 }} />
 
           <ListItem component={Link} to="/review" button>

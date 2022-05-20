@@ -41,7 +41,6 @@ export default function SignUp({ account, setIsLogin }: propstype) {
           navigate("/signin");
         })
         .catch((e) => {
-          console.log(e.message);
           if (e.message === "Request failed with status code 404") {
             setValidation("로그인부터 다시 진행해주세요");
           } else if (e.message === "Request failed with status code 400") {

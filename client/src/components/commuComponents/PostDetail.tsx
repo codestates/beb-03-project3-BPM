@@ -16,44 +16,71 @@ import {
   TableContainer,
 } from "@mui/material";
 import { Async } from "react-async";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 export default function PostDetail() {
   let params = useParams();
+  const [like, setLike] = useState(false);
 
   // 상세페이지 불러오기
-  const getDetail = async () =>
-    await axios
+  const getDetail = () =>
+    axios
       .get(`http://localhost:4000/post/${params.boardid}/${params.postid}`)
       .then((res) => {
         let postDetailData = res.data.data;
         return postDetailData;
       });
 
-  //   const userInfo = useSelector;
-  const [comment, setComment] = useState("");
   // 댓글 작성
   let writeComment = async (event: any) => {
-    // const formData = new FormData(event.currentTarget);
+    const formData = new FormData(event.currentTarget);
+    let data = formData.get("comment");
     await axios.post(
       `http://localhost:4000/post/${params.boardid}/${params.postid}/comment`,
       {
-        content: comment,
-        //   userid: comments.users_id,
+        body: formData.get("comment"),
       },
       {
         withCredentials: true,
       }
     );
   };
-  //   };
 
-  const deleteComment = async () => {
-    await axios.delete(
+  const deleteComment = () => {
+    axios.patch(
       `http://localhost:4000/post/${params.boardid}/${params.postid}/comment`,
       {}
     );
-    setComment("");
+  };
+
+  const handleLike = (like: string) => {
+    if (like === "like") {
+      console.log("dasdfsZfa");
+      axios
+        .post(
+          `http://localhost:4000/post/${params.boardid}/${params.postid}/like`,
+          {},
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          setLike(true);
+        });
+    } else if (like === "unlike") {
+      axios
+        .post(
+          `http://localhost:4000/post/${params.boardid}/${params.postid}/unlike`,
+          {},
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          setLike(false);
+        });
+    }
   };
 
   return (
@@ -68,7 +95,6 @@ export default function PostDetail() {
               <>
                 {data.map((item: any) => {
                   let comments = item.comments;
-                  console.log("comments data>>>>>", comments);
                   return (
                     <>
                       <Typography
@@ -97,7 +123,27 @@ export default function PostDetail() {
                         {item.username}
                       </Typography>
 
-                      <Typography mb="100px">여기에 좋아요</Typography>
+                      {like ? (
+                        <Button
+                          sx={{ mb: 3 }}
+                          onClick={() => {
+                            handleLike("unlike");
+                          }}
+                        >
+                          <ThumbUpAltIcon />
+                          {item.likes}
+                        </Button>
+                      ) : (
+                        <Button
+                          sx={{ mb: 3 }}
+                          onClick={() => {
+                            handleLike("like");
+                          }}
+                        >
+                          <ThumbUpOffAltIcon />
+                          {item.likes}
+                        </Button>
+                      )}
 
                       <Divider />
                       <Typography pt={20} pb={20}>
@@ -141,7 +187,7 @@ export default function PostDetail() {
                                             }}
                                             onClick={deleteComment}
                                           >
-                                            <DeleteOutlineIcon />
+                                            수정
                                           </TableCell>
                                         </TableRow>
                                       </>

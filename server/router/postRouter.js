@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const {
-	readAll,
-	readById,
-	update,
-	create,
-	deletePost,
-	createComment,
-	updateComment,
-	deleteComment,
-	like,
-	unlike,
+  readAll,
+  readById,
+  update,
+  create,
+  deletePost,
+  createComment,
+  updateComment,
+  deleteComment,
+  like,
+  unlike,
 } = require("../controller/postController");
 
 router.get("/:boardid", readAll);
@@ -31,6 +31,6 @@ router.delete("/:boardid/:postid/comment/:commentid", deleteComment);
 
 router.post("/:boardid/:postid/like", like);
 
-router.delete("/:boardid/:postid/unlike", unlike);
+router.post("/:boardid/:postid/unlike", unlike);
 
 module.exports = router;

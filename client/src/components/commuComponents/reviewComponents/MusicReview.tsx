@@ -9,6 +9,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  CircularProgress,
 } from "@mui/material";
 import CommuNav from "../CommuNav";
 import axios from "axios";
@@ -30,7 +31,7 @@ export default function MusicReview() {
         <Box sx={{ flexGrow: 1 }}>
           <Async promiseFn={getReview}>
             {({ data, error, isPending }) => {
-              if (isPending) return "Loding...";
+              if (isPending) return <CircularProgress color="inherit" />;
               if (error) return `Something went wrong: ${error.message}`;
 
               console.log(data);
@@ -111,7 +112,7 @@ export default function MusicReview() {
                                     src={reviewData.charts_id.image}
                                     style={{
                                       width: 35,
-                                      border: "1px solid #333",
+                                      border: "1px solid #ccc",
 
                                       margin: "0 20px 0 30px",
                                     }}

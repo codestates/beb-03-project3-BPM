@@ -5,6 +5,7 @@ import {
   IconButton,
   AppBar,
   Toolbar,
+  Tooltip,
   useTheme,
 } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -53,30 +54,38 @@ export default function Nav() {
             >
               {/* chart 버튼 */}
               <Link to="/chart">
-                <IconButton sx={{ color: "#fff" }}>
-                  <InsertChartIcon />
-                </IconButton>
+                <Tooltip title="차트">
+                  <IconButton sx={{ color: "#fff" }}>
+                    <InsertChartIcon />
+                  </IconButton>
+                </Tooltip>
               </Link>
 
               {/* community 버튼 */}
               <Link to="/community/627b5e9dd6b52cc4fe03a75d">
-                <IconButton>
-                  <GroupsIcon sx={{ color: "#fff" }} />
-                </IconButton>
+                <Tooltip title="커뮤니티">
+                  <IconButton>
+                    <GroupsIcon sx={{ color: "#fff" }} />
+                  </IconButton>
+                </Tooltip>
               </Link>
 
               {/* wallet 버튼 */}
               <Link to="/signin">
-                <IconButton>
-                  <AccountBalanceWalletIcon sx={{ color: "#fff" }} />
-                </IconButton>
+                <Tooltip title="로그인">
+                  <IconButton>
+                    <AccountBalanceWalletIcon sx={{ color: "#fff" }} />
+                  </IconButton>
+                </Tooltip>
               </Link>
 
               {/* mypage 버튼 */}
               <Link to="/mypage">
-                <IconButton>
-                  <AccountBoxIcon sx={{ color: "#fff" }} />
-                </IconButton>
+                <Tooltip title="마이페이지">
+                  <IconButton>
+                    <AccountBoxIcon sx={{ color: "#fff" }} />
+                  </IconButton>
+                </Tooltip>
               </Link>
 
               {/* 

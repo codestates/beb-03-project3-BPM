@@ -12,6 +12,7 @@ import SignIn from "./pages/SignIn";
 import Footer from "./components/Footer";
 import { CssBaseline } from "@mui/material";
 import Column from "./components/commuComponents/columnComponents/Column";
+import ColumnDetail from "./components/commuComponents/columnComponents/ColumnDetail";
 
 function App() {
   const [account, setAccount] = useState("");
@@ -29,6 +30,7 @@ function App() {
           <Route path="/review" element={<MusicReview />} />
           <Route path="/review/:reviewid" element={<MusicDetail />} />
           <Route path="/column" element={<Column />} />
+          <Route path="/column/:columnid" element={<ColumnDetail />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route
             path="/signin"

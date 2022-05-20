@@ -29,11 +29,18 @@ module.exports = {
 
 				if (reviews.length > 0) {
 					res.status(200).send({
-						message: "작성 리뷰 조회 성공",
+						success: true,
 						data: reviews,
+						message: "작성 글 조회 성공",
+					});
+				} else if (reviews.length === 0) {
+					res.status(200).send({
+						success: true,
+						data: reviews,
+						message: "작성 글 없음",
 					});
 				} else {
-					res.status(400).send({ message: "작성 리뷰 없음" });
+					res.status(400).send({ data: null, message: "조회 실패" });
 				}
 			}
 		} catch (e) {
@@ -59,11 +66,18 @@ module.exports = {
 				});
 				if (posts.length > 0) {
 					res.status(200).send({
-						message: "작성 글 조회 성공",
+						success: true,
 						data: posts,
+						message: "작성 글 조회 성공",
+					});
+				} else if (posts.length === 0) {
+					res.status(200).send({
+						success: true,
+						data: posts,
+						message: "작성 글 없음",
 					});
 				} else {
-					res.status(400).send({ message: "작성 글 없음" });
+					res.status(400).send({ data: null, message: "조회 실패" });
 				}
 			}
 		} catch (e) {
@@ -95,11 +109,18 @@ module.exports = {
 				]);
 				if (comments.length > 0) {
 					res.status(200).send({
-						message: "작성 댓글 조회 성공",
+						success: true,
 						data: comments,
+						message: "작성 글 조회 성공",
+					});
+				} else if (comments.length === 0) {
+					res.status(200).send({
+						success: true,
+						data: comments,
+						message: "작성 글 없음",
 					});
 				} else {
-					res.status(400).send({ message: "작성 댓글 없음" });
+					res.status(400).send({ data: null, message: "조회 실패" });
 				}
 			}
 		} catch (e) {

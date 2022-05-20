@@ -19,7 +19,7 @@ import { Async } from "react-async";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
-export default function PostDetail(title: any) {
+export default function PostDetail() {
   let params = useParams();
   const [like, setLike] = useState(false);
 

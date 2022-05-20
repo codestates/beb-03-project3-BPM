@@ -1,11 +1,20 @@
 import * as React from "react";
-import { Box, Divider, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Typography,
+  TextareaAutosize,
+  Button,
+} from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function PostWrite() {
+  const handlePost = () => {};
+
   return (
     <>
-      <Box p={5}>
-        <Typography></Typography>
+      <Box p={5} mt={5} textAlign="center">
+        <Typography variant="h6">글 작성</Typography>
         <TextField
           autoFocus
           id="title"
@@ -14,12 +23,19 @@ export default function PostWrite() {
           fullWidth
           variant="standard"
           placeholder="글 제목을 작성해주세요"
-          sx={{}}
+          InputProps={{ style: { fontSize: 25, paddingLeft: 10 } }}
+          InputLabelProps={{ style: { fontSize: 25, paddingLeft: 10 } }}
+          sx={{ m: "40px auto" }}
         />
-
-        <Divider />
-        <TextField fullWidth />
+        <TextareaAutosize
+          minRows={20}
+          style={{ width: "100%", fontSize: "20px", padding: 20 }}
+        />
       </Box>
+      <Link to="/community/627b5e9dd6b52cc4fe03a75d">
+        <Button>취소</Button>
+      </Link>
+      <Button onClick={handlePost}>발행</Button>
     </>
   );
 }

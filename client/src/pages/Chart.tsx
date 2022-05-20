@@ -1,6 +1,7 @@
 import React from "react";
 import {
 	Button,
+	Link,
 	TableContainer,
 	Table,
 	TableHead,
@@ -10,6 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import ChartModal from "../components/chartComponent";
 import axios from "axios";
 import { log } from "console";
 import { Async } from "react-async";
@@ -17,6 +19,8 @@ import { Async } from "react-async";
 export default function Chart() {
 	async function getOurChart() {
 		const ourChart = await axios.get("http://localhost:4000/main/ourchart");
+		console.log(">>>>>>>>>>>>>>>>>>>>>>", ourChart.data.data);
+
 		return ourChart.data.data;
 	}
 
@@ -79,7 +83,9 @@ export default function Chart() {
 																	margin: "0 20px 0 30px",
 																}}
 															/>
+
 															{chartData.title}
+															<ChartModal />
 														</TableCell>
 														<TableCell align="center">
 															{chartData.artist}

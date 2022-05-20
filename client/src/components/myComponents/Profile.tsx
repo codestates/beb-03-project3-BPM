@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Button, TextField, Stack, Typography } from "@mui/material";
+import { Box, Grid, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
 
 export default function Profile() {
@@ -79,220 +79,213 @@ export default function Profile() {
 
   return (
     <Grid container justifyContent="center" p={5}>
-      <Grid item xs={2}>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          sx={{ height: "100%" }}
-        >
+      <Box
+        sx={{
+          width: "160px",
+          height: "160px",
+          // .com/collection/사용자고유id 번호 입력하면 매번 바뀌지 않고 같은 이미지 가능
+          background: `center URL("https://source.unsplash.com/random")`,
+          backgroundSize: "cover",
+          borderRadius: 100,
+        }}
+      ></Box>
+      <Grid item xs={3} mt={2} ml={7}>
+        {click === "name" ? (
           <Box
+            component="form"
+            onSubmit={handleUpdate}
+            mt={2}
             sx={{
-              width: "160px",
-              height: "160px",
-              borderRadius: 5,
-              bgcolor: "lightblue",
-            }}
-          ></Box>
-        </Stack>
-      </Grid>
-      <Grid item xs={4}>
-        <Stack sx={{ display: "flex", ml: 3 }}>
-          {/* 이 본인 닉네임 정보 있는 box 컴포넌트가 // isMobile에서는
-      프로필사진의 하단으로 가게!
-      프로필 사진 
-      */}
-          {click === "name" ? (
-            <Box
-              component="form"
-              onSubmit={handleUpdate}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                name="username"
-                required
-                fullWidth
-                id="username"
-                defaultValue={name}
-                autoFocus
-                sx={{ fontSize: 20 }}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  fontSize: 3,
-                  "&: hover": {
-                    bgcolor: "white",
-                    color: "#000",
-                    height: "100%",
-                  },
-                }}
-              >
-                수정
-              </Button>
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                onDoubleClick={() => {
-                  setClick("name");
-                }}
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: 25,
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                {name}
-              </Typography>
-            </Box>
-          )}
-          <Box
-            sx={{
-              mt: 2,
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            <Box
-              onClick={() => {
-                navigator.clipboard.writeText(address).then(
-                  () => {
-                    alert("주소가 복사되었습니다.");
-                  },
-                  () => {
-                    alert("주소 복사에 실패했습니다.");
-                  }
-                );
-              }}
-              display="flex"
-              justifyContent="center"
+            <TextField
+              name="username"
+              required
+              fullWidth
+              id="username"
+              defaultValue={name}
+              autoFocus
+              size="small"
+              sx={{ mt: 0.1 }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
               sx={{
-                width: "40%",
-                textTransform: "lowercase",
-                cursor: "pointer",
-                borderRadius: 10,
-                border: 1,
-                borderStyle: " dotted",
+                fontSize: "1rem",
+                "&: hover": {
+                  bgcolor: "white",
+                  color: "#000",
+                  height: "100%",
+                },
               }}
             >
-              {address.slice(0, 4) +
-                "..." +
-                address.slice(address.length - 4, address.length)}
-            </Box>
+              수정
+            </Button>
           </Box>
-          {click === "email" ? (
-            <Box
-              component="form"
-              onSubmit={handleUpdate}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                name="email"
-                required
-                id="email"
-                defaultValue={email}
-                autoFocus
-                sx={{ fontSize: 20, mt: 2 }}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  fontSize: 3,
-                  "&: hover": {
-                    bgcolor: "white",
-                    color: "#000",
-                    height: "100%",
-                  },
-                }}
-              >
-                수정
-              </Button>
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                mt: 2,
-              }}
-            >
-              <Typography
-                onDoubleClick={() => {
-                  setClick("email");
-                }}
-                sx={{
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                {email}
-              </Typography>
-            </Box>
-          )}
-          {click === "desc" ? (
-            <Box
-              component="form"
-              onSubmit={handleUpdate}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                mt: 2,
-              }}
-            >
-              <TextField
-                name="desc"
-                required
-                id="desc"
-                multiline
-                rows={2}
-                defaultValue={desc}
-                autoFocus
-                sx={{ fontSize: 20, width: 250 }}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  fontSize: 3,
-                  "&: hover": {
-                    bgcolor: "white",
-                    color: "#000",
-                    height: "100%",
-                  },
-                }}
-              >
-                수정
-              </Button>
-            </Box>
-          ) : (
-            <Box
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Typography
               onDoubleClick={() => {
-                setClick("desc");
+                setClick("name");
               }}
               sx={{
-                mt: 2,
-                height: 70,
+                fontWeight: "bold",
+                fontSize: 25,
                 "&:hover": {
                   cursor: "pointer",
                 },
               }}
             >
-              <Typography>{desc}</Typography>
-            </Box>
-          )}
-        </Stack>
+              {name}
+            </Typography>
+          </Box>
+        )}
+        <Box
+          sx={{
+            mt: 2,
+          }}
+        >
+          <Box
+            onClick={() => {
+              navigator.clipboard.writeText(address).then(
+                () => {
+                  alert("주소가 복사되었습니다.");
+                },
+                () => {
+                  alert("주소 복사에 실패했습니다.");
+                }
+              );
+            }}
+            display="flex"
+            justifyContent="center"
+            sx={{
+              width: "40%",
+              textTransform: "lowercase",
+              cursor: "pointer",
+              borderRadius: 10,
+              border: "1px dotted #333",
+              pl: 8,
+              pr: 8,
+            }}
+          >
+            {address.slice(0, 4) +
+              "..." +
+              address.slice(address.length - 4, address.length)}
+          </Box>
+        </Box>
+        {click === "email" ? (
+          <Box
+            component="form"
+            onSubmit={handleUpdate}
+            mt={2}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              name="email"
+              required
+              id="email"
+              defaultValue={email}
+              autoFocus
+              size="small"
+              sx={{ mt: 0.1 }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                fontSize: "1rem",
+                "&: hover": {
+                  bgcolor: "white",
+                  color: "#000",
+                  height: "100%",
+                },
+              }}
+            >
+              수정
+            </Button>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              mt: 2,
+            }}
+          >
+            <Typography
+              onDoubleClick={() => {
+                setClick("email");
+              }}
+              sx={{
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              }}
+            >
+              {email}
+            </Typography>
+          </Box>
+        )}
+        {click === "desc" ? (
+          <Box
+            component="form"
+            onSubmit={handleUpdate}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mt: 2,
+            }}
+          >
+            <TextField
+              name="desc"
+              required
+              id="desc"
+              multiline
+              rows={2}
+              defaultValue={desc}
+              autoFocus
+              sx={{ fontSize: 20, width: 250 }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                fontSize: 3,
+                "&: hover": {
+                  bgcolor: "white",
+                  color: "#000",
+                  height: "100%",
+                },
+              }}
+            >
+              수정
+            </Button>
+          </Box>
+        ) : (
+          <Box
+            onDoubleClick={() => {
+              setClick("desc");
+            }}
+            sx={{
+              mt: 2,
+              height: 70,
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+          >
+            <Typography>{desc}</Typography>
+          </Box>
+        )}
       </Grid>
     </Grid>
   );

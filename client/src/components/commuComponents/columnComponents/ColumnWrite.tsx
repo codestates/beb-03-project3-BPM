@@ -8,13 +8,13 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
-export default function PostWrite() {
+export default function ColumnWrite() {
   const handlePost = () => {};
 
   return (
     <>
       <Box p={5} mt={5} textAlign="center">
-        <Typography variant="h6">글 작성</Typography>
+        <Typography variant="h6">칼럼 작성</Typography>
         <TextField
           autoFocus
           id="title"
@@ -23,8 +23,22 @@ export default function PostWrite() {
           fullWidth
           variant="standard"
           placeholder="글 제목을 작성해주세요"
-          InputProps={{ style: { fontSize: 25, paddingLeft: 10 } }}
-          InputLabelProps={{ style: { fontSize: 25, paddingLeft: 10 } }}
+          InputProps={{
+            style: {
+              fontSize: 25,
+              paddingLeft: 10,
+              textAlign: "center",
+              justifyContent: "center",
+            },
+          }}
+          InputLabelProps={{
+            style: {
+              fontSize: 25,
+              paddingLeft: 10,
+              textAlign: "center",
+              justifyContent: "center",
+            },
+          }}
           sx={{ m: "40px auto" }}
         />
         <TextareaAutosize

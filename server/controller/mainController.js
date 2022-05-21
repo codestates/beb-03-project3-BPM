@@ -1,6 +1,6 @@
 const Charts = require("../model/charts");
-const Evaluations = require("../model/evaluations");
 const Columns = require("../model/columns");
+const Reviews = require("../model/reviews");
 const { ObjectId } = require("mongodb");
 
 module.exports = {
@@ -45,6 +45,7 @@ module.exports = {
 	},
 	detailById: async function (req, res) {
 		const chartid = req.params.chartid;
+
 		try {
 			const songInfo = await Charts.findOne({ _id: chartid });
 			const columns = await Columns.find({ charts_id: chartid })
@@ -52,26 +53,27 @@ module.exports = {
 					"createdAt": "desc",
 				})
 				.limit(3);
+			const reviews = await Reviews.find({ charts_id: chartid })
+				.sort({
+					"createdAt": "desc",
+				})
+				.limit(10);
 
-			if (songInfo !== null && columns.length >= 0) {
+			if (songInfo !== null) {
 				const data = [
 					{
 						id: ObjectId(songInfo._id),
-						image: songInfo.image,
+						image: songInfo.image.slice(0, 86),
 						title: songInfo.title,
 						artist: songInfo.artist,
 						total: songInfo.total,
 						AddictiveAvg: songInfo.AddictiveAvg,
-						artistry: songInfo.artistry,
+						artistryAvg: songInfo.artistryAvg,
 						individualityAvg: songInfo.individualityAvg,
 						lyricsAvg: songInfo.lyricsAvg,
 						popularityAvg: songInfo.popularityAvg,
-						column_id1: ObjectId(columns[0]._id),
-						column_title1: columns[0].title,
-						column_id2: ObjectId(columns[1]._id),
-						column_title2: columns[1].title,
-						column_id3: ObjectId(columns[2]._id),
-						column_title3: columns[2].title,
+						columns,
+						reviews,
 					},
 				];
 				res.status(200).send({ success: true, data, message: "ok" });
@@ -79,6 +81,7 @@ module.exports = {
 				res.status(404).send({ success: false, data: null, message: "fail" });
 			}
 		} catch (e) {
+			console.error(e);
 			res.status(500).send({ message: "서버 오류" });
 		}
 	},

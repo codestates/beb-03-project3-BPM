@@ -49,49 +49,47 @@ export default function ChartInfo({ chartData }: any) {
 				</Box>
 			</Box>
 
-			<Box py={2} pl={2}>
-				<Box
-					display={{ xs: "block", md: "flex" }}
-					alignItems="center"
-					justifyContent="space-between"
-				>
-					<Box>
-						<Button
-							sx={{
-								mt: { xs: 2, md: 0 },
-								textDecoration: "none",
-								backgroundColor: "coral",
-							}}
-							size="small"
-							variant="contained"
-							component={Link}
-							to={`/review`}
-						>
-							{/*FIXME: 리뷰작성으로 연결 */}
-							review
-						</Button>
-						<Button
-							size="small"
-							sx={{ mx: 1, borderColor: "coral", color: "coral" }}
-							variant="outlined"
-						>
-							bookmark
-						</Button>
-					</Box>
+			<Box
+				display={{ xs: "block", md: "flex" }}
+				alignItems="center"
+				justifyContent="space-between"
+			>
+				<Box>
 					<Button
 						sx={{
-							mt: { xs: 2, md: 0, color: "coral" },
+							mt: { xs: 2, md: 0 },
 							textDecoration: "none",
+							backgroundColor: "coral",
 						}}
 						size="small"
-						variant="text"
-						endIcon={<ArrowForwardTwoToneIcon />}
+						variant="contained"
 						component={Link}
-						to={`/column`}
+						to={`/review`}
 					>
-						See all columns
+						{/*FIXME: 리뷰작성으로 연결 */}
+						review
+					</Button>
+					<Button
+						size="small"
+						sx={{ mx: 1, borderColor: "coral", color: "coral" }}
+						variant="outlined"
+					>
+						bookmark
 					</Button>
 				</Box>
+				<Button
+					sx={{
+						mt: { xs: 2, md: 0, color: "coral" },
+						textDecoration: "none",
+					}}
+					size="small"
+					variant="text"
+					endIcon={<ArrowForwardTwoToneIcon />}
+					component={Link}
+					to={`/column`}
+				>
+					See all columns
+				</Button>
 			</Box>
 		</>
 	);

@@ -48,7 +48,9 @@ export default function RecentColumns({ chartData }: any) {
 									to={`/column/${column._id}`}
 									sx={{ textDecoration: "none" }}
 								>
-									<Typography variant="h5">{column.title}</Typography>
+									<Typography sx={{ textAlign: "left" }} variant="h5">
+										{column.title}
+									</Typography>
 
 									<Box pt={2} display="flex">
 										<Box pr={8}>
@@ -57,7 +59,7 @@ export default function RecentColumns({ chartData }: any) {
 												variant="caption"
 												sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
 											>
-												추천
+												LIKES
 											</Typography>
 											<Typography variant="h6">
 												{column.likes.length}
@@ -69,7 +71,7 @@ export default function RecentColumns({ chartData }: any) {
 												variant="caption"
 												sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
 											>
-												스크랩
+												VIEWS
 											</Typography>
 											<Typography variant="h6">10</Typography>
 										</Box>

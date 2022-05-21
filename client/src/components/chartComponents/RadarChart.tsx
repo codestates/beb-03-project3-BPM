@@ -49,9 +49,7 @@ export default function RadarChart({ chartData }: any) {
 	};
 
 	const options = {
-		// 옵션 (1)
 		responsive: false,
-		// 옵션 (2)
 		interaction: {
 			mode: "index" as const,
 			intersect: false,
@@ -68,9 +66,9 @@ export default function RadarChart({ chartData }: any) {
 					}}
 				/>
 				<Divider />
-				<Box p={2}>
-					<Grid container spacing={0}>
-						<Radar data={data} width={500} height={500} options={options} />
+				<Box p={1} display="flex" justifyContent="center">
+					<Grid spacing={2}>
+						<Radar data={data} options={options} width={500} height={500} />
 					</Grid>
 				</Box>
 			</Card>

@@ -1,7 +1,6 @@
 const cheerio = require("cheerio");
 const request = require("request");
 const Charts = require("../model/charts");
-const Columns = require("../model/columns");
 const Evaluations = require("../model/evaluations");
 
 module.exports = {
@@ -212,25 +211,5 @@ module.exports = {
 			await chart.save();
 		}
 		res.status(201).send({ success: true, data: null, message: "ok" });
-	},
-	detailById: async function (req, res) {
-		const chartid = req.params.chartid;
-		try {
-			const songInfo = await Charts.findOne({ _id: chartid });
-			const columns = await Columns.find({ charts_id: chartid })
-				.sort({
-					"createdAt": "desc",
-				})
-				.limit(3);
-			if (songInfo !== null && columns.length >= 0) {
-				res
-					.status(200)
-					.send({ success: true, data: { songInfo, columns }, message: "ok" });
-			} else {
-				res.status(404).send({ success: false, data: null, message: "fail" });
-			}
-		} catch (e) {
-			res.status(500).send({ message: "서버 오류" });
-		}
 	},
 };

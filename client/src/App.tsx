@@ -14,46 +14,50 @@ import Footer from "./components/Footer";
 import { CssBaseline } from "@mui/material";
 import Column from "./components/commuComponents/columnComponents/Column";
 import ColumnDetail from "./components/commuComponents/columnComponents/ColumnDetail";
+import ColumnWrite from "./components/commuComponents/columnComponents/ColumnWrite";
+import MusicWrite from "./components/commuComponents/reviewComponents/MusicWrite";
 
 function App() {
-	const [account, setAccount] = useState("");
-	const [isLogin, setIsLogin] = useState(false);
+  const [account, setAccount] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
 
-	return (
-		<>
-			<div>
-				<CssBaseline />
-				<Nav />
-				<Routes>
-					<Route path="/*" element={<Home />} />
-					<Route path="/chart" element={<Chart />} />
-					<Route path="/chart/:chartid" element={<ChartDetail />} />
-					<Route path="/community/*" element={<Community />} />
-					<Route path="/review" element={<MusicReview />} />
-					<Route path="/review/:reviewid" element={<MusicDetail />} />
-					<Route path="/column" element={<Column />} />
-					<Route path="/column/:columnid" element={<ColumnDetail />} />
-					<Route path="/mypage" element={<Mypage />} />
-					<Route
-						path="/signin"
-						element={
-							<SignIn
-								setAccount={setAccount}
-								setIsLogin={setIsLogin}
-								account={account}
-								isLogin={isLogin}
-							/>
-						}
-					/>
-					<Route
-						path="/signup"
-						element={<SignUp setIsLogin={setIsLogin} account={account} />}
-					/>
-				</Routes>
-				<Footer />
-			</div>
-		</>
-	);
+  return (
+    <>
+      <div>
+        <CssBaseline />
+        <Nav />
+        <Routes>
+          <Route path="/*" element={<Home />} />
+          <Route path="/chart" element={<Chart />} />
+          <Route path="/chart/:chartid" element={<ChartDetail />} />
+          <Route path="/community/*" element={<Community />} />
+          <Route path="/review" element={<MusicReview />} />
+          <Route path="/review/:reviewid" element={<MusicDetail />} />
+          <Route path="/review/write" element={<MusicWrite />} />
+          <Route path="/column" element={<Column />} />
+          <Route path="/column/:columnid" element={<ColumnDetail />} />
+          <Route path="/column/write" element={<ColumnWrite />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route
+            path="/signin"
+            element={
+              <SignIn
+                setAccount={setAccount}
+                setIsLogin={setIsLogin}
+                account={account}
+                isLogin={isLogin}
+              />
+            }
+          />
+          <Route
+            path="/signup"
+            element={<SignUp setIsLogin={setIsLogin} account={account} />}
+          />
+        </Routes>
+        <Footer />
+      </div>
+    </>
+  );
 }
 
 export default App;

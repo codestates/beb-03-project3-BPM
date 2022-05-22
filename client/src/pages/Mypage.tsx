@@ -1,16 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  TextField,
-  Stack,
-  Typography,
-  Tabs,
-  Tab,
-  useMediaQuery,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Box, Container, Tabs, Tab } from "@mui/material";
 import { TabContext, TabPanel } from "@mui/lab";
 
 import MyReview from "../components/myComponents/MyReview";
@@ -20,8 +9,6 @@ import MyNFTs from "../components/myComponents/MyNFTs";
 import Profile from "../components/myComponents/Profile";
 
 export default function Mypage() {
-  const isTablet = useMediaQuery("(max-width: 1100px");
-  const isMobile = useMediaQuery("(max-width: 750px");
   const [value, setValue] = useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {

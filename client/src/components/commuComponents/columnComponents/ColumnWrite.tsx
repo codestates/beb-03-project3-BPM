@@ -5,6 +5,7 @@ import {
   Typography,
   TextareaAutosize,
   Button,
+  Autocomplete,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -14,7 +15,9 @@ export default function ColumnWrite() {
   return (
     <>
       <Box p={5} mt={5} textAlign="center">
-        <Typography variant="h6">칼럼 작성</Typography>
+        <Typography variant="h5" fontWeight={700} fontFamily="serif">
+          칼럼 작성
+        </Typography>
         <TextField
           autoFocus
           id="title"
@@ -25,7 +28,8 @@ export default function ColumnWrite() {
           placeholder="글 제목을 작성해주세요"
           InputProps={{
             style: {
-              fontSize: 25,
+              fontSize: 20,
+              fontFamily: "serif",
               paddingLeft: 10,
               textAlign: "center",
               justifyContent: "center",
@@ -33,7 +37,8 @@ export default function ColumnWrite() {
           }}
           InputLabelProps={{
             style: {
-              fontSize: 25,
+              fontSize: 20,
+              fontFamily: "serif",
               paddingLeft: 10,
               textAlign: "center",
               justifyContent: "center",
@@ -41,16 +46,37 @@ export default function ColumnWrite() {
           }}
           sx={{ m: "40px auto" }}
         />
+        {/*
+        이 부분이 노래 검색 데이터
+        <Autocomplete
+          freeSolo
+          id="free-solo-2-demo"
+          disableClearable 
+          //  미리보기 뜨는 부분 노래데이터.map해서 title 가져올 수 있음
+           options={data.map((option) => option.title)}
+           renderInput={(params) => (
+             <TextField
+              {...params}
+               label="Search input"
+             InputProps={{
+                ...params.InputProps,
+                type: "search",
+               }}
+            />
+           )}
+         /> */}
         <TextareaAutosize
           minRows={20}
-          style={{ width: "100%", fontSize: "20px", padding: 20 }}
+          style={{
+            width: "100%",
+            fontSize: "20px",
+            padding: 20,
+            fontFamily: "serif",
+          }}
         />
       </Box>
       <Box textAlign="right" mr={5}>
-        <Link
-          to="/community/627b5e9dd6b52cc4fe03a75d"
-          style={{ textDecoration: "none" }}
-        >
+        <Link to="/column" style={{ textDecoration: "none" }}>
           <Button size="large">취소</Button>
         </Link>
         <Button size="large" onClick={handlePost}>

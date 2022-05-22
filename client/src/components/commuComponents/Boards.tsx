@@ -29,7 +29,7 @@ export default function FreeBoard() {
   return (
     <>
       <Container sx={{ textAlign: "center" }}>
-        <Link to={`/community/${params.boardid}/create`}>
+        <Link to={`/community/${params.boardid}/write`}>
           <Fab
             color="secondary"
             aria-label="edit"

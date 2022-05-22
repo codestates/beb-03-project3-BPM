@@ -10,10 +10,12 @@ import {
   TableRow,
   TableCell,
   CircularProgress,
+  Fab,
 } from "@mui/material";
 import CommuNav from "../CommuNav";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function MusicReview() {
   async function getReview() {
@@ -29,6 +31,21 @@ export default function MusicReview() {
           <CommuNav />
         </Box>
         <Box sx={{ flexGrow: 1 }}>
+          <Link to={`/review/write`}>
+            <Fab
+              color="secondary"
+              aria-label="edit"
+              sx={{
+                width: 65,
+                height: 65,
+                position: "fixed",
+                right: "45px",
+                bottom: "40px",
+              }}
+            >
+              <EditIcon sx={{ fontSize: "2rem" }} />
+            </Fab>
+          </Link>
           <Async promiseFn={getReview}>
             {({ data, error, isPending }) => {
               if (isPending) return <CircularProgress color="inherit" />;

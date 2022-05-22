@@ -18,7 +18,7 @@ export default function ColumnDetail() {
 
   return (
     <>
-      <Box display="flex" mr={2}>
+      <Box display="flex">
         <Box position="sticky">
           <CommuNav />
         </Box>

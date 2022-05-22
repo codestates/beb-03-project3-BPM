@@ -6,6 +6,7 @@ import {
   TableRow,
   TableBody,
   TableCell,
+  Typography,
 } from "@mui/material";
 
 export default function MyNFTs() {
@@ -20,14 +21,11 @@ export default function MyNFTs() {
               <TableCell align="center">다운로드</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            <TableRow>
-              {/* <TableCell></TableCell> */}
-              보유한 NFT가 없습니다.
-            </TableRow>
-          </TableBody>
         </Table>
       </TableContainer>
+      <Typography mt={10} textAlign="center">
+        보유한 NFT가 없습니다.
+      </Typography>
     </>
   );
 }

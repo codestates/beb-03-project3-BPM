@@ -19,6 +19,10 @@ export default function Community() {
             <Route path=":boardid/" element={<Boards />} />
             <Route path=":boardid/:postid" element={<PostDetail />} />
             <Route path=":boardid/write" element={<PostWrite />} />
+            <Route
+              path=":boardid/:postid/:commentid"
+              element={<PostDetail />}
+            />
           </Routes>
         </Box>
       </Box>

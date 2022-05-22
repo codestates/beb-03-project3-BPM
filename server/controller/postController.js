@@ -307,19 +307,33 @@ module.exports = {
     const { body } = req.body;
 
     try {
-      const post = await Posts.findOne({
-        $and: [{ boards_id: ObjectId(boardid) }, { _id: postid }],
-      });
-      if (post) {
-        post.comments.id(commentid).body = body;
-        const savePost = await post.save();
-        res.status(200).send({ success: true, message: "댓글 수정 성공" });
+      const accessToken = req.cookies.accessToken;
+      if (!accessToken) {
+        res.status(404).send({ message: "accessToken not provided" });
+      } else if (accessToken === "invalidtoken") {
+        res
+          .status(400)
+          .send({ message: "invalid accesstoken, please login again" });
+      } else {
+        const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+        const post = await Posts.findOne({
+          $and: [{ boards_id: ObjectId(boardid) }, { _id: postid }],
+        });
+
+        if (String(post.comments.id(commentid).users_id) === userinfo.id) {
+          post.comments.id(commentid).body = body;
+          const savePost = await post.save();
+          res.status(200).send({ success: true, message: "댓글 수정 성공" });
+        } else {
+          res.status(403).send({ message: "유저 정보 다름" });
+        }
       }
     } catch (e) {
       console.log(e);
       res.status(500).send({ message: "서버 오류" });
     }
   },
+
   // 댓글 삭제 핸들러
   deleteComment: async (req, res) => {
     const boardid = req.params.boardid;

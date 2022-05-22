@@ -1,12 +1,15 @@
-import { Box, Typography, CircularProgress } from "@mui/material";
+import { Box, Typography, CircularProgress, Button } from "@mui/material";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { Async } from "react-async";
 import { useParams } from "react-router";
 import CommuNav from "../CommuNav";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 export default function ColumnDetail() {
   const params = useParams();
+  const [like, setLike] = useState(false);
 
   const getColumnPost = async () =>
     await axios
@@ -15,6 +18,35 @@ export default function ColumnDetail() {
         let columnDetailData = res.data.data;
         return columnDetailData;
       });
+
+  const handleLike = (like: string) => {
+    if (like === "like") {
+      console.log("dasdfsZfa");
+      axios
+        .post(
+          `http://localhost:4000/column/${params.columnid}/like`,
+          {},
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          setLike(true);
+        });
+    } else if (like === "unlike") {
+      axios
+        .post(
+          `http://localhost:4000/column/${params.columnid}/unlike`,
+          {},
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          setLike(false);
+        });
+    }
+  };
 
   return (
     <>
@@ -78,6 +110,27 @@ export default function ColumnDetail() {
                   <Typography color="#888">
                     {data.updatedAt.slice(0, 10)}
                   </Typography>
+                  {like ? (
+                    <Button
+                      sx={{ mt: 3, fontSize: 20 }}
+                      onClick={() => {
+                        handleLike("unlike");
+                      }}
+                    >
+                      <ThumbUpAltIcon />
+                      {data.likes}
+                    </Button>
+                  ) : (
+                    <Button
+                      sx={{ mt: 3, fontSize: 20 }}
+                      onClick={() => {
+                        handleLike("like");
+                      }}
+                    >
+                      <ThumbUpOffAltIcon />
+                      {data.likes}
+                    </Button>
+                  )}
                 </>
               );
             }}

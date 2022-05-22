@@ -28,6 +28,6 @@ router.delete("/:reviewid/comment/:commentid", deleteComment);
 
 router.post("/:reviewid/like", like);
 
-router.delete("/:reviewid/unlike", unlike);
+router.post("/:reviewid/unlike", unlike);
 
 module.exports = router;

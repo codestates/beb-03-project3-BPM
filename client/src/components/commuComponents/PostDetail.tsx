@@ -15,13 +15,24 @@ import {
   TableBody,
   TableContainer,
 } from "@mui/material";
+import Modal from "@mui/material/Modal";
 import { Async } from "react-async";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function PostDetail() {
   let params = useParams();
+  const navigate = useNavigate();
   const [like, setLike] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    navigate(`/community/${params.boardid}/${params.postid}`);
+  };
 
   // 상세페이지 불러오기
   const getDetail = () =>
@@ -35,7 +46,6 @@ export default function PostDetail() {
   // 댓글 작성
   let writeComment = async (event: any) => {
     const formData = new FormData(event.currentTarget);
-    let data = formData.get("comment");
     await axios.post(
       `http://localhost:4000/post/${params.boardid}/${params.postid}/comment`,
       {
@@ -47,11 +57,28 @@ export default function PostDetail() {
     );
   };
 
-  const deleteComment = () => {
-    axios.patch(
-      `http://localhost:4000/post/${params.boardid}/${params.postid}/comment`,
-      {}
-    );
+  const updateComment = (event: any) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    axios
+      .patch(
+        `http://localhost:4000/post/${params.boardid}/${params.postid}/comment/${params.commentid}`,
+        {
+          body: formData.get("comment"),
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        handleClose();
+      })
+      .catch((e) => {
+        if (e.message === "Request failed with status code 403") {
+          alert("자신이 작성한 댓글만 수정 가능합니다.");
+          handleClose();
+        }
+      });
   };
 
   const handleLike = (like: string) => {
@@ -81,6 +108,18 @@ export default function PostDetail() {
           setLike(false);
         });
     }
+  };
+
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
   };
 
   return (
@@ -180,16 +219,62 @@ export default function PostDetail() {
                                               10
                                             )}
                                           </TableCell>
-                                          <TableCell
-                                            sx={{
-                                              cursor: "pointer",
-                                              color: "#888",
-                                            }}
-                                            onClick={deleteComment}
-                                          >
-                                            수정
-                                          </TableCell>
+                                          <Link to={`${commentsData._id}`}>
+                                            <TableCell
+                                              sx={{
+                                                cursor: "pointer",
+                                                color: "#888",
+                                              }}
+                                              onClick={handleOpen}
+                                            >
+                                              수정
+                                            </TableCell>
+                                          </Link>
                                         </TableRow>
+
+                                        <Modal
+                                          open={open}
+                                          onClose={handleClose}
+                                          aria-labelledby="modal-modal-title"
+                                          aria-describedby="modal-modal-description"
+                                        >
+                                          <Box sx={style}>
+                                            <Typography
+                                              id="modal-modal-title"
+                                              variant="h6"
+                                              component="h2"
+                                            >
+                                              댓글 수정
+                                            </Typography>
+                                            <Typography
+                                              id="modal-modal-description"
+                                              sx={{ color: "red" }}
+                                            >
+                                              10자 이상 입력해주세요
+                                            </Typography>
+                                            <Box
+                                              component="form"
+                                              onSubmit={updateComment}
+                                            >
+                                              <TextField
+                                                variant="outlined"
+                                                placeholder="댓글을 작성해주세요"
+                                                fullWidth
+                                                id="comment"
+                                                name="comment"
+                                                rows={10}
+                                                sx={{ mt: 3 }}
+                                              />
+                                              <Button
+                                                variant="outlined"
+                                                type="submit"
+                                                fullWidth
+                                              >
+                                                작성
+                                              </Button>
+                                            </Box>
+                                          </Box>
+                                        </Modal>
                                       </>
                                     );
                                   })

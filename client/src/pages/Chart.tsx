@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import {
 	Button,
 	TableContainer,
@@ -54,7 +54,11 @@ export default function Chart() {
 										{data.map((chartData: any, index: number) => {
 											return (
 												<>
-													<TableRow>
+													<TableRow
+														component={Link}
+														to={chartData._id}
+														sx={{ textDecoration: "none" }}
+													>
 														<TableCell>{index + 1}</TableCell>
 														<TableCell
 															scope="row"
@@ -79,6 +83,7 @@ export default function Chart() {
 																	margin: "0 20px 0 30px",
 																}}
 															/>
+
 															{chartData.title}
 														</TableCell>
 														<TableCell align="center">

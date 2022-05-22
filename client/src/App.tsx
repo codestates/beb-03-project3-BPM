@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router";
 import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import Chart from "./pages/Chart";
+import ChartDetail from "./components/chartComponents/index";
 import Community from "./pages/Community";
 import Mypage from "./pages/Mypage";
 import SignUp from "./pages/SignUp";
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/*" element={<Home />} />
           <Route path="/chart" element={<Chart />} />
+          <Route path="/chart/:chartid" element={<ChartDetail />} />
           <Route path="/community/*" element={<Community />} />
           <Route path="/review" element={<MusicReview />} />
           <Route path="/review/:reviewid" element={<MusicDetail />} />

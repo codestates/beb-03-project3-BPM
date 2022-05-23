@@ -170,13 +170,13 @@ module.exports = {
 						res.status(201).send({
 							success: true,
 							data: null,
-							message: "글 작성 성공, 토큰 지급",
+							message: "성공, 토큰 지급",
 						});
 					} else {
 						res.status(201).send({
 							success: true,
 							data: null,
-							message: "글 작성 성공, 토큰 미지급",
+							message: "성공, 토큰 미지급",
 						});
 					}
 				} else {
@@ -348,7 +348,6 @@ module.exports = {
 		}
 	},
 	// 좋아요 추가 핸들러
-	//FIXME: 좋아요 여러번 눌림
 	like: async (req, res) => {
 		const boardid = req.params.boardid;
 		const postid = req.params.postid;

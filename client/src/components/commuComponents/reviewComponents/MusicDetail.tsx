@@ -318,17 +318,24 @@ export default function MusicDetail() {
                                     <TableCell align="center">
                                       {commentData.createdAt.slice(0, 10)}
                                     </TableCell>
-                                    <Link to={`${commentData._id}`}>
-                                      <TableCell
-                                        sx={{
-                                          cursor: "pointer",
-                                          color: "#888",
+
+                                    <TableCell
+                                      sx={{
+                                        cursor: "pointer",
+                                        color: "#888",
+                                      }}
+                                      onClick={handleOpen}
+                                    >
+                                      <Link
+                                        to={`${commentData._id}`}
+                                        style={{
+                                          textDecoration: "none",
+                                          color: "coral",
                                         }}
-                                        onClick={handleOpen}
                                       >
                                         수정
-                                      </TableCell>
-                                    </Link>
+                                      </Link>
+                                    </TableCell>
                                   </TableRow>
 
                                   <Modal

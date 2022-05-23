@@ -81,7 +81,7 @@ export default function CreateBoard() {
         </DialogTitle>
         <DialogContent sx={{ p: 5 }}>
           <DialogContentText mb={2} fontFamily="Nanum Gothic" color="red">
-            * 토큰이 사용됩니다
+            * 1500 tempo토큰이 사용됩니다
           </DialogContentText>
           <TextField
             autoFocus

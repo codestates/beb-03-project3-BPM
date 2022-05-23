@@ -84,18 +84,16 @@ module.exports = {
 
   logout: async (req, res) => {
     const accessToken = jwt.sign({ data: null }, process.env.ACCESS_SECRET, {
-      expiresIn: "6h",
+      expiresIn: "0h",
     });
 
-    res
-      .status(201)
-      .cookie("accessToken", accessToken, {
-        httpOnly: true,
-        domain: "localhost",
-        path: "/",
-        expires: new Date(),
-      })
-      .send({ message: "로그아웃" });
+    res.cookie("accessToken", "", {
+      httpOnly: true,
+      domain: "localhost",
+      path: "/",
+      maxAge: 0,
+    });
+    res.status(204).send({ message: "로그아웃" });
   },
 
   //mypage 조회 핸들러

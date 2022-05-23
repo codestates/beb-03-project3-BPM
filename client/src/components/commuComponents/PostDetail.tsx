@@ -219,17 +219,24 @@ export default function PostDetail() {
                                               10
                                             )}
                                           </TableCell>
-                                          <Link to={`${commentsData._id}`}>
-                                            <TableCell
-                                              sx={{
-                                                cursor: "pointer",
-                                                color: "#888",
+
+                                          <TableCell
+                                            sx={{
+                                              cursor: "pointer",
+                                              color: "#888",
+                                            }}
+                                            onClick={handleOpen}
+                                          >
+                                            <Link
+                                              to={`${commentsData._id}`}
+                                              style={{
+                                                textDecoration: "none",
+                                                color: "coral",
                                               }}
-                                              onClick={handleOpen}
                                             >
                                               수정
-                                            </TableCell>
-                                          </Link>
+                                            </Link>
+                                          </TableCell>
                                         </TableRow>
 
                                         <Modal

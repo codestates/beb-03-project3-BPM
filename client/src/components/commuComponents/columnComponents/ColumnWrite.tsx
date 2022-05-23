@@ -30,7 +30,7 @@ export default function ColumnWrite() {
 		setBody(event.target.value);
 	}
 	const getChart = async () => {
-		const chart = await axios.get("http://localhost:4000/main/ourchart");
+		const chart = await axios.get("http://localhost:4000/main/allchart");
 		return chart.data.data;
 	};
 	useEffect(() => {

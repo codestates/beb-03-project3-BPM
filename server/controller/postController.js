@@ -1,5 +1,6 @@
 const Posts = require("../model/posts");
 const Users = require("../model/users");
+const Boards = require("../model/boards");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 const { bpmtransfer } = require("./transfer/bpmtransfer");
@@ -30,9 +31,18 @@ module.exports = {
           message: `총 ${post.length} 개의 글이 있습니다.`,
         });
       } else {
+        const board = await Boards.find({ _id: boardid });
+        const data = [
+          {
+            boards_id: {
+              title: board[0].title,
+              subtitle: board[0].subtitle,
+            },
+          },
+        ];
         res.status(200).send({
           success: true,
-          data: null,
+          data: data,
           message: "작성된 게시글이 없습니다.",
         });
       }
@@ -75,6 +85,7 @@ module.exports = {
             createdAt: post[0].createdAt,
           },
         ];
+
         res.status(200).send({
           success: true,
           data: data,
@@ -426,6 +437,37 @@ module.exports = {
     } catch (e) {
       console.error(e);
       res.status(500).send({ message: "서버 오류" });
+    }
+  },
+
+  checklike: async (req, res) => {
+    const boardid = req.params.boardid;
+    const postid = req.params.postid;
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+      res.status(400).send({ message: "accessToken not provided" });
+    } else if (accessToken === "invalidtoken") {
+      res
+        .status(400)
+        .send({ message: "invalid accesstoken, please login again" });
+    } else {
+      const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+      const like = await Posts.findOne(
+        { $and: [{ boards_id: ObjectId(boardid) }, { _id: postid }] },
+        { likes: true }
+      );
+      let flag = false;
+      for (let i = 0; i < like.likes.length; i++) {
+        if (String(like.likes[i].users_id) === userinfo.id) {
+          flag = true;
+          break;
+        }
+      }
+      if (flag === true) {
+        res.status(200).send({ message: "ok" });
+      } else {
+        res.status(200).send({ message: "no" });
+      }
     }
   },
 };

@@ -22,6 +22,6 @@ router.delete("/:columnid", deleteColumn);
 
 router.post("/:columnid/like", like);
 
-router.delete("/:columnid/unlike", unlike);
+router.post("/:columnid/unlike", unlike);
 
 module.exports = router;

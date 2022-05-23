@@ -33,6 +33,10 @@ function App() {
           <Route path="/community/*" element={<Community />} />
           <Route path="/review" element={<MusicReview />} />
           <Route path="/review/:reviewid" element={<MusicDetail />} />
+          <Route
+            path="/review/:reviewid/:commentid"
+            element={<MusicDetail />}
+          />
           <Route path="/review/write" element={<MusicWrite />} />
           <Route path="/column" element={<Column />} />
           <Route path="/column/:columnid" element={<ColumnDetail />} />

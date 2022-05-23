@@ -47,15 +47,15 @@ module.exports = {
       if (review) {
         const data = [
           {
-            id: review[0]._id,
-            title: review[0].charts_id.title,
-            body: review[0].body,
-            username: review[0].username,
-            chart: review[0].charts_id,
-            evaluation: review[0].evaluations_id,
-            likes: review[0].likes.length,
-            comments: review[0].comments,
-            createdAt: review[0].createdAt,
+            id: review._id,
+            title: review.charts_id.title,
+            body: review.body,
+            username: review.username,
+            chart: review.charts_id,
+            evaluation: review.evaluations_id,
+            likes: review.likes.length,
+            comments: review.comments,
+            createdAt: review.createdAt,
           },
         ];
         res.status(200).send({ message: "리뷰 상세 조회 성공", data: data });
@@ -190,6 +190,7 @@ module.exports = {
       const accessToken = req.cookies.accessToken;
       const id = req.params.reviewid;
       const comment = req.body.content;
+      const today = new Date();
 
       if (!accessToken) {
         res.status(400).send({ message: "accessToken not provided" });
@@ -209,6 +210,7 @@ module.exports = {
                   users_id: userinfo.id,
                   username: user[0].username,
                   comment: comment,
+                  createdAt: today,
                 },
               ],
             },
@@ -231,13 +233,25 @@ module.exports = {
       const id = req.params.reviewid;
       const comment = req.body.content;
       const commentid = req.params.commentid;
+      const accessToken = req.cookies.accessToken;
 
-      const review = await Reviews.findOne({ _id: id });
+      if (!accessToken) {
+        res.status(400).send({ message: "accessToken not provided" });
+      } else if (accessToken === "invalidtoken") {
+        res
+          .status(400)
+          .send({ message: "invalid accesstoken, please login again" });
+      } else {
+        const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+        const review = await Reviews.findOne({ _id: id });
 
-      if (review) {
-        review.comments.id(commentid).comment = comment;
-        const saveReview = await review.save();
-        res.status(200).send({ success: true, message: "댓글 수정 성공" });
+        if (String(review.comments.id(commentid).users_id) === userinfo.id) {
+          review.comments.id(commentid).comment = comment;
+          const saveReview = await review.save();
+          res.status(200).send({ success: true, message: "댓글 수정 성공" });
+        } else {
+          res.status(403).send({ message: "유저 정보 다름" });
+        }
       }
     } catch (e) {
       console.log(e);

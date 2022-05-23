@@ -50,8 +50,6 @@ export default function MusicReview() {
             {({ data, error, isPending }) => {
               if (isPending) return <CircularProgress color="inherit" />;
               if (error) return `Something went wrong: ${error.message}`;
-
-              console.log(data);
               const tableHeadStyle = {
                 fontWeight: "700",
                 fontSize: "1rem",

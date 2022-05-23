@@ -12,7 +12,7 @@ const postsSchema = new Schema(
       {
         users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
         username: { type: String, required: true },
-        body: { type: String, required: true },
+        body: { type: String },
         createdAt: { type: Date, required: true },
       },
     ],

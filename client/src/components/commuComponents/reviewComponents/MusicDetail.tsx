@@ -319,19 +319,14 @@ export default function MusicDetail() {
                                       {commentData.createdAt.slice(0, 10)}
                                     </TableCell>
 
-                                    <TableCell
-                                      sx={{
-                                        cursor: "pointer",
-                                        color: "#888",
-                                      }}
-                                      onClick={handleOpen}
-                                    >
+                                    <TableCell>
                                       <Link
                                         to={`${commentData._id}`}
                                         style={{
                                           textDecoration: "none",
                                           color: "coral",
                                         }}
+                                        onClick={handleOpen}
                                       >
                                         수정
                                       </Link>

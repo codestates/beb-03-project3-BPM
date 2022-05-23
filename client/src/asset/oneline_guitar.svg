@@ -1,89 +1,13 @@
-import { useRef, useEffect, useCallback, UIEvent } from "react";
-import { Box, Container, useScrollTrigger, Grow } from "@mui/material";
-import { motion, useViewportScroll } from "framer-motion";
-import practiceSvg from "../asset/Frame 2.svg";
-import { Theme } from "@mui/material/styles";
-
-export default function Home() {
-  // interface UseScrollTriggerOptions {
-  //   disableHysteresis?: boolean;
-  //   target?: Node | Window;
-  //   threshold?: number;
-  // }
-
-  /** 
-   * 우선 첫번째로 scrollY 값을 구할 수 있어야되고
-   * strokeDashoffset이 react에서도 사용할 수 있는지 확인해야됨
-   * function calcDashoffset(scrollY, element, length) { scrollY는 구해야되고
-   * element = ref.current
-   * length = offsetHeight
-  //   const ratio = (scrollY - element.offsetTop) / element.offsetHeight
-  //   const value = length - (length * ratio)
-  //   return value < 0 ? 0 : value > length ? length : value
-  // }
-
-  // function scrollHandler() {
-  //   const scrollY = window.scrollY + (window.innerHeight * 0.8) innerHeight = vh
-  //   path1.style.strokeDashoffset = calcDashoffset(scrollY, content1, path1Length)
-  //   path2.style.strokeDashoffset = calcDashoffset(scrollY, content2, path2Length)
-  //   path3.style.strokeDashoffset = calcDashoffset(scrollY, content3, path3Length)
-  // }
-
-  // window.addEventListener('scroll', scrollHandler) */
-
-  // scroll에 따라 dash offset 의 값이 바뀌어야됨! 0 ~ img height까지@
-  // calc dash offset은 스크롤 길이에 따라 바꿔주려고 하는거
-  // innerHeignt = vh
-  // scrollY 는 전체 화면에서 얼마나 스크롤이 내려왔는지
-  const { scrollYProgress } = useViewportScroll();
-
-  // scroll Top
-  const ref = useRef();
-  const scrollTrigger = useScrollTrigger();
-  // const handleScroll = useCallback((): void => {
-  // // 내용 구현
-  // }, [])
-  const handleScroll = (event: UIEvent<HTMLDivElement>) => {};
-  const transition = { duration: 4, yoyo: Infinity, ease: "easeInOut" };
-
-  return (
-    <>
-      <Container
-        sx={{
-          height: "2500px",
-          bgcolor: "black",
-          fontFamily: "Nanum Gothic",
-          color: "#fff",
-          textAlign: "center",
-        }}
-      >
-        <Box>Hello Home!</Box>
-        {/* 
-        <Grow
-          className="path1"
-          ref={ref}
-          mountOnEnter
-          in={scrollTrigger}
-          // timeout={1000}
-          onScroll={handleScroll}
-        >
-          <img src={practiceSvg} stroke-dashoffset="50px" />
-        </Grow> */}
-
-        <svg
-          version="1.1"
-          id="svg2"
-          xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          viewBox="0 0 4019.1 3610.2"
-        >
-          <g id="g10" transform="matrix(1.3333333,0,0,-1.3333333,0,3610.2267)">
-            <g id="g12" transform="scale(0.1)">
-              <g id="g14" transform="scale(1.67648)">
-                <motion.path
-                  id="path16"
-                  d="M16237.7,5730.5c-371.9-81.5-735.6-198-1086.1-349.7c-167.1-72.3-339.9-146.6-493.4-246.8
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="svg2" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 4019.1 3610.2"
+	 style="enable-background:new 0 0 4019.1 3610.2;" xml:space="preserve">
+<g id="g10" transform="matrix(1.3333333,0,0,-1.3333333,0,3610.2267)">
+	<g id="g12" transform="scale(0.1)">
+		<g id="g14" transform="scale(1.67648)">
+			<path id="path16" d="M16237.7,5730.5c-371.9-81.5-735.6-198-1086.1-349.7c-167.1-72.3-339.9-146.6-493.4-246.8
 				c-133.9-87.5-225.8-201.3-284-353.1c-61.5-160.5-97.8-363.5-257.4-455.8c-155-89.6-278.2,33.3-350.8,165.3
 				c-67.4,122.5-112.3,257-197,369c-91.2,120.6-213.7,214-351.2,271.3c-277.8,115.7-592.5,60.2-824.4-132.6
 				c-53.4-44.5-101.1-95.5-142.4-152.1c-49.5-68-74.5-158.7-129.3-221.1c-71-80.7-185.6-20-242.2,47.8
@@ -145,88 +69,8 @@ export default function Home() {
 				c-135.6-188.9-161.1-492,30.4-653.3c121.4-102.2,275-89.1,353.1,55.3c85.4,157.8,173,288.3,329.6,380.3
 				c317.8,186.8,724.6,102.8,954.8-189.1c149.1-189,210.6-613.5,513.7-604.7c147.1,4.3,260.9,129.5,322.5,256.5
 				c80.6,166.4,100.7,360,233.5,496.6c137.3,141.3,339.5,221.6,514.1,301.2c190.5,86.8,385.6,162.9,583.9,228.5
-				c192.6,63.6,388.2,116.7,586,160.3C16300,5671.1,16281.4,5740.1,16237.7,5730.5L16237.7,5730.5"
-                  // fill="#fff"
-                  strokeWidth="25"
-                  stroke="rgba(255, 255, 255, 1)"
-                  strokeLinecap="round"
-                  pathLength={scrollYProgress}
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  // transition={transition}
-                />
-              </g>
-            </g>
-          </g>
-        </svg>
-
-        {/* <svg
-          viewBox="0 0 7487 2503"
-          // viewBox="0 0 694 448" fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <motion.path
-            d="m2099 887c337-53 685-46 1041 6 113 174 175 397 175 629 0 524-312 949-698 949-385 0-698-425-698-949 0-235 64-461 179-635z"
-            fill="transparent"
-            strokeWidth="5"
-            stroke="rgba(255, 255, 255, 1)"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={transition}
-          />
-          <motion.path
-            d="m25 1442c961-2660 4467-823 6197-459 46 0 1239 367 1239 138"
-            fill="transparent"
-            strokeWidth="5"
-            stroke="rgba(255, 255, 255, 1)"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={transition}
-          />
-          <motion.path
-            d="m5533 1534c-1102-1102-4177-1193-5141 230 275 0 780 138 964 321 621 621 3977 548 4177-551z"
-            fill="transparent"
-            strokeWidth="5"
-            stroke="rgba(255, 255, 255, 1)"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={transition}
-          />
-          <motion.path
-            d="m409 1768c1061-1028 2253-1297 5075-233"
-            fill="transparent"
-            strokeWidth="5"
-            stroke="rgba(255, 255, 255, 1)"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={transition}
-          />
-          <motion.path
-            d="m1110 1231c-63 193-67 581 17 706"
-            fill="transparent"
-            strokeWidth="5"
-            stroke="rgba(255, 255, 255, 1)"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={transition}
-          />
-        </svg> */}
-
-        {/* <Box component='svg' 
-            sx={{
-              fill: (theme: Theme) => theme.palette.common.white,
-              stroke: (theme) => theme.palette.divider,
-              strokeWidth: 1,
-            }}
-            points='0,100 50,00, 100,100'
-          />
-        </Box> */}
-      </Container>
-    </>
-  );
-}
+				c192.6,63.6,388.2,116.7,586,160.3C16300,5671.1,16281.4,5740.1,16237.7,5730.5L16237.7,5730.5"/>
+		</g>
+	</g>
+</g>
+</svg>

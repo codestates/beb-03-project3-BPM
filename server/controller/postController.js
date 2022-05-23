@@ -170,13 +170,13 @@ module.exports = {
             res.status(201).send({
               success: true,
               data: null,
-              message: "글 작성 성공, 토큰 지급",
+              message: "성공, 토큰 지급",
             });
           } else {
             res.status(201).send({
               success: true,
               data: null,
-              message: "글 작성 성공, 토큰 미지급",
+              message: "성공, 토큰 미지급",
             });
           }
         } else {

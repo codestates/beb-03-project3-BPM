@@ -220,19 +220,14 @@ export default function PostDetail() {
                                             )}
                                           </TableCell>
 
-                                          <TableCell
-                                            sx={{
-                                              cursor: "pointer",
-                                              color: "#888",
-                                            }}
-                                            onClick={handleOpen}
-                                          >
+                                          <TableCell>
                                             <Link
                                               to={`${commentsData._id}`}
                                               style={{
                                                 textDecoration: "none",
                                                 color: "coral",
                                               }}
+                                              onClick={handleOpen}
                                             >
                                               수정
                                             </Link>

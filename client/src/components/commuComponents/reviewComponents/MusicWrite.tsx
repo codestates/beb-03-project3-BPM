@@ -64,32 +64,51 @@ export default function MusicWrite() {
 	}
 
 	const handlePost = async () => {
-		await axios
-			.post(
-				`http://localhost:4000/review`,
-				{
-					title,
-					body,
-					evaluation: {
-						popularity,
-						artistry,
-						lyrics,
-						individuality,
-						Addictive,
-					},
-				},
-				{
-					withCredentials: true,
-				}
-			)
-			.then((res) => {
-				if (res.data.message === "성공, 토큰 지급") {
-					window.alert("40토큰이 지급되었습니다.");
-				} else if (res.data.message === "성공, 토큰 미지급") {
-					window.alert("이미 토큰을 받았습니다.");
-				}
-			});
-		nav(`/review`);
+		if (body.length >= 25) {
+			if (
+				popularity !== "" &&
+				artistry !== "" &&
+				lyrics !== "" &&
+				individuality !== "" &&
+				Addictive !== ""
+			) {
+				await axios
+					.post(
+						`http://localhost:4000/review`,
+						{
+							title,
+							body,
+							evaluation: {
+								popularity,
+								artistry,
+								lyrics,
+								individuality,
+								Addictive,
+							},
+						},
+						{
+							withCredentials: true,
+						}
+					)
+					.then((res) => {
+						if (res.data.message === "성공, 토큰 지급") {
+							window.alert("40토큰이 지급되었습니다.");
+						} else if (res.data.message === "성공, 토큰 미지급") {
+							window.alert("이미 토큰을 받았습니다.");
+						}
+					})
+					.catch((e) => {
+						if (e.message === "Request failed with status code 400") {
+							alert("동일한 곡에 리뷰는 한번만 가능합니다.");
+						}
+					});
+				nav(`/review`);
+			} else {
+				window.alert("모든 항목에 별점 평가가 필요합니다.");
+			}
+		} else {
+			window.alert("25자 이상 작성 부탁드립니다.");
+		}
 	};
 
 	return (
@@ -172,7 +191,7 @@ export default function MusicWrite() {
 								<TableCell align="center">
 									<Rating
 										name="half-rating-read"
-										precision={0.1}
+										precision={0.5}
 										onChange={getAddictive}
 									/>
 								</TableCell>
@@ -183,7 +202,7 @@ export default function MusicWrite() {
 								<TableCell align="center">
 									<Rating
 										name="half-rating-read"
-										precision={0.1}
+										precision={0.5}
 										onChange={getArtistry}
 									/>
 								</TableCell>
@@ -194,7 +213,7 @@ export default function MusicWrite() {
 								<TableCell align="center">
 									<Rating
 										name="half-rating-read"
-										precision={0.1}
+										precision={0.5}
 										onChange={getPopularity}
 									/>
 								</TableCell>
@@ -205,7 +224,7 @@ export default function MusicWrite() {
 								<TableCell align="center">
 									<Rating
 										name="half-rating-read"
-										precision={0.1}
+										precision={0.5}
 										onChange={getIndividuality}
 									/>
 								</TableCell>
@@ -216,7 +235,7 @@ export default function MusicWrite() {
 								<TableCell align="center">
 									<Rating
 										name="half-rating-read"
-										precision={0.1}
+										precision={0.5}
 										onChange={getLylics}
 									/>
 								</TableCell>
@@ -240,6 +259,8 @@ export default function MusicWrite() {
 						fontWeight: "bold",
 					}}
 				>
+					동일한 곡에 리뷰는 한번만 가능합니다.
+					<br />
 					BPM은 블록체인 인센티브 기반 커뮤니티로 작성된 글은 삭제가
 					불가능합니다.
 					<br />글 작성은 신중하게 부탁드립니다.

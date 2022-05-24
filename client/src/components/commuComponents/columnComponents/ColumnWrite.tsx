@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
 	Box,
@@ -18,18 +18,24 @@ export default function ColumnWrite() {
 	const [title, setTitle] = useState("");
 	const [musictitle, setMusictitle] = useState("");
 	const [body, setBody] = useState("");
-	const musicRef = useRef();
+	const [chartUnit, setChartUnit] = useState<any[]>([]);
 
 	function handleTitle(event: any) {
 		setTitle(event.target.value);
 	}
 	function handleMusicTitle(event: any) {
-		setMusictitle(event.target.innerText);
+		setMusictitle(event.target.innerHTML.split(" - ")[0]);
 	}
 	function handleBody(event: any) {
-		console.log(event.target.value);
 		setBody(event.target.value);
 	}
+	const getChart = async () => {
+		const chart = await axios.get("http://localhost:4000/main/allchart");
+		return chart.data.data;
+	};
+	useEffect(() => {
+		getChart().then((res) => setChartUnit(res));
+	}, []);
 
 	const handlePost = async () => {
 		await axios
@@ -95,20 +101,9 @@ export default function ColumnWrite() {
 					freeSolo
 					id="free-solo-2-demo"
 					disableClearable
-					//  미리보기 뜨는 부분 노래데이터.map해서 title 가져올 수 있음
-					// 요청 보내야하나,
-					options={[
-						{ title: "봄여름가을겨울 (Still Life)" },
-						{ title: "TOMBOY" },
-						{ title: "LOVE DIVE" },
-						{ title: "That That (prod. & feat. SUGA of BTS)" },
-						{ title: "우리들의 블루스" },
-						{ title: "Feel My Rhythm" },
-						{ title: "LOVE me" },
-						{ title: "사랑인가 봐" },
-						{ title: "사랑은 늘 도망가" },
-						{ title: "ZOOM" },
-					].map((option) => option.title)}
+					options={chartUnit.map((option) => ({
+						label: `${option.title} - ${option.artist}`,
+					}))}
 					renderInput={(params) => (
 						<TextField
 							{...params}
@@ -119,7 +114,6 @@ export default function ColumnWrite() {
 							}}
 						/>
 					)}
-					ref={musicRef}
 					onChange={handleMusicTitle}
 				/>
 				<TextareaAutosize
@@ -134,6 +128,18 @@ export default function ColumnWrite() {
 				/>
 			</Box>
 			<Box textAlign="right" mr={5}>
+				<Typography
+					sx={{
+						fontSize: 20,
+						textAlign: "center",
+						color: "#E02828",
+						fontWeight: "bold",
+					}}
+				>
+					BPM은 블록체인 인센티브 기반 커뮤니티로 작성된 글은 삭제가
+					불가능합니다.
+					<br />글 작성은 신중하게 부탁드립니다.
+				</Typography>
 				<Link to="/column" style={{ textDecoration: "none" }}>
 					<Button size="large">취소</Button>
 				</Link>

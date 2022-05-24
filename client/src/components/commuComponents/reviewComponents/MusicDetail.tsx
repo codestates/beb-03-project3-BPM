@@ -12,6 +12,7 @@ import {
   TextField,
   Rating,
   CircularProgress,
+  Container,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -169,294 +170,298 @@ export default function MusicDetail({ username }: propstype) {
           <CommuNav />
         </Box>
         <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-          {data.map((item: any) => {
-            let comments = item.comments;
-            return (
-              <>
-                <Typography
-                  variant="h2"
-                  m="80px 0 10px 0"
-                  fontSize="1.8rem"
-                  // fontFamily='Copperplate'
-                  // fontFamily='Papyrus'
-                  fontFamily="Lucida Handwriting"
-                  // fontFamily='Monaco'
-                  // fontFamily='cursive'
-                  // fontFamily='fantasy'
-                  // fontFamily='Tahoma'
-                  // fontFamily='Play'
-                  // fontFamily='Great Vibes'
-                  // fontFamily='Tapestry'
-                  // fontFamily='Teko'
-                >
-                  {item.chart.artist} - {item.title}
-                </Typography>
-                <Typography mb="25px" fontFamily="Nanum Gothic" color="coral">
-                  {item.username}
-                </Typography>
-                {like ? (
-                  <Button
-                    sx={{ mb: 3 }}
-                    onClick={() => {
-                      handleLike("unlike");
-                    }}
+          <Container>
+            {data.map((item: any) => {
+              let comments = item.comments;
+              return (
+                <>
+                  <Typography
+                    variant="h2"
+                    m="80px 0 10px 0"
+                    fontSize="1.8rem"
+                    // fontFamily='Copperplate'
+                    // fontFamily='Papyrus'
+                    fontFamily="Lucida Handwriting"
+                    // fontFamily='Monaco'
+                    // fontFamily='cursive'
+                    // fontFamily='fantasy'
+                    // fontFamily='Tahoma'
+                    // fontFamily='Play'
+                    // fontFamily='Great Vibes'
+                    // fontFamily='Tapestry'
+                    // fontFamily='Teko'
                   >
-                    <ThumbUpAltIcon />
-                    {item.likes}
-                  </Button>
-                ) : (
-                  <Button
-                    sx={{ mb: 3 }}
-                    onClick={() => {
-                      handleLike("like");
-                    }}
-                  >
-                    <ThumbUpOffAltIcon />
-                    {item.likes}
-                  </Button>
-                )}
-
-                {/* 별점 부분 */}
-                <TableContainer
-                  sx={{
-                    width: "400px",
-                    m: "0 auto",
-                    border: "1px solid #ccc",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <Table
-                    sx={{
-                      [`& .${tableCellClasses.root}`]: {
-                        borderBottom: "none",
-                      },
-                    }}
-                  >
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center"></TableCell>
-                        <TableCell align="center">평가 항목 별 점수</TableCell>
-                        <TableCell align="center"></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center">중독성</TableCell>
-                        <TableCell align="center">
-                          <Rating
-                            name="half-rating-read"
-                            defaultValue={item.evaluation.Addictive}
-                            precision={0.1}
-                            readOnly
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          {item.evaluation.Addictive}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">예술성</TableCell>
-                        <TableCell align="center">
-                          <Rating
-                            name="half-rating-read"
-                            defaultValue={item.evaluation.artistry}
-                            precision={0.1}
-                            readOnly
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          {item.evaluation.artistry}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">대중성</TableCell>
-                        <TableCell align="center">
-                          <Rating
-                            name="half-rating-read"
-                            defaultValue={item.evaluation.popularity}
-                            precision={0.1}
-                            readOnly
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          {item.evaluation.popularity}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">개성</TableCell>
-                        <TableCell align="center">
-                          <Rating
-                            name="half-rating-read"
-                            defaultValue={item.evaluation.individuality}
-                            precision={0.1}
-                            readOnly
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          {item.evaluation.individuality}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">가사</TableCell>
-                        <TableCell align="center">
-                          <Rating
-                            name="half-rating-read"
-                            defaultValue={item.evaluation.lyrics}
-                            precision={0.1}
-                            readOnly
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          {item.evaluation.lyrics}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <Typography
-                  pt={10}
-                  pb={20}
-                  fontSize="1.2rem"
-                  fontFamily="Nanum Gothic"
-                >
-                  "{item.body}"
-                </Typography>
-                <Divider />
-
-                {/* 댓글 부분 */}
-                <TableContainer>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center">댓글 내용</TableCell>
-                        <TableCell align="center">작성자</TableCell>
-                        <TableCell align="center">작성일</TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {comments.length !== 0
-                        ? comments.map((commentData: any) => {
-                            return (
-                              <>
-                                <TableRow>
-                                  <TableCell>{commentData.comment}</TableCell>
-                                  <TableCell align="center">
-                                    {commentData.username}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {commentData.createdAt.slice(0, 10)}
-                                  </TableCell>
-                                  {commentData.username === username ? (
-                                    <TableCell>
-                                      <Link
-                                        to={`${commentData._id}`}
-                                        style={{
-                                          textDecoration: "none",
-                                          color: "coral",
-                                        }}
-                                        onClick={handleOpen}
-                                      >
-                                        수정
-                                      </Link>
-                                    </TableCell>
-                                  ) : (
-                                    <TableCell></TableCell>
-                                  )}
-                                </TableRow>
-
-                                <Modal
-                                  open={open}
-                                  onClose={handleClose}
-                                  aria-labelledby="modal-modal-title"
-                                  aria-describedby="modal-modal-description"
-                                >
-                                  <Box sx={style}>
-                                    <Typography
-                                      id="modal-modal-title"
-                                      variant="h6"
-                                      component="h2"
-                                    >
-                                      댓글 수정
-                                    </Typography>
-                                    <Typography
-                                      id="modal-modal-description"
-                                      sx={{ color: "red" }}
-                                    >
-                                      10자 이상 입력해주세요
-                                    </Typography>
-                                    <Box>
-                                      <TextField
-                                        variant="outlined"
-                                        placeholder="수정할 댓글을 작성해주세요"
-                                        fullWidth
-                                        rows={10}
-                                        sx={{ mt: 3 }}
-                                        onChange={(e) => {
-                                          setComment(e.target.value);
-                                        }}
-                                      />
-                                      <Button
-                                        variant="outlined"
-                                        fullWidth
-                                        onClick={updateComment}
-                                      >
-                                        작성
-                                      </Button>
-                                      {validation ? (
-                                        <Typography
-                                          sx={{
-                                            color: "red",
-                                            mt: 2,
-                                            fontWeight: "bold",
-                                          }}
-                                        >
-                                          댓글은 10자 이상 작성해주세요
-                                        </Typography>
-                                      ) : null}
-                                    </Box>
-                                  </Box>
-                                </Modal>
-                              </>
-                            );
-                          })
-                        : null}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-
-                {comments.length === 0 ? (
-                  <Typography mt={10} mb={10} textAlign="center">
-                    댓글이 없습니다
+                    {item.chart.artist} - {item.title}
                   </Typography>
-                ) : null}
-
-                {/* 댓글 작성 부분 */}
-                <Box>
-                  <TextField
-                    variant="outlined"
-                    placeholder="댓글을 작성해주세요 (댓글은 삭제가 불가합니다.)"
-                    fullWidth
-                    defaultValue={comment}
-                    sx={{ mt: 5 }}
-                    onChange={(e) => {
-                      setComment(e.target.value);
-                    }}
-                  />
-                  <Button variant="outlined" fullWidth onClick={writeComment}>
-                    작성
-                  </Button>
-                  {validation ? (
-                    <Typography
-                      sx={{ color: "red", mt: 2, fontWeight: "bold" }}
+                  <Typography mb="25px" fontFamily="Nanum Gothic" color="coral">
+                    {item.username}
+                  </Typography>
+                  {like ? (
+                    <Button
+                      sx={{ mb: 3 }}
+                      onClick={() => {
+                        handleLike("unlike");
+                      }}
                     >
-                      댓글은 10자 이상 작성해주세요
+                      <ThumbUpAltIcon />
+                      {item.likes}
+                    </Button>
+                  ) : (
+                    <Button
+                      sx={{ mb: 3 }}
+                      onClick={() => {
+                        handleLike("like");
+                      }}
+                    >
+                      <ThumbUpOffAltIcon />
+                      {item.likes}
+                    </Button>
+                  )}
+
+                  {/* 별점 부분 */}
+                  <TableContainer
+                    sx={{
+                      width: "400px",
+                      m: "0 auto",
+                      border: "1px solid #ccc",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <Table
+                      sx={{
+                        [`& .${tableCellClasses.root}`]: {
+                          borderBottom: "none",
+                        },
+                      }}
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center"></TableCell>
+                          <TableCell align="center">
+                            평가 항목 별 점수
+                          </TableCell>
+                          <TableCell align="center"></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell align="center">중독성</TableCell>
+                          <TableCell align="center">
+                            <Rating
+                              name="half-rating-read"
+                              defaultValue={item.evaluation.Addictive}
+                              precision={0.1}
+                              readOnly
+                            />
+                          </TableCell>
+                          <TableCell align="center">
+                            {item.evaluation.Addictive}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="center">예술성</TableCell>
+                          <TableCell align="center">
+                            <Rating
+                              name="half-rating-read"
+                              defaultValue={item.evaluation.artistry}
+                              precision={0.1}
+                              readOnly
+                            />
+                          </TableCell>
+                          <TableCell align="center">
+                            {item.evaluation.artistry}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="center">대중성</TableCell>
+                          <TableCell align="center">
+                            <Rating
+                              name="half-rating-read"
+                              defaultValue={item.evaluation.popularity}
+                              precision={0.1}
+                              readOnly
+                            />
+                          </TableCell>
+                          <TableCell align="center">
+                            {item.evaluation.popularity}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="center">개성</TableCell>
+                          <TableCell align="center">
+                            <Rating
+                              name="half-rating-read"
+                              defaultValue={item.evaluation.individuality}
+                              precision={0.1}
+                              readOnly
+                            />
+                          </TableCell>
+                          <TableCell align="center">
+                            {item.evaluation.individuality}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="center">가사</TableCell>
+                          <TableCell align="center">
+                            <Rating
+                              name="half-rating-read"
+                              defaultValue={item.evaluation.lyrics}
+                              precision={0.1}
+                              readOnly
+                            />
+                          </TableCell>
+                          <TableCell align="center">
+                            {item.evaluation.lyrics}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <Typography
+                    pt={10}
+                    pb={20}
+                    fontSize="1.2rem"
+                    fontFamily="Nanum Gothic"
+                  >
+                    "{item.body}"
+                  </Typography>
+                  <Divider />
+
+                  {/* 댓글 부분 */}
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center">댓글 내용</TableCell>
+                          <TableCell align="center">작성자</TableCell>
+                          <TableCell align="center">작성일</TableCell>
+                          <TableCell></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {comments.length !== 0
+                          ? comments.map((commentData: any) => {
+                              return (
+                                <>
+                                  <TableRow>
+                                    <TableCell>{commentData.comment}</TableCell>
+                                    <TableCell align="center">
+                                      {commentData.username}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {commentData.createdAt.slice(0, 10)}
+                                    </TableCell>
+                                    {commentData.username === username ? (
+                                      <TableCell>
+                                        <Link
+                                          to={`${commentData._id}`}
+                                          style={{
+                                            textDecoration: "none",
+                                            color: "coral",
+                                          }}
+                                          onClick={handleOpen}
+                                        >
+                                          수정
+                                        </Link>
+                                      </TableCell>
+                                    ) : (
+                                      <TableCell></TableCell>
+                                    )}
+                                  </TableRow>
+
+                                  <Modal
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                  >
+                                    <Box sx={style}>
+                                      <Typography
+                                        id="modal-modal-title"
+                                        variant="h6"
+                                        component="h2"
+                                      >
+                                        댓글 수정
+                                      </Typography>
+                                      <Typography
+                                        id="modal-modal-description"
+                                        sx={{ color: "red" }}
+                                      >
+                                        10자 이상 입력해주세요
+                                      </Typography>
+                                      <Box>
+                                        <TextField
+                                          variant="outlined"
+                                          placeholder="수정할 댓글을 작성해주세요"
+                                          fullWidth
+                                          rows={10}
+                                          sx={{ mt: 3 }}
+                                          onChange={(e) => {
+                                            setComment(e.target.value);
+                                          }}
+                                        />
+                                        <Button
+                                          variant="outlined"
+                                          fullWidth
+                                          onClick={updateComment}
+                                        >
+                                          작성
+                                        </Button>
+                                        {validation ? (
+                                          <Typography
+                                            sx={{
+                                              color: "red",
+                                              mt: 2,
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            댓글은 10자 이상 작성해주세요
+                                          </Typography>
+                                        ) : null}
+                                      </Box>
+                                    </Box>
+                                  </Modal>
+                                </>
+                              );
+                            })
+                          : null}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+
+                  {comments.length === 0 ? (
+                    <Typography mt={10} mb={10} textAlign="center">
+                      댓글이 없습니다
                     </Typography>
                   ) : null}
-                </Box>
-              </>
-            );
-          })}
+
+                  {/* 댓글 작성 부분 */}
+                  <Box>
+                    <TextField
+                      variant="outlined"
+                      placeholder="댓글을 작성해주세요 (댓글은 삭제가 불가합니다.)"
+                      fullWidth
+                      defaultValue={comment}
+                      sx={{ mt: 5 }}
+                      onChange={(e) => {
+                        setComment(e.target.value);
+                      }}
+                    />
+                    <Button variant="outlined" fullWidth onClick={writeComment}>
+                      작성
+                    </Button>
+                    {validation ? (
+                      <Typography
+                        sx={{ color: "red", mt: 2, fontWeight: "bold" }}
+                      >
+                        댓글은 10자 이상 작성해주세요
+                      </Typography>
+                    ) : null}
+                  </Box>
+                </>
+              );
+            })}
+          </Container>
         </Box>
       </Box>
     </>

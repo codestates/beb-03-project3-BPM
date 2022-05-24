@@ -128,6 +128,18 @@ export default function ColumnWrite() {
 				/>
 			</Box>
 			<Box textAlign="right" mr={5}>
+				<Typography
+					sx={{
+						fontSize: 20,
+						textAlign: "center",
+						color: "#E02828",
+						fontWeight: "bold",
+					}}
+				>
+					BPM은 블록체인 인센티브 기반 커뮤니티로 작성된 글은 삭제가
+					불가능합니다.
+					<br />글 작성은 신중하게 부탁드립니다.
+				</Typography>
 				<Link to="/column" style={{ textDecoration: "none" }}>
 					<Button size="large">취소</Button>
 				</Link>

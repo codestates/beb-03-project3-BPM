@@ -6,7 +6,11 @@ import { Route, Routes } from "react-router";
 import PostDetail from "../components/commuComponents/PostDetail";
 import PostWrite from "../components/commuComponents/PostWrite";
 
-export default function Community() {
+interface propstype {
+  username: string;
+}
+
+export default function Community({ username }: propstype) {
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -17,11 +21,14 @@ export default function Community() {
         <Box sx={{ flexGrow: 1 }}>
           <Routes>
             <Route path=":boardid/" element={<Boards />} />
-            <Route path=":boardid/:postid" element={<PostDetail />} />
+            <Route
+              path=":boardid/:postid"
+              element={<PostDetail username={username} />}
+            />
             <Route path=":boardid/write" element={<PostWrite />} />
             <Route
               path=":boardid/:postid/:commentid"
-              element={<PostDetail />}
+              element={<PostDetail username={username} />}
             />
           </Routes>
         </Box>

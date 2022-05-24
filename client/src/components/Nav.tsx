@@ -17,7 +17,11 @@ import InsertChartIcon from "@mui/icons-material/InsertChart";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
-export default function Nav() {
+interface propstype {
+  isLogin: boolean;
+}
+
+export default function Nav({ isLogin }: propstype) {
   const theme = useTheme();
   return (
     <>
@@ -80,13 +84,25 @@ export default function Nav() {
               </Link>
 
               {/* mypage 버튼 */}
-              <Link to="/mypage">
+              {isLogin ? (
+                <Link to="/mypage">
+                  <Tooltip title="마이페이지">
+                    <IconButton>
+                      <AccountBoxIcon sx={{ color: "#fff" }} />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
+              ) : (
                 <Tooltip title="마이페이지">
-                  <IconButton>
+                  <IconButton
+                    onClick={() => {
+                      alert("로그인 해주세요");
+                    }}
+                  >
                     <AccountBoxIcon sx={{ color: "#fff" }} />
                   </IconButton>
                 </Tooltip>
-              </Link>
+              )}
 
               {/* 
               버튼 누르는 효과 더 잘보이고 아래 버튼 명 나오는거

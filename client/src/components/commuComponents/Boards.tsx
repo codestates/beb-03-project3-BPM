@@ -104,47 +104,55 @@ export default function FreeBoard() {
                         </TableCell>
                       </TableRow>
                     </TableHead>
-                    {data.map((postData: any, index: number) => {
-                      return (
-                        <>
-                          <TableBody>
-                            <TableRow
-                              component={Link}
-                              to={`${postData._id}`}
-                              sx={{ textDecoration: "none" }}
-                            >
-                              <TableCell
-                                scope="row"
-                                key={index}
-                                sx={{
-                                  fontWeight: "550",
-                                  color: "#333",
-                                  "&:hover": {
-                                    cursor: "pointer",
-                                    color: "lightBlue",
-                                    transition: "color .2s",
-                                  },
-                                }}
-                              >
-                                {postData.title}
-                              </TableCell>
-                              <TableCell align="center">
-                                {postData.username}
-                              </TableCell>
-                              <TableCell align="center">
-                                {/* 이건 시간까지 {postData.createdAt.slice(0, 16)} */}
-                                {postData.createdAt.slice(0, 10)}
-                              </TableCell>
-                              <TableCell align="center">
-                                {postData.likes.length}
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </>
-                      );
-                    })}
+                    {data[0]._id !== undefined
+                      ? data.map((postData: any, index: number) => {
+                          return (
+                            <>
+                              <TableBody>
+                                <TableRow
+                                  component={Link}
+                                  to={`${postData._id}`}
+                                  sx={{ textDecoration: "none" }}
+                                >
+                                  <TableCell
+                                    scope="row"
+                                    key={index}
+                                    sx={{
+                                      fontWeight: "550",
+                                      color: "#333",
+                                      "&:hover": {
+                                        cursor: "pointer",
+                                        color: "lightBlue",
+                                        transition: "color .2s",
+                                      },
+                                    }}
+                                  >
+                                    {postData.title}
+                                  </TableCell>
+                                  <TableCell align="center">
+                                    {postData.username}
+                                  </TableCell>
+                                  <TableCell align="center">
+                                    {/* 이건 시간까지 {postData.createdAt.slice(0, 16)} */}
+                                    {postData.createdAt.slice(0, 10)}
+                                  </TableCell>
+                                  <TableCell align="center">
+                                    {postData.likes.length}
+                                  </TableCell>
+                                </TableRow>
+                              </TableBody>
+                            </>
+                          );
+                        })
+                      : null}
                   </Table>
                 </TableContainer>
+
+                {data[0]._id === undefined ? (
+                  <Typography mt={10} mb={10} textAlign="center">
+                    게시글이 없습니다
+                  </Typography>
+                ) : null}
               </>
             );
           }}

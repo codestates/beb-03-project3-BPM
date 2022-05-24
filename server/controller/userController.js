@@ -70,6 +70,7 @@ module.exports = {
             })
             .send({
               success: true,
+              data: payload,
               message: "유저 이름, 이메일 업데이트 성공",
             });
         } else {

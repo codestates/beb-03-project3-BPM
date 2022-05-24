@@ -10,6 +10,7 @@ const {
   deleteComment,
   like,
   unlike,
+  checklike,
 } = require("../controller/reviewController");
 
 router.get("/", readAll);
@@ -29,5 +30,7 @@ router.delete("/:reviewid/comment/:commentid", deleteComment);
 router.post("/:reviewid/like", like);
 
 router.post("/:reviewid/unlike", unlike);
+
+router.get("/:reviewid/checklike", checklike);
 
 module.exports = router;

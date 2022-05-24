@@ -20,22 +20,29 @@ import MusicWrite from "./components/commuComponents/reviewComponents/MusicWrite
 function App() {
   const [account, setAccount] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [username, setUsername] = useState("");
 
   return (
     <>
       <div>
         <CssBaseline />
-        <Nav />
+        <Nav isLogin={isLogin} />
         <Routes>
           <Route path="/*" element={<Home />} />
           <Route path="/chart" element={<Chart />} />
           <Route path="/chart/:chartid" element={<ChartDetail />} />
-          <Route path="/community/*" element={<Community />} />
+          <Route
+            path="/community/*"
+            element={<Community username={username} />}
+          />
           <Route path="/review" element={<MusicReview />} />
-          <Route path="/review/:reviewid" element={<MusicDetail />} />
+          <Route
+            path="/review/:reviewid"
+            element={<MusicDetail username={username} />}
+          />
           <Route
             path="/review/:reviewid/:commentid"
-            element={<MusicDetail />}
+            element={<MusicDetail username={username} />}
           />
           <Route path="/review/write" element={<MusicWrite />} />
           <Route path="/column" element={<Column />} />
@@ -50,12 +57,19 @@ function App() {
                 setIsLogin={setIsLogin}
                 account={account}
                 isLogin={isLogin}
+                setUsername={setUsername}
               />
             }
           />
           <Route
             path="/signup"
-            element={<SignUp setIsLogin={setIsLogin} account={account} />}
+            element={
+              <SignUp
+                setIsLogin={setIsLogin}
+                account={account}
+                setUsername={setUsername}
+              />
+            }
           />
         </Routes>
         <Footer />

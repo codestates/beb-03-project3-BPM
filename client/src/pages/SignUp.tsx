@@ -15,9 +15,14 @@ import React, { useState } from "react";
 interface propstype {
   account: string;
   setIsLogin: any;
+  setUsername: any;
 }
 
-export default function SignUp({ account, setIsLogin }: propstype) {
+export default function SignUp({
+  account,
+  setIsLogin,
+  setUsername,
+}: propstype) {
   const navigate = useNavigate();
   const [validation, setValidation] = useState("");
 
@@ -38,6 +43,7 @@ export default function SignUp({ account, setIsLogin }: propstype) {
         .then((res) => {
           setIsLogin(true);
           setValidation("");
+          setUsername(res.data.data.username);
           navigate("/signin");
         })
         .catch((e) => {

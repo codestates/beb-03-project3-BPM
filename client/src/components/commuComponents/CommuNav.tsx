@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -23,14 +23,16 @@ import Async from "react-async";
 import CreateBoard from "./CreateBoard";
 
 export default function CommuNav() {
-  async function getBoardName() {
-    let res = await axios.get("http://localhost:4000/board/read");
-    let boardData = res.data.data;
-    return boardData;
-  }
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("lg"));
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/board/read").then((res) => {
+      setData(res.data.data);
+    });
+  });
 
   const toggleDrawer =
     //이거 안됨 open 쓰면 안됨
@@ -83,31 +85,24 @@ export default function CommuNav() {
             </ListItemIcon>
             <ListItemText primary={"Column Board"} />
           </ListItem>
-          <Async promiseFn={getBoardName}>
-            {({ data, error, isPending }) => {
-              if (isPending) return <CircularProgress color="inherit" />;
-              if (error) return `Something went wrong: ${error.message}`;
+          {data.map((el: any, index: number) => {
+            return (
+              <>
+                <ListItem
+                  component={Link}
+                  to={`/community/${el._id}`}
+                  button
+                  key={index}
+                >
+                  <ListItemIcon>
+                    <KeyboardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={el.title} />
+                </ListItem>
+              </>
+            );
+          })}
 
-              const boardList = data.map((el: any, index: number) => {
-                return (
-                  <>
-                    <ListItem
-                      component={Link}
-                      to={`/community/${el._id}`}
-                      button
-                      key={index}
-                    >
-                      <ListItemIcon>
-                        <KeyboardIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={el.title} />
-                    </ListItem>
-                  </>
-                );
-              });
-              return <>{boardList}</>;
-            }}
-          </Async>
           <Divider sx={{ mt: 2, mb: 2 }} />
 
           <ListItem button>

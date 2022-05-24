@@ -8,6 +8,7 @@ const {
   deleteColumn,
   like,
   unlike,
+  checklike,
 } = require("../controller/columnController");
 
 router.get("/", readAll);
@@ -23,5 +24,7 @@ router.delete("/:columnid", deleteColumn);
 router.post("/:columnid/like", like);
 
 router.post("/:columnid/unlike", unlike);
+
+router.get("/:columnid/checklike", checklike);
 
 module.exports = router;

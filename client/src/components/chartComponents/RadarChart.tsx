@@ -44,15 +44,25 @@ export default function RadarChart({ chartData }: any) {
 				backgroundColor: "rgba(255, 99, 132, 0.2)",
 				borderColor: "coral",
 				borderWidth: 1,
+				pointBackgroundColor: "rrgba(179,181,198,1)",
+				pointBorderColor: "#fff",
+				pointHoverBackgroundColor: "#fff",
+				pointHoverBorderColor: "rgba(179,181,198,1)",
 			},
 		],
 	};
 
 	const options = {
 		responsive: false,
+		maintainAspectRatio: true,
 		interaction: {
 			mode: "index" as const,
 			intersect: false,
+		},
+		scale: {
+			min: 0,
+			max: 5,
+			stepSize: 0.5,
 		},
 	};
 

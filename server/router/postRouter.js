@@ -11,6 +11,7 @@ const {
   deleteComment,
   like,
   unlike,
+  checklike,
 } = require("../controller/postController");
 
 router.get("/:boardid", readAll);
@@ -32,5 +33,7 @@ router.delete("/:boardid/:postid/comment/:commentid", deleteComment);
 router.post("/:boardid/:postid/like", like);
 
 router.post("/:boardid/:postid/unlike", unlike);
+
+router.get("/:boardid/:postid/checklike", checklike);
 
 module.exports = router;

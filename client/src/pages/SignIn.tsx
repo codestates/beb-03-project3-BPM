@@ -20,6 +20,7 @@ interface propstype {
   setIsLogin: any;
   isLogin: boolean;
   account: string;
+  setUsername: any;
 }
 
 export default function SignIn({
@@ -27,6 +28,7 @@ export default function SignIn({
   setIsLogin,
   isLogin,
   account,
+  setUsername,
 }: propstype) {
   const navigate = useNavigate();
   let provider: any;
@@ -46,6 +48,7 @@ export default function SignIn({
     provider = null;
     setIsLogin(false);
     setAccount("");
+    setUsername("");
     axios
       .post("http://localhost:4000/user/logout", { withCredentials: true })
       .then(() => {
@@ -69,6 +72,7 @@ export default function SignIn({
           navigate("/signup");
         } else if (res.data.message === "로그인 성공") {
           setIsLogin(true);
+          setUsername(res.data.data.username);
         }
       })
       .catch(function (err) {

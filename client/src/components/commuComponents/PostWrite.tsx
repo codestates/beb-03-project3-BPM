@@ -27,26 +27,30 @@ export default function PostWrite() {
 	}
 
 	const handlePost = async () => {
-		await axios
-			.post(
-				`http://localhost:4000/post/${params.boardid}/create`,
-				{
-					title,
-					body,
-				},
-				{
-					withCredentials: true,
-				}
-			)
-			.then((res) => {
-				if (res.data.message === "성공, 토큰 지급") {
-					window.alert("15토큰이 지급되었습니다.");
-				} else if (res.data.message === "성공, 토큰 미지급") {
-					window.alert("이미 토큰을 받았습니다.");
-				}
-			});
+		if (title.length > 0 && body.length >= 30) {
+			await axios
+				.post(
+					`http://localhost:4000/post/${params.boardid}/create`,
+					{
+						title,
+						body,
+					},
+					{
+						withCredentials: true,
+					}
+				)
+				.then((res) => {
+					if (res.data.message === "성공, 토큰 지급") {
+						window.alert("15토큰이 지급되었습니다.");
+					} else if (res.data.message === "성공, 토큰 미지급") {
+						window.alert("이미 토큰을 받았습니다.");
+					}
+				});
 
-		nav(`/community/${params.boardid}`);
+			nav(`/community/${params.boardid}`);
+		} else {
+			window.alert("30자 이상 작성 부탁드립니다.");
+		}
 	};
 
 	return (
@@ -74,6 +78,18 @@ export default function PostWrite() {
 				/>
 			</Box>
 			<Box textAlign="right" mr={5}>
+				<Typography
+					sx={{
+						fontSize: 20,
+						textAlign: "center",
+						color: "#E02828",
+						fontWeight: "bold",
+					}}
+				>
+					BPM은 블록체인 인센티브 기반 커뮤니티로 작성된 글은 삭제가
+					불가능합니다.
+					<br />글 작성은 신중하게 부탁드립니다.
+				</Typography>
 				<Link
 					to={`/community/${params.boardid}`}
 					style={{ textDecoration: "none" }}

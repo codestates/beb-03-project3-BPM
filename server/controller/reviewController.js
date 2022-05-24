@@ -166,13 +166,13 @@ module.exports = {
             res.status(201).send({
               success: true,
               data: null,
-              message: "리뷰 작성 성공, 토큰 지급",
+              message: "성공, 토큰 지급",
             });
           } else {
             res.status(201).send({
               success: true,
               data: null,
-              message: "리뷰 작성 성공, 토큰 미지급",
+              message: "성공, 토큰 미지급",
             });
           }
         } else {
@@ -343,6 +343,33 @@ module.exports = {
     } catch (e) {
       console.log(e);
       res.status(500).send({ message: "서버오류" });
+    }
+  },
+
+  checklike: async (req, res) => {
+    const reviewid = req.params.reviewid;
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+      res.status(400).send({ message: "accessToken not provided" });
+    } else if (accessToken === "invalidtoken") {
+      res
+        .status(400)
+        .send({ message: "invalid accesstoken, please login again" });
+    } else {
+      const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+      const like = await Reviews.findOne({ _id: reviewid }, { likes: true });
+      let flag = false;
+      for (let i = 0; i < like.likes.length; i++) {
+        if (String(like.likes[i].users_id) === userinfo.id) {
+          flag = true;
+          break;
+        }
+      }
+      if (flag === true) {
+        res.status(200).send({ message: "ok" });
+      } else {
+        res.status(200).send({ message: "no" });
+      }
     }
   },
 };

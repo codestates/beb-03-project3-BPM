@@ -8,7 +8,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Box,
+  TablePagination,
   Fab,
 } from "@mui/material";
 import { useParams } from "react-router";

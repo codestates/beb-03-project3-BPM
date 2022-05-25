@@ -18,7 +18,6 @@ export default function MyReview() {
 		const review = await axios.get("http://localhost:4000/mypage/reviews", {
 			withCredentials: true,
 		});
-		console.log(review.data.data);
 		return review.data.data;
 	}
 	return (

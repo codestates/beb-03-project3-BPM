@@ -192,12 +192,9 @@ export default function MusicDetail() {
 									<Typography mb="25px" fontFamily="Nanum Gothic" color="coral">
 										{item.username}
 									</Typography>
-									<Box
-										display={{ xs: "block", md: "flex" }}
-										alignItems="center"
-										justifyContent="space-between"
-									>
-										<Box display="flex" justifyContent="center">
+									<Box display="flex" justifyContent="space-between">
+										<Box>&nbsp;</Box>
+										<Box ml={8}>
 											{like ? (
 												<Button
 													sx={{ mb: 3 }}
@@ -221,8 +218,7 @@ export default function MusicDetail() {
 											)}
 										</Box>
 										<Box>
-											{/* FIXME: redux 적용 시 바뀜 */}
-											{item.username === userInfo.username ? (
+											{item.username === userInfo?.username ? (
 												<Button
 													component={Link}
 													to={`/review/write`}
@@ -372,7 +368,7 @@ export default function MusicDetail() {
 																			{commentData.createdAt.slice(0, 10)}
 																		</TableCell>
 																		{commentData.username ===
-																		userInfo.username ? (
+																		userInfo?.username ? (
 																			<TableCell>
 																				<Link
 																					to={`${commentData._id}`}

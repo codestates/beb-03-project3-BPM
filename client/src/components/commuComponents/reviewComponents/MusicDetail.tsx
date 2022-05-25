@@ -23,12 +23,10 @@ import { useParams } from "react-router";
 import CommuNav from "../CommuNav";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-interface propstype {
-	username: string;
-}
-
-export default function MusicDetail({ username }: propstype) {
+export default function MusicDetail() {
+	const userInfo = useSelector((state: any) => state.userReducer).data;
 	const params = useParams();
 	const navigate = useNavigate();
 	const [like, setLike] = useState(false);
@@ -37,10 +35,6 @@ export default function MusicDetail({ username }: propstype) {
 	const [commentEventFlag, setCommentEventFlag] = useState(false);
 	const [validation, setValidation] = useState(false);
 	const [open, setOpen] = React.useState(false);
-	//  FIXME: redux 적용 시 바뀜
-	const [userinfo, setUserinfo] = useState<any>({
-		username: "kimcoding",
-	});
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => {
@@ -228,7 +222,7 @@ export default function MusicDetail({ username }: propstype) {
 										</Box>
 										<Box>
 											{/* FIXME: redux 적용 시 바뀜 */}
-											{item.username === userinfo.username ? (
+											{item.username === userInfo.username ? (
 												<Button
 													component={Link}
 													to={`/review/write`}
@@ -377,7 +371,8 @@ export default function MusicDetail({ username }: propstype) {
 																		<TableCell align="center">
 																			{commentData.createdAt.slice(0, 10)}
 																		</TableCell>
-																		{commentData.username === username ? (
+																		{commentData.username ===
+																		userInfo.username ? (
 																			<TableCell>
 																				<Link
 																					to={`${commentData._id}`}

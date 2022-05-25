@@ -20,12 +20,10 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
-interface propstype {
-	username: string;
-}
-
-export default function PostDetail({ username }: propstype) {
+export default function PostDetail() {
+	const userInfo = useSelector((state: any) => state.userReducer).data;
 	let params = useParams();
 	const navigate = useNavigate();
 	const [like, setLike] = useState(false);
@@ -34,10 +32,6 @@ export default function PostDetail({ username }: propstype) {
 	const [commentEventFlag, setCommentEventFlag] = useState(false);
 	const [comment, setComment] = useState("");
 	const [validation, setValidation] = useState(false);
-	//  FIXME: redux 적용 시 바뀜
-	const [userinfo, setUserinfo] = useState<any>({
-		username: "kimcoding",
-	});
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => {
@@ -199,9 +193,12 @@ export default function PostDetail({ username }: propstype) {
 							<Box
 								display={{ xs: "block", md: "flex" }}
 								alignItems="center"
-								justifyContent="space-between"
+								sx={{ position: "relative", border: 1 }}
 							>
-								<Box display="flex" justifyContent="center">
+								{/* FIXME: 좋아요, 수정 버튼 위치 수정 */}
+								<Box
+									sx={{ position: "absolute", left: "47.5%", bottom: "10px" }}
+								>
 									{like ? (
 										<Button
 											onClick={() => {
@@ -222,9 +219,8 @@ export default function PostDetail({ username }: propstype) {
 										</Button>
 									)}
 								</Box>
-								<Box>
-									{/* FIXME: redux 적용 시 바뀜 */}
-									{item.username === userinfo.username ? (
+								<Box sx={{ position: "absolute", right: "0%" }}>
+									{item.username === userInfo.username ? (
 										<Button
 											component={Link}
 											to={`/community/${params.boardid}/write`}
@@ -272,7 +268,8 @@ export default function PostDetail({ username }: propstype) {
 																	<TableCell align="center">
 																		{commentsData.createdAt.slice(0, 10)}
 																	</TableCell>
-																	{commentsData.username === username ? (
+																	{commentsData.username ===
+																	userInfo.username ? (
 																		<TableCell>
 																			<Link
 																				to={`${commentsData._id}`}

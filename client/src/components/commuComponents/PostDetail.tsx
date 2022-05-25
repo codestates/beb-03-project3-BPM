@@ -217,7 +217,7 @@ export default function PostDetail() {
                 <Box
                 //  sx={{ position: "absolute", right: "0%" }}
                 >
-                  {item.username === userInfo.username ? (
+                  {item.username === userInfo?.username ? (
                     <Button
                       component={Link}
                       to={`/community/${params.boardid}/write`}
@@ -266,7 +266,7 @@ export default function PostDetail() {
                                     {commentsData.createdAt.slice(0, 10)}
                                   </TableCell>
                                   {commentsData.username ===
-                                  userInfo.username ? (
+                                  userInfo?.username ? (
                                     <TableCell>
                                       <Link
                                         to={`${commentsData._id}`}

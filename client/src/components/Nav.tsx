@@ -9,6 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // icons
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,12 +18,9 @@ import InsertChartIcon from "@mui/icons-material/InsertChart";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
-interface propstype {
-  isLogin: boolean;
-}
-
-export default function Nav({ isLogin }: propstype) {
+export default function Nav() {
   const theme = useTheme();
+  const userInfo = useSelector((state: any) => state.userReducer).data;
   return (
     <>
       <AppBar
@@ -84,7 +82,7 @@ export default function Nav({ isLogin }: propstype) {
               </Link>
 
               {/* mypage 버튼 */}
-              {isLogin ? (
+              {userInfo !== null ? (
                 <Link to="/mypage">
                   <Tooltip title="마이페이지">
                     <IconButton>

@@ -1,30 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Web3ReactProvider } from '@web3-react/core';
-import { Web3Provider } from '@ethersproject/providers';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import Loading from "./pages/Loading";
+import { PersistGate } from "redux-persist/lib/integration/react";
+import configureStore from "./modules/configureStore.js";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 
-function getLibrary(provider: any): Web3Provider {
-  const library = new Web3Provider(provider);
-  library.pollingInterval = 12000;
-  return library;
-}
+const { store, persistor } = configureStore();
 
 root.render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>
-  <Web3ReactProvider getLibrary={getLibrary}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Web3ReactProvider>
+  <Provider store={store}>
+    <PersistGate loading={<Loading />} persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -11,19 +11,13 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, unsetUser } from "../modules/userReducer";
 
-interface propstype {
-  account: string;
-  setIsLogin: any;
-  setUsername: any;
-}
-
-export default function SignUp({
-  account,
-  setIsLogin,
-  setUsername,
-}: propstype) {
+export default function SignUp() {
+  const userInfo = useSelector((state: any) => state.userReducer).data;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [validation, setValidation] = useState("");
 
   const handleSubmit = (event: any) => {
@@ -36,14 +30,14 @@ export default function SignUp({
     } else {
       axios
         .post("http://localhost:4000/user/signup", {
-          address: account,
+          address: userInfo.address,
           username: formData.get("username"),
           email: formData.get("email"),
         })
         .then((res) => {
-          setIsLogin(true);
+          dispatch(unsetUser());
+          dispatch(setUser(res.data.data));
           setValidation("");
-          setUsername(res.data.data.username);
           navigate("/signin");
         })
         .catch((e) => {

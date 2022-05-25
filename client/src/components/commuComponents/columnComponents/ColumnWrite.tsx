@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
   TextField,
@@ -16,9 +16,10 @@ declare let window: any;
 
 export default function ColumnWrite() {
   const nav = useNavigate();
-  const [title, setTitle] = useState("");
+  const loc = useLocation();
+  const [title, setTitle] = useState(loc.state?.title || "");
   const [musictitle, setMusictitle] = useState("");
-  const [body, setBody] = useState("");
+  const [body, setBody] = useState(loc.state?.body || "");
   const [chartUnit, setChartUnit] = useState<any[]>([]);
 
   function handleTitle(event: any) {
@@ -39,26 +40,54 @@ export default function ColumnWrite() {
   }, []);
 
   const handlePost = async () => {
-    await axios
-      .post(
-        `http://localhost:4000/column/create`,
-        {
-          title,
-          musictitle,
-          body,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        if (res.data.message === "성공, 토큰 지급") {
-          window.alert("150토큰이 지급되었습니다.");
-        } else if (res.data.message === "성공, 토큰 미지급") {
-          window.alert("이미 토큰을 받았습니다.");
-        }
-      });
-    nav(`/column`);
+    if (title.length > 0 && body.length >= 150) {
+      if (loc.state) {
+        await axios
+          .patch(
+            `http://localhost:4000/column/${loc.state.id}`,
+            {
+              title,
+              body,
+            },
+            { withCredentials: true }
+          )
+          .then((res) => {
+            window.alert("글이 수정되었습니다.");
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      } else {
+        await axios
+          .post(
+            `http://localhost:4000/column/create`,
+            {
+              title,
+              musictitle,
+              body,
+            },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            if (res.data.message === "성공, 토큰 지급") {
+              window.alert("150토큰이 지급되었습니다.");
+            } else if (res.data.message === "성공, 토큰 미지급") {
+              window.alert("이미 토큰을 받았습니다.");
+            }
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("동일한 곡에 칼럼 작성은 한번만 가능합니다.");
+            }
+            console.error(e);
+          });
+      }
+      nav(`/column`);
+    } else {
+      window.alert("150자 이상 작성 부탁드립니다.");
+    }
   };
 
   return (
@@ -70,9 +99,15 @@ export default function ColumnWrite() {
         <Box sx={{ flexGrow: 1, textAlign: "center" }}>
           <Container>
             <Box p={5} mt={5} textAlign="center">
-              <Typography variant="h5" fontWeight={700} fontFamily="serif">
-                칼럼 작성
-              </Typography>
+              {loc.state ? (
+                <Typography variant="h5" fontWeight={700} fontFamily="serif">
+                  칼럼 수정
+                </Typography>
+              ) : (
+                <Typography variant="h5" fontWeight={700} fontFamily="serif">
+                  칼럼 작성
+                </Typography>
+              )}
               <TextField
                 autoFocus
                 id="title"
@@ -100,29 +135,34 @@ export default function ColumnWrite() {
                   },
                 }}
                 sx={{ m: "40px auto" }}
+                defaultValue={title}
                 onChange={handleTitle}
               />
-
               {/* 이 부분이 노래 검색 데이터 */}
-              <Autocomplete
-                freeSolo
-                id="free-solo-2-demo"
-                disableClearable
-                options={chartUnit.map((option) => ({
-                  label: `${option.title} - ${option.artist}`,
-                }))}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Search input"
-                    InputProps={{
-                      ...params.InputProps,
-                      type: "search",
-                    }}
-                  />
-                )}
-                onChange={handleMusicTitle}
-              />
+              {loc.state ? (
+                <Box></Box>
+              ) : (
+                <Autocomplete
+                  freeSolo
+                  id="free-solo-2-demo"
+                  disableClearable
+                  options={chartUnit.map((option) => ({
+                    label: `${option.title} - ${option.artist}`,
+                  }))}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search input"
+                      InputProps={{
+                        ...params.InputProps,
+                        type: "search",
+                      }}
+                    />
+                  )}
+                  defaultValue={musictitle}
+                  onChange={handleMusicTitle}
+                />
+              )}
               <TextareaAutosize
                 minRows={20}
                 style={{
@@ -131,6 +171,7 @@ export default function ColumnWrite() {
                   padding: 20,
                   fontFamily: "serif",
                 }}
+                defaultValue={body}
                 onChange={handleBody}
               />
             </Box>
@@ -143,6 +184,8 @@ export default function ColumnWrite() {
                   fontWeight: "bold",
                 }}
               >
+                동일한 곡에 칼럼 작성은 한번만 가능합니다.
+                <br />
                 BPM은 블록체인 인센티브 기반 커뮤니티로 작성된 글은 삭제가
                 불가능합니다.
                 <br />글 작성은 신중하게 부탁드립니다.
@@ -150,9 +193,15 @@ export default function ColumnWrite() {
               <Link to="/column" style={{ textDecoration: "none" }}>
                 <Button size="large">취소</Button>
               </Link>
-              <Button size="large" onClick={handlePost}>
-                발행
-              </Button>
+              {loc.state ? (
+                <Button size="large" onClick={handlePost}>
+                  수정
+                </Button>
+              ) : (
+                <Button size="large" onClick={handlePost}>
+                  발행
+                </Button>
+              )}
             </Box>
           </Container>
         </Box>

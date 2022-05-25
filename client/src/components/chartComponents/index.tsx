@@ -22,7 +22,7 @@ export default function ChartDetail() {
 	}
 	return (
 		<>
-			<Box display="flex" mr={2} sx={{ backgroundColor: "#FAF5F0" }}>
+			<Box display="flex" sx={{ backgroundColor: "#FAF5F0" }}>
 				<Box position="sticky">
 					<CommuNav />
 				</Box>

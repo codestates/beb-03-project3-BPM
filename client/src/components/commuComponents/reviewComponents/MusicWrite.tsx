@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Autocomplete,
   Box,
@@ -18,14 +18,14 @@ import {
   Container,
 } from "@mui/material";
 import axios from "axios";
-import { log } from "console";
 import CommuNav from "../CommuNav";
 declare let window: any;
 
 export default function MusicWrite() {
   const nav = useNavigate();
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const loc = useLocation();
+  const [title, setTitle] = useState(loc.state?.title || "");
+  const [body, setBody] = useState(loc.state?.body || "");
   const [chartUnit, setChartUnit] = useState<any[]>([]);
 
   const [popularity, setPopularity] = useState("");
@@ -74,36 +74,60 @@ export default function MusicWrite() {
         individuality !== "" &&
         Addictive !== ""
       ) {
-        await axios
-          .post(
-            `http://localhost:4000/review`,
-            {
-              title,
-              body,
-              evaluation: {
-                popularity,
-                artistry,
-                lyrics,
-                individuality,
-                Addictive,
+        if (loc.state) {
+          await axios
+            .patch(
+              `http://localhost:4000/review/${loc.state.id}`,
+              {
+                body,
+                evaluation: {
+                  popularity,
+                  artistry,
+                  lyrics,
+                  individuality,
+                  Addictive,
+                },
               },
-            },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            if (res.data.message === "성공, 토큰 지급") {
-              window.alert("40토큰이 지급되었습니다.");
-            } else if (res.data.message === "성공, 토큰 미지급") {
-              window.alert("이미 토큰을 받았습니다.");
-            }
-          })
-          .catch((e) => {
-            if (e.message === "Request failed with status code 400") {
-              alert("동일한 곡에 리뷰는 한번만 가능합니다.");
-            }
-          });
+              { withCredentials: true }
+            )
+            .then((res) => {
+              window.alert("리뷰가 수정되었습니다.");
+            })
+            .catch((e) => {
+              console.error(e);
+            });
+        } else {
+          await axios
+            .post(
+              `http://localhost:4000/review`,
+              {
+                title,
+                body,
+                evaluation: {
+                  popularity,
+                  artistry,
+                  lyrics,
+                  individuality,
+                  Addictive,
+                },
+              },
+              {
+                withCredentials: true,
+              }
+            )
+            .then((res) => {
+              if (res.data.message === "성공, 토큰 지급") {
+                window.alert("40토큰이 지급되었습니다.");
+              } else if (res.data.message === "성공, 토큰 미지급") {
+                window.alert("이미 토큰을 받았습니다.");
+              }
+            })
+            .catch((e) => {
+              if (e.message === "Request failed with status code 400") {
+                alert("동일한 곡에 리뷰는 한번만 가능합니다.");
+              }
+            });
+        }
         nav(`/review`);
       } else {
         window.alert("모든 항목에 별점 평가가 필요합니다.");
@@ -122,28 +146,37 @@ export default function MusicWrite() {
         <Box sx={{ flexGrow: 1, textAlign: "center" }}>
           <Container sx={{ textAlign: "center" }}>
             <Box p={5} mt={5} textAlign="center">
-              <Typography variant="h6">리뷰 작성</Typography>
-              <Autocomplete
-                freeSolo
-                id="free-solo-2-demo"
-                disableClearable
-                sx={{ width: 400, m: "45px auto 10px" }}
-                options={chartUnit.map((option) => ({
-                  label: `${option.title} - ${option.artist}`,
-                }))}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Search input"
-                    InputProps={{
-                      ...params.InputProps,
-                      type: "search",
-                    }}
-                  />
-                )}
-                onChange={handleTitle}
-              />
-
+              {loc.state ? (
+                <Typography variant="h6">리뷰 수정</Typography>
+              ) : (
+                <Typography variant="h6">리뷰 작성</Typography>
+              )}
+              {loc.state ? (
+                <Typography variant="h6" defaultValue={title}>
+                  {title}
+                </Typography>
+              ) : (
+                <Autocomplete
+                  freeSolo
+                  id="free-solo-2-demo"
+                  disableClearable
+                  sx={{ width: 400, m: "45px auto 10px" }}
+                  options={chartUnit.map((option) => ({
+                    label: `${option.title} - ${option.artist}`,
+                  }))}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search input"
+                      InputProps={{
+                        ...params.InputProps,
+                        type: "search",
+                      }}
+                    />
+                  )}
+                  onChange={handleTitle}
+                />
+              )}
               {/* 별점 부분 */}
               <TableContainer
                 sx={{
@@ -229,6 +262,7 @@ export default function MusicWrite() {
               <TextField
                 placeholder="리뷰를 작성해주세요"
                 sx={{ width: "400px", mt: 5 }}
+                defaultValue={body}
                 onChange={handleBody}
               />
             </Box>
@@ -250,9 +284,15 @@ export default function MusicWrite() {
               <Link to="/review" style={{ textDecoration: "none" }}>
                 <Button size="large">취소</Button>
               </Link>
-              <Button size="large" onClick={handlePost}>
-                발행
-              </Button>
+              {loc.state ? (
+                <Button size="large" onClick={handlePost}>
+                  수정
+                </Button>
+              ) : (
+                <Button size="large" onClick={handlePost}>
+                  발행
+                </Button>
+              )}
             </Box>
           </Container>
         </Box>

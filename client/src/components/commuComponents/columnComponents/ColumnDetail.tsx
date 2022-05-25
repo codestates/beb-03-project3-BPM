@@ -1,14 +1,8 @@
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  Button,
-  Container,
-} from "@mui/material";
+import { Box, Typography, Button, Container } from "@mui/material";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Async } from "react-async";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import CommuNav from "../CommuNav";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -17,6 +11,10 @@ export default function ColumnDetail() {
   const params = useParams();
   const [like, setLike] = useState(false);
   const [data, setData] = useState([]);
+  //  FIXME: redux 적용 시 바뀜
+  const [userinfo, setUserinfo] = useState<any>({
+    username: "kimcoding",
+  });
 
   useEffect(() => {
     axios.get(`http://localhost:4000/column/${params.columnid}`).then((res) => {
@@ -41,7 +39,6 @@ export default function ColumnDetail() {
 
   const handleLike = (like: string) => {
     if (like === "like") {
-      console.log("dasdfsZfa");
       axios
         .post(
           `http://localhost:4000/column/${params.columnid}/like`,
@@ -126,27 +123,53 @@ export default function ColumnDetail() {
                 <Typography color="#888">
                   {item.updatedAt.slice(0, 10)}
                 </Typography>
-                {like ? (
-                  <Button
-                    sx={{ mt: 3, fontSize: 20 }}
-                    onClick={() => {
-                      handleLike("unlike");
-                    }}
-                  >
-                    <ThumbUpAltIcon />
-                    {item.likes}
-                  </Button>
-                ) : (
-                  <Button
-                    sx={{ mt: 3, fontSize: 20 }}
-                    onClick={() => {
-                      handleLike("like");
-                    }}
-                  >
-                    <ThumbUpOffAltIcon />
-                    {item.likes}
-                  </Button>
-                )}
+                <Box
+                  display={{ xs: "block", md: "flex" }}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Box display="flex" justifyContent="center">
+                    {like ? (
+                      <Button
+                        sx={{ mt: 3, fontSize: 20 }}
+                        onClick={() => {
+                          handleLike("unlike");
+                        }}
+                      >
+                        <ThumbUpAltIcon />
+                        {item.likes}
+                      </Button>
+                    ) : (
+                      <Button
+                        sx={{ mt: 3, fontSize: 20 }}
+                        onClick={() => {
+                          handleLike("like");
+                        }}
+                      >
+                        <ThumbUpOffAltIcon />
+                        {item.likes}
+                      </Button>
+                    )}
+                  </Box>
+                  <Box>
+                    {/* FIXME: redux 적용 시 바뀜 */}
+                    {item.username === userinfo.username ? (
+                      <Button
+                        component={Link}
+                        to={`/column/write`}
+                        state={{
+                          id: item.id,
+                          title: item.title,
+                          body: item.body,
+                        }}
+                      >
+                        수정
+                      </Button>
+                    ) : (
+                      <Button></Button>
+                    )}
+                  </Box>
+                </Box>
               </Box>
             );
           })}

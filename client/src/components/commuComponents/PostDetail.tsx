@@ -179,50 +179,60 @@ export default function PostDetail() {
           let comments = item.comments;
           return (
             <>
-              {console.log(item)}
               <Typography
                 variant="h2"
                 m="80px 0 10px 0"
                 fontSize="1.8rem"
-                // fontFamily='Copperplate'
-                // fontFamily='Papyrus'
                 fontFamily="Lucida Handwriting"
-                // fontFamily='Monaco'
-                // fontFamily='cursive'
-                // fontFamily='fantasy'
-                // fontFamily='Tahoma'
-                // fontFamily='Play'
-                // fontFamily='Great Vibes'
-                // fontFamily='Tapestry'
-                // fontFamily='Teko'
               >
                 {item.title}
               </Typography>
               <Typography mb="25px" fontFamily="Nanum Gothic" color="coral">
                 {item.username}
               </Typography>
-              <Box>
-                {like ? (
-                  <Button
-                    sx={{ mb: 3 }}
-                    onClick={() => {
-                      handleLike("unlike");
-                    }}
-                  >
-                    <ThumbUpAltIcon />
-                    {item.likes}
-                  </Button>
-                ) : (
-                  <Button
-                    sx={{ mb: 3 }}
-                    onClick={() => {
-                      handleLike("like");
-                    }}
-                  >
-                    <ThumbUpOffAltIcon />
-                    {item.likes}
-                  </Button>
-                )}
+              <Box display="flex" justifyContent="space-between">
+                {/* FIXME: 좋아요, 수정 버튼 위치 수정 */}
+                <Box>&nbsp;</Box>
+                <Box ml={8}>
+                  {like ? (
+                    <Button
+                      onClick={() => {
+                        handleLike("unlike");
+                      }}
+                    >
+                      <ThumbUpAltIcon />
+                      {item.likes}
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        handleLike("like");
+                      }}
+                    >
+                      <ThumbUpOffAltIcon />
+                      {item.likes}
+                    </Button>
+                  )}
+                </Box>
+                <Box
+                //  sx={{ position: "absolute", right: "0%" }}
+                >
+                  {item.username === userInfo.username ? (
+                    <Button
+                      component={Link}
+                      to={`/community/${params.boardid}/write`}
+                      state={{
+                        id: item.id,
+                        title: item.title,
+                        body: item.body,
+                      }}
+                    >
+                      수정
+                    </Button>
+                  ) : (
+                    <Button></Button>
+                  )}
+                </Box>
               </Box>
 
               <Divider />

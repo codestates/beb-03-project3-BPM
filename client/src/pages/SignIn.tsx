@@ -12,25 +12,15 @@ import axios from "axios";
 import { ethers } from "ethers";
 import { ReactComponent as Meatamask } from "../asset/metamask-logo1.svg";
 import { ReactComponent as Klaytn } from "../asset/klaytn-logo1.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, unsetUser, setAddress } from "../modules/userReducer";
 
 declare let window: any;
 
-interface propstype {
-  setAccount: any;
-  setIsLogin: any;
-  isLogin: boolean;
-  account: string;
-  setUsername: any;
-}
-
-export default function SignIn({
-  setAccount,
-  setIsLogin,
-  isLogin,
-  account,
-  setUsername,
-}: propstype) {
+export default function SignIn() {
+  const userInfo = useSelector((state: any) => state.userReducer).data;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let provider: any;
 
   const onLogin = async () => {
@@ -38,21 +28,19 @@ export default function SignIn({
     provider.send("eth_requestAccounts", []).then(() => {
       const signer = provider.getSigner();
       signer.getAddress().then((res: string) => {
-        setAccount(res);
         onSign(res);
+        dispatch(setAddress({ address: res }));
       });
     });
   };
 
   const disconnet = () => {
     provider = null;
-    setIsLogin(false);
-    setAccount("");
-    setUsername("");
     axios
       .post("http://localhost:4000/user/logout", { withCredentials: true })
       .then(() => {
         console.log("로그아웃");
+        dispatch(unsetUser());
       });
   };
 
@@ -71,8 +59,7 @@ export default function SignIn({
         if (res.data.message === "계정 생성") {
           navigate("/signup");
         } else if (res.data.message === "로그인 성공") {
-          setIsLogin(true);
-          setUsername(res.data.data.username);
+          dispatch(setUser(res.data.data));
         }
       })
       .catch(function (err) {
@@ -100,12 +87,14 @@ export default function SignIn({
       <Box textAlign="center" display="grid" sx={{ justifyContent: "center" }}>
         <Grid container m="0 auto">
           <Box border="1px solid #999" pt={5} pb={7}>
-            {isLogin ? (
+            {userInfo !== null ? (
               <>
                 <Typography variant="h5">Wallet Information</Typography>
                 <Grid item p={5} textAlign="left">
                   <Typography variant="h6">ChainId: ethereum</Typography>
-                  <Typography variant="h6">Account: {account}</Typography>
+                  <Typography variant="h6">
+                    Account: {userInfo.address}
+                  </Typography>
                 </Grid>
                 <Button onClick={disconnet}>
                   <Typography variant="h6">Disconnect</Typography>

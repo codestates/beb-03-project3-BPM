@@ -54,11 +54,7 @@ export default function Chart() {
 										{data.map((chartData: any, index: number) => {
 											return (
 												<>
-													<TableRow
-														component={Link}
-														to={chartData._id}
-														sx={{ textDecoration: "none" }}
-													>
+													<TableRow>
 														<TableCell>{index + 1}</TableCell>
 														<TableCell
 															scope="row"
@@ -74,16 +70,22 @@ export default function Chart() {
 																alignItems: "center",
 															}}
 														>
-															<img
-																src={chartData.image}
+															<Link
+																to={`${chartData._id}`}
 																style={{
-																	width: 40,
-																	border: "1px solid #0002",
-
-																	margin: "0 20px 0 30px",
+																	textDecoration: "none",
+																	color: "black",
 																}}
-															/>
-
+															>
+																<img
+																	src={chartData.image}
+																	style={{
+																		width: 40,
+																		border: "1px solid #0002",
+																		margin: "0 20px 0 30px",
+																	}}
+																/>
+															</Link>
 															{chartData.title}
 														</TableCell>
 														<TableCell align="center">
@@ -93,7 +95,10 @@ export default function Chart() {
 															{chartData.total}
 														</TableCell>
 														<TableCell align="center">
-															<Button href={`${chartData.src}`}>
+															<Button
+																href={`${chartData.src}`}
+																style={{ zIndex: 2000 }}
+															>
 																<PlayCircleOutlineIcon
 																	sx={{ color: "#0009" }}
 																/>
@@ -146,15 +151,23 @@ export default function Chart() {
 																alignItems: "center",
 															}}
 														>
-															<img
-																src={chartData.image}
+															<Link
+																to={`${chartData._id}`}
 																style={{
-																	width: 40,
-																	border: "1px solid #0002",
-
-																	margin: "0 20px 0 30px",
+																	textDecoration: "none",
+																	color: "black",
 																}}
-															/>
+															>
+																<img
+																	src={chartData.image}
+																	style={{
+																		width: 40,
+																		border: "1px solid #0002",
+
+																		margin: "0 20px 0 30px",
+																	}}
+																/>
+															</Link>
 															{chartData.title}
 														</TableCell>
 														<TableCell align="center">

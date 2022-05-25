@@ -78,7 +78,11 @@ export default function PostWrite() {
 		<>
 			<Container>
 				<Box p={5} mt={5} textAlign="center">
-					<Typography variant="h6">글 작성</Typography>
+					{loc.state ? (
+						<Typography variant="h6">글 수정</Typography>
+					) : (
+						<Typography variant="h6">글 작성</Typography>
+					)}
 					<TextField
 						autoFocus
 						id="title"
@@ -120,9 +124,15 @@ export default function PostWrite() {
 					>
 						<Button size="large">취소</Button>
 					</Link>
-					<Button size="large" onClick={handlePost}>
-						발행
-					</Button>
+					{loc.state ? (
+						<Button size="large" onClick={handlePost}>
+							수정
+						</Button>
+					) : (
+						<Button size="large" onClick={handlePost}>
+							발행
+						</Button>
+					)}
 				</Box>
 			</Container>
 		</>

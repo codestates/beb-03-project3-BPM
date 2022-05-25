@@ -284,9 +284,15 @@ export default function MusicWrite() {
 							<Link to="/review" style={{ textDecoration: "none" }}>
 								<Button size="large">취소</Button>
 							</Link>
-							<Button size="large" onClick={handlePost}>
-								발행
-							</Button>
+							{loc.state ? (
+								<Button size="large" onClick={handlePost}>
+									수정
+								</Button>
+							) : (
+								<Button size="large" onClick={handlePost}>
+									발행
+								</Button>
+							)}
 						</Box>
 					</Container>
 				</Box>

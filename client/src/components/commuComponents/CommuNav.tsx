@@ -32,7 +32,7 @@ export default function CommuNav() {
     axios.get("http://localhost:4000/board/read").then((res) => {
       setData(res.data.data);
     });
-  });
+  }, []);
 
   const toggleDrawer =
     //이거 안됨 open 쓰면 안됨

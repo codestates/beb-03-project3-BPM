@@ -20,11 +20,15 @@ module.exports = {
 					username: true,
 					updatedAt: true,
 				}
-			).populate("charts_id", {
-				updatedAt: false,
-				createdAt: false,
-				__v: false,
-			});
+			)
+				.populate("charts_id", {
+					updatedAt: false,
+					createdAt: false,
+					__v: false,
+				})
+				.sort({
+					"updatedAt": "desc",
+				});
 
 			if (reviews) {
 				res.status(200).send({ meesage: "리뷰 전체 조회 성공", data: reviews });

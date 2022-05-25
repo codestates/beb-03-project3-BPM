@@ -23,7 +23,11 @@ module.exports = {
 					username: true,
 					likes: true,
 				}
-			).populate("boards_id", { title: true, subtitle: true });
+			)
+				.populate("boards_id", { title: true, subtitle: true })
+				.sort({
+					"createdAt": "desc",
+				});
 			if (post.length > 0) {
 				res.status(200).send({
 					success: true,

@@ -34,6 +34,10 @@ export default function PostDetail({ username }: propstype) {
 	const [commentEventFlag, setCommentEventFlag] = useState(false);
 	const [comment, setComment] = useState("");
 	const [validation, setValidation] = useState(false);
+	//  FIXME: redux 적용 시 바뀜
+	const [userinfo, setUserinfo] = useState<any>({
+		username: "kimcoding",
+	});
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => {
@@ -181,50 +185,61 @@ export default function PostDetail({ username }: propstype) {
 					let comments = item.comments;
 					return (
 						<>
-							{console.log(item)}
 							<Typography
 								variant="h2"
 								m="80px 0 10px 0"
 								fontSize="1.8rem"
-								// fontFamily='Copperplate'
-								// fontFamily='Papyrus'
 								fontFamily="Lucida Handwriting"
-								// fontFamily='Monaco'
-								// fontFamily='cursive'
-								// fontFamily='fantasy'
-								// fontFamily='Tahoma'
-								// fontFamily='Play'
-								// fontFamily='Great Vibes'
-								// fontFamily='Tapestry'
-								// fontFamily='Teko'
 							>
 								{item.title}
 							</Typography>
 							<Typography mb="25px" fontFamily="Nanum Gothic" color="coral">
 								{item.username}
 							</Typography>
-							<Box>
-								{like ? (
-									<Button
-										sx={{ mb: 3 }}
-										onClick={() => {
-											handleLike("unlike");
-										}}
-									>
-										<ThumbUpAltIcon />
-										{item.likes}
-									</Button>
-								) : (
-									<Button
-										sx={{ mb: 3 }}
-										onClick={() => {
-											handleLike("like");
-										}}
-									>
-										<ThumbUpOffAltIcon />
-										{item.likes}
-									</Button>
-								)}
+							<Box
+								display={{ xs: "block", md: "flex" }}
+								alignItems="center"
+								justifyContent="space-between"
+							>
+								<Box display="flex" justifyContent="center">
+									{like ? (
+										<Button
+											onClick={() => {
+												handleLike("unlike");
+											}}
+										>
+											<ThumbUpAltIcon />
+											{item.likes}
+										</Button>
+									) : (
+										<Button
+											onClick={() => {
+												handleLike("like");
+											}}
+										>
+											<ThumbUpOffAltIcon />
+											{item.likes}
+										</Button>
+									)}
+								</Box>
+								<Box>
+									{/* FIXME: redux 적용 시 바뀜 */}
+									{item.username === userinfo.username ? (
+										<Button
+											component={Link}
+											to={`/community/${params.boardid}/write`}
+											state={{
+												id: item.id,
+												title: item.title,
+												body: item.body,
+											}}
+										>
+											수정
+										</Button>
+									) : (
+										<Button></Button>
+									)}
+								</Box>
 							</Box>
 
 							<Divider />

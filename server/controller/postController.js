@@ -373,7 +373,6 @@ module.exports = {
 		}
 	},
 	// 좋아요 추가 핸들러
-	//FIXME: 좋아요 여러번 눌림
 	like: async (req, res) => {
 		const boardid = req.params.boardid;
 		const postid = req.params.postid;

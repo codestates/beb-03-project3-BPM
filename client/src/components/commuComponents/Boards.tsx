@@ -20,9 +20,9 @@ import { useSelector } from "react-redux";
 
 export default function FreeBoard() {
   let params = useParams();
+  const userInfo = useSelector((state: any) => state.userReducer).data;
 
   async function getBoard() {
-    const userInfo = useSelector((state: any) => state.userReducer).data;
     let res = await axios.get(`http://localhost:4000/post/${params.boardid}`);
     let boardPostData = res.data.data;
     return boardPostData;

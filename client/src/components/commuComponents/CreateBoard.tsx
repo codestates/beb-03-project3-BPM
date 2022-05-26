@@ -31,14 +31,14 @@ export default function CreateBoard() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      "0xaEEbEC725C00df0c12Ded95568C345952cf50fC0",
+      "0x0d5Ba334df6Df1b8c7D1C650e7D43Cef5077c50b",
       tempoabi,
       signer
     );
 
     contract
       .transfer(
-        "0x49A01bCDa61a14a1Be34881AE04eCe7c5CD228c2",
+        "0x6e8894086eEE0a251aC1Fe32e686ccb4685E91B4",
         ethers.utils.parseUnits("1500", 18)
       )
       .then((res: any) => {

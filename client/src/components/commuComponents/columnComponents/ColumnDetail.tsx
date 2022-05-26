@@ -2,15 +2,17 @@ import { Box, Typography, Button, Container } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import CommuNav from "../CommuNav";
+import { unsetUser } from "../../../modules/userReducer";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 export default function ColumnDetail() {
   const userInfo = useSelector((state: any) => state.userReducer).data;
   const params = useParams();
+  const dispatch = useDispatch();
   const [like, setLike] = useState(false);
   const [data, setData] = useState([]);
 
@@ -33,6 +35,12 @@ export default function ColumnDetail() {
           } else if (res.data.message === "no") {
             setLike(false);
           }
+        })
+        .catch((e) => {
+          if (e.message === "Request failed with status code 400") {
+            alert("로그인 만료");
+            dispatch(unsetUser());
+          }
         });
     }
   }, []);
@@ -52,6 +60,12 @@ export default function ColumnDetail() {
           )
           .then(() => {
             setLike(true);
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+            }
           });
       } else if (like === "unlike") {
         axios
@@ -64,6 +78,12 @@ export default function ColumnDetail() {
           )
           .then(() => {
             setLike(false);
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+            }
           });
       }
     }

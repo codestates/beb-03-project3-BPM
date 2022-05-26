@@ -25,13 +25,15 @@ import { useParams } from "react-router";
 import CommuNav from "../CommuNav";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { unsetUser } from "../../../modules/userReducer";
 import TablePaginationActions from "../../TablePaginationActions";
 
 export default function MusicDetail() {
   const userInfo = useSelector((state: any) => state.userReducer).data;
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [like, setLike] = useState(false);
   const [comment, setComment] = useState("");
   const [data, setData] = useState([]);
@@ -80,6 +82,12 @@ export default function MusicDetail() {
           } else if (res.data.message === "no") {
             setLike(false);
           }
+        })
+        .catch((e) => {
+          if (e.message === "Request failed with status code 400") {
+            alert("로그인 만료");
+            dispatch(unsetUser());
+          }
         });
     }
   }, []);
@@ -106,6 +114,12 @@ export default function MusicDetail() {
             setCommentEventFlag(!commentEventFlag);
             setComment("");
             setValidation(false);
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+            }
           });
       }
     }
@@ -138,6 +152,9 @@ export default function MusicDetail() {
             setCommentEventFlag(!commentEventFlag);
             setComment("");
             setValidation(false);
+          } else if (e.message === "Request failed with status code 400") {
+            alert("로그인 만료");
+            dispatch(unsetUser());
           }
         });
     }
@@ -159,6 +176,12 @@ export default function MusicDetail() {
           )
           .then(() => {
             setLike(true);
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+            }
           });
       } else if (like === "unlike") {
         axios
@@ -171,6 +194,12 @@ export default function MusicDetail() {
           )
           .then(() => {
             setLike(false);
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+            }
           });
       }
     }

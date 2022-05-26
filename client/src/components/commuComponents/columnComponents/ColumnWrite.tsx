@@ -12,11 +12,14 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import CommuNav from "../CommuNav";
+import { useDispatch } from "react-redux";
+import { unsetUser } from "../../../modules/userReducer";
 declare let window: any;
 
 export default function ColumnWrite() {
   const nav = useNavigate();
   const loc = useLocation();
+  const dispatch = useDispatch();
   const [title, setTitle] = useState(loc.state?.title || "");
   const [musictitle, setMusictitle] = useState("");
   const [body, setBody] = useState(loc.state?.body || "");
@@ -56,6 +59,11 @@ export default function ColumnWrite() {
           })
           .catch((e) => {
             console.error(e);
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+              nav(`/column`);
+            }
           });
       } else {
         await axios
@@ -78,8 +86,11 @@ export default function ColumnWrite() {
             }
           })
           .catch((e) => {
-            if (e.message === "Request failed with status code 400") {
+            if (e.message === "Request failed with status code 404") {
               alert("동일한 곡에 칼럼 작성은 한번만 가능합니다.");
+            } else if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
             }
             console.error(e);
           });

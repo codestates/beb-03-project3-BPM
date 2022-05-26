@@ -12,13 +12,36 @@ import {
   CircularProgress,
   Fab,
   Container,
+  TableFooter,
+  TablePagination,
 } from "@mui/material";
 import CommuNav from "../CommuNav";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import TablePaginationActions from "../../TablePaginationActions";
 
 export default function Column() {
+  const userInfo = useSelector((state: any) => state.userReducer).data;
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   async function getReview() {
     let res = await axios.get("http://localhost:4000/column");
     let columnData = res.data.data;
@@ -34,7 +57,23 @@ export default function Column() {
 
         <Box sx={{ flexGrow: 1 }}>
           <Container sx={{ textAlign: "center" }}>
-            <Link to={`/column/write`}>
+            {userInfo !== null ? (
+              <Link to={`/column/write`}>
+                <Fab
+                  color="secondary"
+                  aria-label="edit"
+                  sx={{
+                    width: 65,
+                    height: 65,
+                    position: "fixed",
+                    right: "45px",
+                    bottom: "40px",
+                  }}
+                >
+                  <EditIcon sx={{ fontSize: "2rem" }} />
+                </Fab>
+              </Link>
+            ) : (
               <Fab
                 color="secondary"
                 aria-label="edit"
@@ -45,10 +84,13 @@ export default function Column() {
                   right: "45px",
                   bottom: "40px",
                 }}
+                onClick={() => {
+                  alert("로그인 해주세요");
+                }}
               >
                 <EditIcon sx={{ fontSize: "2rem" }} />
               </Fab>
-            </Link>
+            )}
             <Async promiseFn={getReview}>
               {({ data, error, isPending }) => {
                 if (isPending) return <CircularProgress color="inherit" />;
@@ -104,56 +146,86 @@ export default function Column() {
                             </TableCell>
                           </TableRow>
                         </TableHead>
-                        {data.map((reviewData: any, index: number) => {
-                          return (
-                            <>
-                              <TableBody>
-                                <TableRow
-                                  component={Link}
-                                  to={`${reviewData._id}`}
-                                  sx={{ textDecoration: "none" }}
-                                >
-                                  <TableCell
-                                    scope="row"
-                                    sx={{
-                                      fontWeight: "550",
-                                      color: "#333",
-                                      "&:hover": {
-                                        cursor: "pointer",
-                                        color: "purple",
-                                        transition: "color .2s",
-                                      },
-                                      display: "flex",
-                                      alignItems: "center",
-                                    }}
+                        {data
+                          .slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          )
+                          .map((reviewData: any, index: number) => {
+                            return (
+                              <>
+                                <TableBody>
+                                  <TableRow
+                                    component={Link}
+                                    to={`${reviewData._id}`}
+                                    sx={{ textDecoration: "none" }}
                                   >
-                                    <img
-                                      src={reviewData.charts_id.image}
-                                      style={{
-                                        width: 35,
-                                        border: "1px solid #ccc",
-
-                                        margin: "0 20px 0 30px",
+                                    <TableCell
+                                      scope="row"
+                                      sx={{
+                                        fontWeight: "550",
+                                        color: "#333",
+                                        "&:hover": {
+                                          cursor: "pointer",
+                                          color: "purple",
+                                          transition: "color .2s",
+                                        },
+                                        display: "flex",
+                                        alignItems: "center",
                                       }}
-                                    />
-                                    {/* FIXME:곡명 텍스트 색상 바꾸기  */}
-                                    {`${reviewData.title} - ${reviewData.charts_id.title}`}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {reviewData.username}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {/* 이건 시간까지 {reviewData.createdAt.slice(0, 16)} */}
-                                    {reviewData.updatedAt.slice(0, 10)}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {reviewData.likes.length}
-                                  </TableCell>
-                                </TableRow>
-                              </TableBody>
-                            </>
-                          );
-                        })}
+                                    >
+                                      <img
+                                        src={reviewData.charts_id.image}
+                                        style={{
+                                          width: 35,
+                                          border: "1px solid #ccc",
+
+                                          margin: "0 20px 0 30px",
+                                        }}
+                                      />
+                                      {/* FIXME:곡명 텍스트 색상 바꾸기  */}
+                                      {`${reviewData.title} - ${reviewData.charts_id.title}`}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {reviewData.username}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {/* 이건 시간까지 {reviewData.createdAt.slice(0, 16)} */}
+                                      {reviewData.updatedAt.slice(0, 10)}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {reviewData.likes.length}
+                                    </TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </>
+                            );
+                          })}
+                        <TableFooter>
+                          <TableRow>
+                            <TablePagination
+                              rowsPerPageOptions={[
+                                5,
+                                10,
+                                25,
+                                { label: "All", value: -1 },
+                              ]}
+                              colSpan={4}
+                              count={data.length}
+                              rowsPerPage={rowsPerPage}
+                              page={page}
+                              SelectProps={{
+                                inputProps: {
+                                  "aria-label": "rows per page",
+                                },
+                                native: true,
+                              }}
+                              onPageChange={handleChangePage}
+                              onRowsPerPageChange={handleChangeRowsPerPage}
+                              ActionsComponent={TablePaginationActions}
+                            />
+                          </TableRow>
+                        </TableFooter>
                       </Table>
                     </TableContainer>
                   </>

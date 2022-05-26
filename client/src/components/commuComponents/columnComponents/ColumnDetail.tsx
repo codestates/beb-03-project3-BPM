@@ -2,19 +2,17 @@ import { Box, Typography, Button, Container } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CommuNav from "../CommuNav";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 export default function ColumnDetail() {
+  const userInfo = useSelector((state: any) => state.userReducer).data;
   const params = useParams();
   const [like, setLike] = useState(false);
   const [data, setData] = useState([]);
-  //  FIXME: redux 적용 시 바뀜
-  const [userinfo, setUserinfo] = useState<any>({
-    username: "kimcoding",
-  });
 
   useEffect(() => {
     axios.get(`http://localhost:4000/column/${params.columnid}`).then((res) => {
@@ -24,44 +22,50 @@ export default function ColumnDetail() {
   }, [like]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/column/${params.columnid}/checklike`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.message === "ok") {
-          setLike(true);
-        } else if (res.data.message === "no") {
-          setLike(false);
-        }
-      });
+    if (userInfo !== null) {
+      axios
+        .get(`http://localhost:4000/column/${params.columnid}/checklike`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          if (res.data.message === "ok") {
+            setLike(true);
+          } else if (res.data.message === "no") {
+            setLike(false);
+          }
+        });
+    }
   }, []);
 
   const handleLike = (like: string) => {
-    if (like === "like") {
-      axios
-        .post(
-          `http://localhost:4000/column/${params.columnid}/like`,
-          {},
-          {
-            withCredentials: true,
-          }
-        )
-        .then(() => {
-          setLike(true);
-        });
-    } else if (like === "unlike") {
-      axios
-        .post(
-          `http://localhost:4000/column/${params.columnid}/unlike`,
-          {},
-          {
-            withCredentials: true,
-          }
-        )
-        .then(() => {
-          setLike(false);
-        });
+    if (userInfo === null) {
+      alert("로그인 해주세요");
+    } else {
+      if (like === "like") {
+        axios
+          .post(
+            `http://localhost:4000/column/${params.columnid}/like`,
+            {},
+            {
+              withCredentials: true,
+            }
+          )
+          .then(() => {
+            setLike(true);
+          });
+      } else if (like === "unlike") {
+        axios
+          .post(
+            `http://localhost:4000/column/${params.columnid}/unlike`,
+            {},
+            {
+              withCredentials: true,
+            }
+          )
+          .then(() => {
+            setLike(false);
+          });
+      }
     }
   };
 
@@ -83,7 +87,24 @@ export default function ColumnDetail() {
                 >
                   {item.title}
                 </Typography>
-
+                <Box>
+                  {item.username === userInfo?.username ? (
+                    <Button
+                      sx={{ fontSize: "1rem", color: "coral" }}
+                      component={Link}
+                      to={`/column/write`}
+                      state={{
+                        id: item.id,
+                        title: item.title,
+                        body: item.body,
+                      }}
+                    >
+                      수정
+                    </Button>
+                  ) : (
+                    <Button></Button>
+                  )}
+                </Box>
                 <Box
                   sx={{
                     border: "1px solid #36AE7C",
@@ -98,14 +119,9 @@ export default function ColumnDetail() {
                     alignItems: "center",
                   }}
                 >
-                  <Typography
-                    //   p={2}
-                    fontSize="1.1rem"
-                    fontFamily="Nanum Gothic"
-                  >
+                  <Typography fontSize="1.1rem" fontFamily="Nanum Gothic">
                     {item.chart.artist}
                   </Typography>
-                  {/* <Divider sx={{ mb: 3 }} /> */}
                   <img src={item.chart.image} style={{ margin: "0 auto" }} />
                   <Typography fontSize="1rem" fontFamily="Nanum Gothic">
                     {item.chart.title}
@@ -123,52 +139,28 @@ export default function ColumnDetail() {
                 <Typography color="#888">
                   {item.updatedAt.slice(0, 10)}
                 </Typography>
-                <Box
-                  display={{ xs: "block", md: "flex" }}
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Box display="flex" justifyContent="center">
-                    {like ? (
-                      <Button
-                        sx={{ mt: 3, fontSize: 20 }}
-                        onClick={() => {
-                          handleLike("unlike");
-                        }}
-                      >
-                        <ThumbUpAltIcon />
-                        {item.likes}
-                      </Button>
-                    ) : (
-                      <Button
-                        sx={{ mt: 3, fontSize: 20 }}
-                        onClick={() => {
-                          handleLike("like");
-                        }}
-                      >
-                        <ThumbUpOffAltIcon />
-                        {item.likes}
-                      </Button>
-                    )}
-                  </Box>
-                  <Box>
-                    {/* FIXME: redux 적용 시 바뀜 */}
-                    {item.username === userinfo.username ? (
-                      <Button
-                        component={Link}
-                        to={`/column/write`}
-                        state={{
-                          id: item.id,
-                          title: item.title,
-                          body: item.body,
-                        }}
-                      >
-                        수정
-                      </Button>
-                    ) : (
-                      <Button></Button>
-                    )}
-                  </Box>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                  {like ? (
+                    <Button
+                      sx={{ mt: 3, fontSize: 20 }}
+                      onClick={() => {
+                        handleLike("unlike");
+                      }}
+                    >
+                      <ThumbUpAltIcon />
+                      {item.likes}
+                    </Button>
+                  ) : (
+                    <Button
+                      sx={{ mt: 3, fontSize: 20 }}
+                      onClick={() => {
+                        handleLike("like");
+                      }}
+                    >
+                      <ThumbUpOffAltIcon />
+                      {item.likes}
+                    </Button>
+                  )}
                 </Box>
               </Box>
             );

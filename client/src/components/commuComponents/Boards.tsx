@@ -10,17 +10,36 @@ import {
   TableCell,
   TablePagination,
   Fab,
+  TableFooter,
 } from "@mui/material";
+import TablePaginationActions from "../TablePaginationActions";
 import { useParams } from "react-router";
 import axios from "axios";
 import { Async } from "react-async";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { useSelector } from "react-redux";
 
 export default function FreeBoard() {
   let params = useParams();
   const userInfo = useSelector((state: any) => state.userReducer).data;
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   async function getBoard() {
     let res = await axios.get(`http://localhost:4000/post/${params.boardid}`);
@@ -57,6 +76,9 @@ export default function FreeBoard() {
               position: "fixed",
               right: "45px",
               bottom: "40px",
+            }}
+            onClick={() => {
+              alert("로그인 해주세요");
             }}
           >
             <EditIcon sx={{ fontSize: "2rem" }} />
@@ -123,46 +145,76 @@ export default function FreeBoard() {
                       </TableRow>
                     </TableHead>
                     {data[0]._id !== undefined
-                      ? data.map((postData: any, index: number) => {
-                          return (
-                            <>
-                              <TableBody>
-                                <TableRow
-                                  component={Link}
-                                  to={`${postData._id}`}
-                                  sx={{ textDecoration: "none" }}
-                                >
-                                  <TableCell
-                                    scope="row"
-                                    key={index}
-                                    sx={{
-                                      fontWeight: "550",
-                                      color: "#333",
-                                      "&:hover": {
-                                        cursor: "pointer",
-                                        color: "lightBlue",
-                                        transition: "color .2s",
-                                      },
-                                    }}
+                      ? data
+                          .slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          )
+                          .map((postData: any, index: number) => {
+                            return (
+                              <>
+                                <TableBody>
+                                  <TableRow
+                                    component={Link}
+                                    to={`${postData._id}`}
+                                    sx={{ textDecoration: "none" }}
                                   >
-                                    {postData.title}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {postData.username}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {/* 이건 시간까지 {postData.createdAt.slice(0, 16)} */}
-                                    {postData.createdAt.slice(0, 10)}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {postData.likes.length}
-                                  </TableCell>
-                                </TableRow>
-                              </TableBody>
-                            </>
-                          );
-                        })
+                                    <TableCell
+                                      scope="row"
+                                      key={index}
+                                      sx={{
+                                        fontWeight: "550",
+                                        color: "#333",
+                                        "&:hover": {
+                                          cursor: "pointer",
+                                          color: "lightBlue",
+                                          transition: "color .2s",
+                                        },
+                                      }}
+                                    >
+                                      {postData.title}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {postData.username}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {/* 이건 시간까지 {postData.createdAt.slice(0, 16)} */}
+                                      {postData.createdAt.slice(0, 10)}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {postData.likes.length}
+                                    </TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </>
+                            );
+                          })
                       : null}
+                    <TableFooter>
+                      <TableRow>
+                        <TablePagination
+                          rowsPerPageOptions={[
+                            5,
+                            10,
+                            25,
+                            { label: "All", value: -1 },
+                          ]}
+                          colSpan={4}
+                          count={data.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          SelectProps={{
+                            inputProps: {
+                              "aria-label": "rows per page",
+                            },
+                            native: true,
+                          }}
+                          onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                          ActionsComponent={TablePaginationActions}
+                        />
+                      </TableRow>
+                    </TableFooter>
                   </Table>
                 </TableContainer>
 

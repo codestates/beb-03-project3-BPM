@@ -42,7 +42,6 @@ export default function CreateBoard() {
         ethers.utils.parseUnits("1500", 18)
       )
       .then((res: any) => {
-        console.log(res);
         axios
           .post("http://localhost:4000/board/create", {
             title: title,

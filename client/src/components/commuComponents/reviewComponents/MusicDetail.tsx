@@ -519,7 +519,8 @@ export default function MusicDetail() {
                       variant="outlined"
                       placeholder="댓글을 작성해주세요 (댓글은 삭제가 불가합니다.)"
                       fullWidth
-                      defaultValue={comment}
+                      defaultValue=""
+                      value={comment}
                       sx={{ mt: 5 }}
                       onChange={(e) => {
                         setComment(e.target.value);

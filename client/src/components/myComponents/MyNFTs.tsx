@@ -8,6 +8,7 @@ import {
   TableCell,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 export default function MyNFTs() {
   return (

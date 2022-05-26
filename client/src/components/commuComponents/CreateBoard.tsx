@@ -12,11 +12,13 @@ import * as React from "react";
 import { useNavigate } from "react-router";
 import { ethers } from "ethers";
 import { tempoabi } from "../../contract/tempoabi";
+import { useSelector } from "react-redux";
 
 declare let window: any;
 
 export default function CreateBoard() {
   const navigate = useNavigate();
+  const userInfo = useSelector((state: any) => state.userReducer).data;
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [subtitle, setSubtitle] = React.useState("");
@@ -40,7 +42,6 @@ export default function CreateBoard() {
         ethers.utils.parseUnits("1500", 18)
       )
       .then((res: any) => {
-        console.log(res);
         axios
           .post("http://localhost:4000/board/create", {
             title: title,
@@ -65,9 +66,20 @@ export default function CreateBoard() {
 
   return (
     <>
-      <Button fullWidth onClick={() => setOpen(!open)}>
-        게시판 만들기
-      </Button>
+      {userInfo === null ? (
+        <Button
+          fullWidth
+          onClick={() => {
+            alert("로그인 해주세요");
+          }}
+        >
+          게시판 만들기
+        </Button>
+      ) : (
+        <Button fullWidth onClick={() => setOpen(!open)}>
+          게시판 만들기
+        </Button>
+      )}
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle

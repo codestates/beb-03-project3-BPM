@@ -147,15 +147,13 @@ export default function MusicWrite() {
 					<Container sx={{ textAlign: "center" }}>
 						<Box p={5} mt={5} textAlign="center">
 							{loc.state ? (
-								<Typography variant="h6">리뷰 수정</Typography>
+								<Typography variant="h6" sx={{ mb: 5 }}>
+									리뷰 수정
+								</Typography>
 							) : (
 								<Typography variant="h6">리뷰 작성</Typography>
 							)}
-							{loc.state ? (
-								<Typography variant="h6" defaultValue={title}>
-									{title}
-								</Typography>
-							) : (
+							{loc.state ? null : (
 								<Autocomplete
 									freeSolo
 									id="free-solo-2-demo"
@@ -195,8 +193,8 @@ export default function MusicWrite() {
 								>
 									<TableHead>
 										<TableRow>
-											<TableCell align="center"></TableCell>
-											<TableCell align="center">평가 항목 별 점수</TableCell>
+											<TableCell align="center">항목</TableCell>
+											<TableCell align="center">점수</TableCell>
 											<TableCell align="center"></TableCell>
 										</TableRow>
 									</TableHead>

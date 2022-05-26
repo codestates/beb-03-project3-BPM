@@ -14,7 +14,10 @@ import {
   TableCell,
   TableBody,
   TableContainer,
+  TableFooter,
+  TablePagination,
 } from "@mui/material";
+import TablePaginationActions from "../TablePaginationActions";
 import Modal from "@mui/material/Modal";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -27,11 +30,27 @@ export default function PostDetail() {
   let params = useParams();
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [commentEventFlag, setCommentEventFlag] = useState(false);
   const [comment, setComment] = useState("");
   const [validation, setValidation] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -51,47 +70,53 @@ export default function PostDetail() {
   }, [commentEventFlag, like]);
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:4000/post/${params.boardid}/${params.postid}/checklike`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        if (res.data.message === "ok") {
-          setLike(true);
-        } else if (res.data.message === "no") {
-          setLike(false);
-        }
-      });
-  }, []);
-
-  // 댓글 작성
-  let writeComment = () => {
-    if (comment.length < 10) {
-      setValidation(true);
-    } else {
+    if (userInfo !== null) {
       axios
-        .post(
-          `http://localhost:4000/post/${params.boardid}/${params.postid}/comment`,
-          {
-            body: comment,
-          },
+        .get(
+          `http://localhost:4000/post/${params.boardid}/${params.postid}/checklike`,
           {
             withCredentials: true,
           }
         )
         .then((res) => {
-          setCommentEventFlag(!commentEventFlag);
-          setComment("");
-          setValidation(false);
-          if (res.data.message === "댓글 작성 성공, 토큰 지급") {
-            alert("5BPM 지급");
-          } else if (res.data.message === "댓글 작성 성공, 토큰 미지급") {
-            alert("하루 댓글 3회를 초과하여 토큰이 미지급되었습니다.");
+          if (res.data.message === "ok") {
+            setLike(true);
+          } else if (res.data.message === "no") {
+            setLike(false);
           }
         });
+    }
+  }, []);
+
+  // 댓글 작성
+  let writeComment = () => {
+    if (userInfo === null) {
+      alert("로그인 해주세요");
+    } else {
+      if (comment.length < 10) {
+        setValidation(true);
+      } else {
+        axios
+          .post(
+            `http://localhost:4000/post/${params.boardid}/${params.postid}/comment`,
+            {
+              body: comment,
+            },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            setCommentEventFlag(!commentEventFlag);
+            setComment("");
+            setValidation(false);
+            if (res.data.message === "댓글 작성 성공, 토큰 지급") {
+              alert("5BPM 지급");
+            } else if (res.data.message === "댓글 작성 성공, 토큰 미지급") {
+              alert("하루 댓글 3회를 초과하여 토큰이 미지급되었습니다.");
+            }
+          });
+      }
     }
   };
 
@@ -128,35 +153,39 @@ export default function PostDetail() {
   };
 
   const handleLike = (like: string) => {
-    if (like === "like") {
-      axios
-        .post(
-          `http://localhost:4000/post/${params.boardid}/${params.postid}/like`,
-          {},
-          {
-            withCredentials: true,
-          }
-        )
-        .then(() => {
-          setLike(true);
-        })
-        .catch((e) => {
-          if (e.message === "Request failed with status code 400") {
-            alert("로그인 해주세요");
-          }
-        });
-    } else if (like === "unlike") {
-      axios
-        .post(
-          `http://localhost:4000/post/${params.boardid}/${params.postid}/unlike`,
-          {},
-          {
-            withCredentials: true,
-          }
-        )
-        .then(() => {
-          setLike(false);
-        });
+    if (userInfo === null) {
+      alert("로그인해주세요");
+    } else {
+      if (like === "like") {
+        axios
+          .post(
+            `http://localhost:4000/post/${params.boardid}/${params.postid}/like`,
+            {},
+            {
+              withCredentials: true,
+            }
+          )
+          .then(() => {
+            setLike(true);
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 해주세요");
+            }
+          });
+      } else if (like === "unlike") {
+        axios
+          .post(
+            `http://localhost:4000/post/${params.boardid}/${params.postid}/unlike`,
+            {},
+            {
+              withCredentials: true,
+            }
+          )
+          .then(() => {
+            setLike(false);
+          });
+      }
     }
   };
 
@@ -191,7 +220,6 @@ export default function PostDetail() {
                 {item.username}
               </Typography>
               <Box display="flex" justifyContent="space-between">
-                {/* FIXME: 좋아요, 수정 버튼 위치 수정 */}
                 <Box>&nbsp;</Box>
                 <Box ml={8}>
                   {like ? (
@@ -214,10 +242,8 @@ export default function PostDetail() {
                     </Button>
                   )}
                 </Box>
-                <Box
-                //  sx={{ position: "absolute", right: "0%" }}
-                >
-                  {item.username === userInfo.username ? (
+                <Box>
+                  {item.username === userInfo?.username ? (
                     <Button
                       component={Link}
                       to={`/community/${params.boardid}/write`}
@@ -254,93 +280,123 @@ export default function PostDetail() {
                     </TableHead>
                     <TableBody>
                       {comments.length !== 0
-                        ? comments.map((commentsData: any) => {
-                            return (
-                              <>
-                                <TableRow>
-                                  <TableCell>{commentsData.body}</TableCell>
-                                  <TableCell align="center">
-                                    {commentsData.username}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {commentsData.createdAt.slice(0, 10)}
-                                  </TableCell>
-                                  {commentsData.username ===
-                                  userInfo.username ? (
-                                    <TableCell>
-                                      <Link
-                                        to={`${commentsData._id}`}
-                                        style={{
-                                          textDecoration: "none",
-                                          color: "coral",
-                                        }}
-                                        onClick={handleOpen}
-                                      >
-                                        수정
-                                      </Link>
+                        ? comments
+                            .slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                            .map((commentsData: any) => {
+                              return (
+                                <>
+                                  <TableRow>
+                                    <TableCell>{commentsData.body}</TableCell>
+                                    <TableCell align="center">
+                                      {commentsData.username}
                                     </TableCell>
-                                  ) : (
-                                    <TableCell></TableCell>
-                                  )}
-                                </TableRow>
-
-                                <Modal
-                                  open={open}
-                                  onClose={handleClose}
-                                  aria-labelledby="modal-modal-title"
-                                  aria-describedby="modal-modal-description"
-                                >
-                                  <Box sx={style}>
-                                    <Typography
-                                      id="modal-modal-title"
-                                      variant="h6"
-                                      component="h2"
-                                    >
-                                      댓글 수정
-                                    </Typography>
-                                    <Typography
-                                      id="modal-modal-description"
-                                      sx={{ color: "red" }}
-                                    >
-                                      10자 이상 입력해주세요
-                                    </Typography>
-                                    <Box>
-                                      <TextField
-                                        variant="outlined"
-                                        placeholder="수정할 댓글을 작성해주세요"
-                                        fullWidth
-                                        rows={10}
-                                        sx={{ mt: 3 }}
-                                        onChange={(e) => {
-                                          setComment(e.target.value);
-                                        }}
-                                      />
-                                      <Button
-                                        variant="outlined"
-                                        fullWidth
-                                        onClick={updateComment}
-                                      >
-                                        작성
-                                      </Button>
-                                      {validation ? (
-                                        <Typography
-                                          sx={{
-                                            color: "red",
-                                            mt: 2,
-                                            fontWeight: "bold",
+                                    <TableCell align="center">
+                                      {commentsData.createdAt.slice(0, 10)}
+                                    </TableCell>
+                                    {commentsData.username ===
+                                    userInfo?.username ? (
+                                      <TableCell>
+                                        <Link
+                                          to={`${commentsData._id}`}
+                                          style={{
+                                            textDecoration: "none",
+                                            color: "coral",
                                           }}
+                                          onClick={handleOpen}
                                         >
-                                          댓글은 10자 이상 작성해주세요
-                                        </Typography>
-                                      ) : null}
+                                          수정
+                                        </Link>
+                                      </TableCell>
+                                    ) : (
+                                      <TableCell></TableCell>
+                                    )}
+                                  </TableRow>
+
+                                  <Modal
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                  >
+                                    <Box sx={style}>
+                                      <Typography
+                                        id="modal-modal-title"
+                                        variant="h6"
+                                        component="h2"
+                                      >
+                                        댓글 수정
+                                      </Typography>
+                                      <Typography
+                                        id="modal-modal-description"
+                                        sx={{ color: "red" }}
+                                      >
+                                        10자 이상 입력해주세요
+                                      </Typography>
+                                      <Box>
+                                        <TextField
+                                          variant="outlined"
+                                          placeholder="수정할 댓글을 작성해주세요"
+                                          fullWidth
+                                          rows={10}
+                                          sx={{ mt: 3 }}
+                                          onChange={(e) => {
+                                            setComment(e.target.value);
+                                          }}
+                                        />
+                                        <Button
+                                          variant="outlined"
+                                          fullWidth
+                                          onClick={updateComment}
+                                        >
+                                          작성
+                                        </Button>
+                                        {validation ? (
+                                          <Typography
+                                            sx={{
+                                              color: "red",
+                                              mt: 2,
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            댓글은 10자 이상 작성해주세요
+                                          </Typography>
+                                        ) : null}
+                                      </Box>
                                     </Box>
-                                  </Box>
-                                </Modal>
-                              </>
-                            );
-                          })
+                                  </Modal>
+                                </>
+                              );
+                            })
                         : null}
                     </TableBody>
+                    <TableFooter>
+                      <TableRow>
+                        <TablePagination
+                          rowsPerPageOptions={[
+                            5,
+                            10,
+                            25,
+                            { label: "All", value: -1 },
+                          ]}
+                          colSpan={4}
+                          count={comments.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          SelectProps={{
+                            inputProps: {
+                              "aria-label": "rows per page",
+                            },
+                            native: true,
+                          }}
+                          onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                          ActionsComponent={TablePaginationActions}
+                        />
+                      </TableRow>
+                    </TableFooter>
                   </Table>
                 </TableContainer>
 
@@ -355,7 +411,8 @@ export default function PostDetail() {
                     variant="outlined"
                     placeholder="댓글을 작성해주세요 (댓글은 삭제가 불가합니다.)"
                     fullWidth
-                    defaultValue={comment}
+                    defaultValue=""
+                    value={comment}
                     sx={{ mt: 5 }}
                     onChange={(e) => {
                       setComment(e.target.value);

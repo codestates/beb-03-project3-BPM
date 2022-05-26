@@ -43,8 +43,8 @@ export default function Footer() {
                 target="_blank"
                 style={{ textDecoration: "none", color: "#111" }}
               >
-                윤지연
-              </a>{" "}
+                윤지연{" "}
+              </a>
               <a
                 href="https://github.com/sujin96"
                 target="_blank"

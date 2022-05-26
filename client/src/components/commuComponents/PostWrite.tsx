@@ -11,12 +11,15 @@ import {
   Container,
 } from "@mui/material";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { unsetUser } from "../../modules/userReducer";
 declare let window: any;
 
 export default function PostWrite() {
   const params = useParams();
   const nav = useNavigate();
   const loc = useLocation();
+  const dispatch = useDispatch();
   const [title, setTitle] = useState(loc.state?.title || "");
   const [body, setBody] = useState(loc.state?.body || "");
 
@@ -44,6 +47,11 @@ export default function PostWrite() {
           })
           .catch((e) => {
             console.error(e);
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+              nav(`/community/${params.boardid}`);
+            }
           });
       } else {
         await axios
@@ -66,6 +74,10 @@ export default function PostWrite() {
           })
           .catch((e) => {
             console.error(e);
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+            }
           });
       }
       nav(`/community/${params.boardid}`);

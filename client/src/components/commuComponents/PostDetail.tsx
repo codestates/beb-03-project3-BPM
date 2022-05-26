@@ -23,12 +23,14 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { unsetUser } from "../../modules/userReducer";
 
 export default function PostDetail() {
   const userInfo = useSelector((state: any) => state.userReducer).data;
   let params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [like, setLike] = useState(false);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -84,6 +86,12 @@ export default function PostDetail() {
           } else if (res.data.message === "no") {
             setLike(false);
           }
+        })
+        .catch((e) => {
+          if (e.message === "Request failed with status code 400") {
+            alert("로그인 만료");
+            dispatch(unsetUser());
+          }
         });
     }
   }, []);
@@ -114,6 +122,12 @@ export default function PostDetail() {
               alert("5BPM 지급");
             } else if (res.data.message === "댓글 작성 성공, 토큰 미지급") {
               alert("하루 댓글 3회를 초과하여 토큰이 미지급되었습니다.");
+            }
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
             }
           });
       }
@@ -147,6 +161,9 @@ export default function PostDetail() {
             setCommentEventFlag(!commentEventFlag);
             setComment("");
             setValidation(false);
+          } else if (e.message === "Request failed with status code 400") {
+            alert("로그인 만료");
+            dispatch(unsetUser());
           }
         });
     }
@@ -170,7 +187,8 @@ export default function PostDetail() {
           })
           .catch((e) => {
             if (e.message === "Request failed with status code 400") {
-              alert("로그인 해주세요");
+              alert("로그인 만료");
+              dispatch(unsetUser());
             }
           });
       } else if (like === "unlike") {
@@ -184,6 +202,12 @@ export default function PostDetail() {
           )
           .then(() => {
             setLike(false);
+          })
+          .catch((e) => {
+            if (e.message === "Request failed with status code 400") {
+              alert("로그인 만료");
+              dispatch(unsetUser());
+            }
           });
       }
     }

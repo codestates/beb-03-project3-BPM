@@ -75,13 +75,13 @@ export default function CommuNav() {
 
           <ListItem component={Link} to="/review" button>
             <ListItemIcon>
-              <QueueMusicIcon sx={{ color: "coral" }} />
+              <QueueMusicIcon sx={{ color: "lightcoral" }} />
             </ListItemIcon>
             <ListItemText primary={"Music Review"} />
           </ListItem>
           <ListItem component={Link} to="/column" button>
             <ListItemIcon>
-              <ArticleIcon sx={{ color: "coral" }} />
+              <ArticleIcon sx={{ color: "lightcoral" }} />
             </ListItemIcon>
             <ListItemText primary={"Column Board"} />
           </ListItem>

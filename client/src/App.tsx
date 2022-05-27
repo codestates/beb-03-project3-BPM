@@ -16,6 +16,9 @@ import Column from "./components/commuComponents/columnComponents/Column";
 import ColumnDetail from "./components/commuComponents/columnComponents/ColumnDetail";
 import ColumnWrite from "./components/commuComponents/columnComponents/ColumnWrite";
 import MusicWrite from "./components/commuComponents/reviewComponents/MusicWrite";
+import AboutUs from "./pages/AboutUs";
+import RoadMap from "./pages/RoadMap";
+import AboutChart from "./pages/AboutChart";
 
 function App() {
   return (
@@ -25,6 +28,9 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/*" element={<Home />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/roadmap" element={<RoadMap />} />
+          <Route path="/aboutchart" element={<AboutChart />} />
           <Route path="/chart" element={<Chart />} />
           <Route path="/chart/:chartid" element={<ChartDetail />} />
           <Route path="/community/*" element={<Community />} />

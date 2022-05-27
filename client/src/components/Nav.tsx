@@ -9,9 +9,11 @@ import {
   useTheme,
   Menu,
   MenuItem,
+  Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Logo from "../img/1113.png";
 
 // icons
 import SearchIcon from "@mui/icons-material/Search";
@@ -50,7 +52,11 @@ export default function Nav() {
           <Grid container alignItems="center">
             <Grid item color={"#fff"} xs={2}>
               <Link to="/">
-                <p style={{ color: "#fff" }}>Logo</p>
+                <img
+                  src={Logo}
+                  alt="logo"
+                  style={{ width: 90, marginTop: 6 }}
+                />
               </Link>
             </Grid>
             <Grid item xs={7} textAlign="center">

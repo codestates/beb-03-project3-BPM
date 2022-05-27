@@ -10,8 +10,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { ethers } from "ethers";
-import { ReactComponent as Meatamask } from "../asset/metamask-logo1.svg";
-import { ReactComponent as Klaytn } from "../asset/klaytn-logo1.svg";
+import { ReactComponent as Meatamask } from "../img/metamask-logo1.svg";
+import { ReactComponent as Klaytn } from "../img/klaytn-logo1.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, unsetUser, setAddress } from "../modules/userReducer";
 

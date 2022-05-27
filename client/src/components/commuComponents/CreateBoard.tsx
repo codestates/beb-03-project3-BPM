@@ -12,11 +12,13 @@ import * as React from "react";
 import { useNavigate } from "react-router";
 import { ethers } from "ethers";
 import { tempoabi } from "../../contract/tempoabi";
+import { useSelector } from "react-redux";
 
 declare let window: any;
 
 export default function CreateBoard() {
   const navigate = useNavigate();
+  const userInfo = useSelector((state: any) => state.userReducer).data;
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [subtitle, setSubtitle] = React.useState("");
@@ -29,18 +31,17 @@ export default function CreateBoard() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      "0xaEEbEC725C00df0c12Ded95568C345952cf50fC0",
+      "0x0d5Ba334df6Df1b8c7D1C650e7D43Cef5077c50b",
       tempoabi,
       signer
     );
 
     contract
       .transfer(
-        "0x49A01bCDa61a14a1Be34881AE04eCe7c5CD228c2",
+        "0x6e8894086eEE0a251aC1Fe32e686ccb4685E91B4",
         ethers.utils.parseUnits("1500", 18)
       )
       .then((res: any) => {
-        console.log(res);
         axios
           .post("http://localhost:4000/board/create", {
             title: title,
@@ -65,9 +66,20 @@ export default function CreateBoard() {
 
   return (
     <>
-      <Button fullWidth onClick={() => setOpen(!open)}>
-        게시판 만들기
-      </Button>
+      {userInfo === null ? (
+        <Button
+          fullWidth
+          onClick={() => {
+            alert("로그인 해주세요");
+          }}
+        >
+          게시판 만들기
+        </Button>
+      ) : (
+        <Button fullWidth onClick={() => setOpen(!open)}>
+          게시판 만들기
+        </Button>
+      )}
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle

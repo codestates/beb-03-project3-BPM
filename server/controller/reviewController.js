@@ -5,6 +5,7 @@ dotenv.config();
 const Charts = require("../model/charts");
 const Users = require("../model/users");
 const Evaluations = require("../model/evaluations");
+const { ObjectId } = require("mongodb");
 const { tempotransfer } = require("./transfer/tempotransfer");
 
 module.exports = {
@@ -19,11 +20,15 @@ module.exports = {
           username: true,
           updatedAt: true,
         }
-      ).populate("charts_id", {
-        updatedAt: false,
-        createdAt: false,
-        __v: false,
-      });
+      )
+        .populate("charts_id", {
+          updatedAt: false,
+          createdAt: false,
+          __v: false,
+        })
+        .sort({
+          updatedAt: "desc",
+        });
 
       if (reviews) {
         res.status(200).send({ meesage: "리뷰 전체 조회 성공", data: reviews });
@@ -39,8 +44,8 @@ module.exports = {
   //리뷰 상세 조회 핸들러
   readById: async (req, res) => {
     try {
-      const id = req.params.reviewid;
-      const review = await Reviews.findOne({ _id: id })
+      const reviewid = req.params.reviewid;
+      const review = await Reviews.findOne({ _id: reviewid })
         .populate("charts_id", { updatedAt: false, createdAt: false })
         .populate("evaluations_id", { updatedAt: false, createdAt: false });
 
@@ -70,22 +75,28 @@ module.exports = {
   //리뷰 업데이트 핸들러
   update: async (req, res) => {
     try {
-      const id = req.params.reviewid;
+      const reviewid = req.params.reviewid;
       const { body } = req.body;
       const { popularity, artistry, lyrics, individuality, Addictive } =
         req.body.evaluation;
 
-      const review = await Reviews.findOne({ _id: id }).populate(
+      const review = await Reviews.findOne({ _id: reviewid }).populate(
         "evaluations_id"
       );
       if (review) {
-        review.body = body;
-        review.evaluations_id.popularity = popularity;
-        review.evaluations_id.artistry = artistry;
-        review.evaluations_id.lyrics = lyrics;
-        review.evaluations_id.individuality = individuality;
-        review.evaluations_id.Addictive = Addictive;
-        await review.save();
+        await Reviews.updateOne({ _id: reviewid }, { $set: { body: body } });
+        await Evaluations.updateOne(
+          { _id: ObjectId(review.evaluations_id) },
+          {
+            $set: {
+              popularity,
+              artistry,
+              lyrics,
+              individuality,
+              Addictive,
+            },
+          }
+        );
         res.status(201).send({ success: true, message: "리뷰 수정 성공" });
       } else {
         res.status(400).send({ success: false, message: "리뷰 수정 실패" });
@@ -176,7 +187,7 @@ module.exports = {
             });
           }
         } else {
-          res.status(400).send({ success: false, message: "리뷰 작성 실패" });
+          res.status(404).send({ success: false, message: "리뷰 작성 실패" });
         }
       }
     } catch (e) {
@@ -289,7 +300,7 @@ module.exports = {
   like: async (req, res) => {
     try {
       const accessToken = req.cookies.accessToken;
-      const id = req.params.reviewid;
+      const reviewid = req.params.reviewid;
 
       if (!accessToken) {
         res.status(400).send({ message: "accessToken not provided" });
@@ -301,7 +312,7 @@ module.exports = {
         const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
 
         const review = await Reviews.findOneAndUpdate(
-          { _id: id },
+          { _id: reviewid },
           { $push: { likes: [{ users_id: userinfo.id }] } }
         );
         if (review) {
@@ -320,7 +331,7 @@ module.exports = {
   unlike: async (req, res) => {
     try {
       const accessToken = req.cookies.accessToken;
-      const id = req.params.reviewid;
+      const reviewid = req.params.reviewid;
 
       if (!accessToken) {
         res.status(400).send({ message: "accessToken not provided" });
@@ -331,7 +342,7 @@ module.exports = {
       } else {
         const userinfo = jwt.verify(accessToken, process.env.ACCESS_SECRET);
         const review = await Reviews.updateOne(
-          { _id: id },
+          { _id: reviewid },
           { $pull: { likes: { users_id: userinfo.id } } }
         );
         if (review) {
@@ -350,7 +361,7 @@ module.exports = {
     const reviewid = req.params.reviewid;
     const accessToken = req.cookies.accessToken;
     if (!accessToken) {
-      res.status(400).send({ message: "accessToken not provided" });
+      res.status(404).send({ message: "accessToken not provided" });
     } else if (accessToken === "invalidtoken") {
       res
         .status(400)

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { unsetUser } from "../../modules/userReducer";
+import { useNavigate } from "react-router";
 
 export default function Profile() {
   const [name, setName] = useState("");
@@ -8,6 +11,8 @@ export default function Profile() {
   const [desc, setDesc] = useState("");
   const [email, setEmail] = useState("");
   const [click, setClick] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -19,6 +24,13 @@ export default function Profile() {
         setName(res.data.data.username);
         setDesc(res.data.data.desc);
         setEmail(res.data.data.email);
+      })
+      .catch((e) => {
+        if (e.message === "Request failed with status code 400") {
+          alert("로그인 만료");
+          dispatch(unsetUser());
+          navigate("/");
+        }
       });
   }, []);
 

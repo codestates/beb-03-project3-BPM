@@ -19,17 +19,21 @@ module.exports = {
           username: true,
           updatedAt: true,
         }
-      ).populate("charts_id", {
-        total: false,
-        AddictiveAvg: false,
-        artistryAvg: false,
-        individualityAvg: false,
-        lyricsAvg: false,
-        popularityAvg: false,
-        updatedAt: false,
-        createdAt: false,
-        __v: false,
-      });
+      )
+        .populate("charts_id", {
+          total: false,
+          AddictiveAvg: false,
+          artistryAvg: false,
+          individualityAvg: false,
+          lyricsAvg: false,
+          popularityAvg: false,
+          updatedAt: false,
+          createdAt: false,
+          __v: false,
+        })
+        .sort({
+          updatedAt: "desc",
+        });
 
       if (columns) {
         res.status(200).send({ meesage: "칼럼 전체 조회 성공", data: columns });
@@ -172,7 +176,7 @@ module.exports = {
             });
           }
         } else {
-          res.status(400).send({ success: false, message: "칼럼 작성 실패" });
+          res.status(404).send({ success: false, message: "칼럼 작성 실패" });
         }
       }
     } catch (e) {
@@ -273,7 +277,7 @@ module.exports = {
 
     const accessToken = req.cookies.accessToken;
     if (!accessToken) {
-      res.status(400).send({ message: "accessToken not provided" });
+      res.status(404).send({ message: "accessToken not provided" });
     } else if (accessToken === "invalidtoken") {
       res
         .status(400)

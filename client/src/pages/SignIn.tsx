@@ -5,7 +5,6 @@ import {
   Typography,
   Grid,
   Stack,
-  Container,
 } from "@mui/material";
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
@@ -40,7 +39,6 @@ export default function SignIn() {
     axios
       .post("http://localhost:4000/user/logout", { withCredentials: true })
       .then(() => {
-        console.log("로그아웃");
         dispatch(unsetUser());
       });
   };

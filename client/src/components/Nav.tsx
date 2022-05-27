@@ -106,6 +106,11 @@ export default function Nav() {
                     Road Map
                   </MenuItem>
                 </Link>
+                <Link to="/aboutchart" style={{ textDecoration: "none" }}>
+                  <MenuItem onClick={handleClose} sx={{ color: "#333" }}>
+                    About Chart
+                  </MenuItem>
+                </Link>
               </Menu>
 
               {/* chart 버튼 */}
@@ -118,7 +123,7 @@ export default function Nav() {
               </Link>
 
               {/* community 버튼 */}
-              <Link to="/community/627b5e9dd6b52cc4fe03a75d">
+              <Link to="/community/62903268742075468af6996c">
                 <Tooltip title="커뮤니티">
                   <IconButton>
                     <GroupsIcon sx={{ color: "#fff" }} />

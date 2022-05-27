@@ -7,6 +7,7 @@ import {
   useViewportScroll,
 } from "framer-motion";
 import benner from "../img/fullbener.png";
+import fullLogo from "../img/bpm-full2.png";
 
 export default function AboutUs() {
   const goToTop = () => {
@@ -20,19 +21,15 @@ export default function AboutUs() {
   const ref = React.useRef<HTMLImageElement>(null);
 
   React.useEffect(() => {
-    // Gets the height of the image
     const image = (ref.current && ref.current.height) || 0;
     getImageHeight(image);
   }, [imageHeight]);
 
-  // Choose at what point the image opacity becomes 0
-  // E.G: 50px from the top
   const offsetHeight = 50;
-  // Vertical scroll distance in pixels.
   const { scrollY } = useViewportScroll();
-  // Transforms scroll and image height values to opacity values
   const yRange = useTransform(scrollY, [imageHeight - offsetHeight, 0], [0, 1]);
   const opacity = useSpring(yRange, { stiffness: 400, damping: 40 });
+
   return (
     <>
       <motion.img
@@ -51,7 +48,20 @@ export default function AboutUs() {
       />
 
       <Container sx={{ bgcolor: "#fff", borderRadius: "70px" }}>
-        {/* 자간 행간 조절해주기 맨 위에 로고도 넣어주깅 */}
+        <Box
+          aria-label="edit"
+          sx={{
+            width: 100,
+            height: 110,
+            position: "fixed",
+            right: "60px",
+            bottom: "65px",
+            background: `no-repeat center center url(${fullLogo})`,
+            backgroundSize: "contain",
+            cursor: "pointer",
+          }}
+          onClick={goToTop}
+        ></Box>
         <Typography width="400px" m="80px auto 0">
           <img
             src={benner}
@@ -138,7 +148,7 @@ export default function AboutUs() {
         </Box>
         <Divider sx={{ mt: 5, mb: 15, borderColor: "lightcoral" }} />
         <Box p={5} textAlign="center">
-          <Typography variant="h4" fontFamily="Nanum Gothic" fontWeight={600}>
+          <Typography variant="h3" fontFamily="Nanum Gothic" fontWeight={600}>
             Tokenomics
           </Typography>
           <Box py={10}>
@@ -151,7 +161,7 @@ export default function AboutUs() {
               mx="auto"
               width="80%"
             >
-              BPM token?
+              What is BPM token?
             </Typography>
             <Typography
               fontFamily="Nanum Gothic"
@@ -189,17 +199,18 @@ export default function AboutUs() {
                 lineHeight: 2,
                 width: "80%",
                 m: "0 auto",
+                textAlign: "left",
               }}
             >
-              - BPM 토큰은 자율적인 커뮤니티 운영에 대한 거버넌스 참여권입니다.
+              •BPM 토큰은 자율적인 커뮤니티 운영에 대한 거버넌스 참여권입니다.
               BPM 토큰을 원하는 풀에 스테이킹 함으로써 누구나 원하는 DAO
-              커뮤니티 거버넌스에 참여할 수 있습니다. <br />- 스테이킹 풀에
-              원하는 DAO 풀을 생성하거나 참여하고, DAO 커뮤니티 내에서 의결권을
-              가지고 권리를 행사할 수 있으며, DAO 스테이킹 풀의 보상량은 풀의
-              크기가 증가할수록 할당량이 커집니다.
+              커뮤니티 거버넌스에 참여할 수 있습니다. <br />
+              •스테이킹 풀에 원하는 DAO 풀을 생성하거나 참여하고, DAO 커뮤니티
+              내에서 의결권을 가지고 권리를 행사할 수 있으며, DAO 스테이킹 풀의
+              보상량은 풀의 크기가 증가할수록 할당량이 커집니다.
             </Typography>
           </Box>
-          <Box p={10}>
+          <Box py={10}>
             <Typography
               variant="h5"
               fontFamily="Nanum Gothic"
@@ -209,7 +220,7 @@ export default function AboutUs() {
               mx="auto"
               width="80%"
             >
-              TEMPO token?
+              What is TEMPO token?
             </Typography>
             <Typography
               fontFamily="Nanum Gothic"
@@ -241,15 +252,22 @@ export default function AboutUs() {
             </Typography>
             <Typography
               fontFamily="Nanum Gothic"
-              sx={{ wordSpacing: 3, letterSpacing: 2, lineHeight: 2 }}
+              sx={{
+                wordSpacing: 3,
+                letterSpacing: 2,
+                lineHeight: 2,
+                width: "80%",
+                m: "0 auto",
+                textAlign: "left",
+              }}
             >
-              - TEMPO 토큰은 음원 평가와 칼럼, 검증에 대한 기준이나 운영에 대한
+              •TEMPO 토큰은 음원 평가와 칼럼, 검증에 대한 기준이나 운영에 대한
               거버넌스 참여 권한을 부여하는 토큰입니다. TEMPO 토큰을 원하는 풀에
               스테이킹 함으로써 거버넌스에 참여하는 구성원은 누구나 원하는 DAO
-              거버넌스에 참여할 수 있습니다. <br />- 스테이킹 풀에 원하는 DAO
-              풀을 생성하거나 참여하고, DAO 커뮤니티 내에서 의결권을 가지고
-              권리를 행사할 수 있으며, DAO 스테이킹 풀의 보상량은 풀의 크기가
-              증가할수록 할당량이 커집니다.
+              거버넌스에 참여할 수 있습니다. <br />
+              •스테이킹 풀에 원하는 DAO 풀을 생성하거나 참여하고, DAO 커뮤니티
+              내에서 의결권을 가지고 권리를 행사할 수 있으며, DAO 스테이킹 풀의
+              보상량은 풀의 크기가 증가할수록 할당량이 커집니다.
             </Typography>
           </Box>
         </Box>

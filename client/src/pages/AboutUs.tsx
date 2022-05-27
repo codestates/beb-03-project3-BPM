@@ -7,6 +7,7 @@ import {
   useViewportScroll,
 } from "framer-motion";
 import benner from "../img/fullbener.png";
+import fullLogo from "../img/bpm-full2.png";
 
 export default function AboutUs() {
   const goToTop = () => {
@@ -20,19 +21,15 @@ export default function AboutUs() {
   const ref = React.useRef<HTMLImageElement>(null);
 
   React.useEffect(() => {
-    // Gets the height of the image
     const image = (ref.current && ref.current.height) || 0;
     getImageHeight(image);
   }, [imageHeight]);
 
-  // Choose at what point the image opacity becomes 0
-  // E.G: 50px from the top
   const offsetHeight = 50;
-  // Vertical scroll distance in pixels.
   const { scrollY } = useViewportScroll();
-  // Transforms scroll and image height values to opacity values
   const yRange = useTransform(scrollY, [imageHeight - offsetHeight, 0], [0, 1]);
   const opacity = useSpring(yRange, { stiffness: 400, damping: 40 });
+
   return (
     <>
       <motion.img
@@ -51,7 +48,20 @@ export default function AboutUs() {
       />
 
       <Container sx={{ bgcolor: "#fff", borderRadius: "70px" }}>
-        {/* 자간 행간 조절해주기 맨 위에 로고도 넣어주깅 */}
+        <Box
+          aria-label="edit"
+          sx={{
+            width: 100,
+            height: 110,
+            position: "fixed",
+            right: "60px",
+            bottom: "65px",
+            background: `no-repeat center center url(${fullLogo})`,
+            backgroundSize: "contain",
+            cursor: "pointer",
+          }}
+          onClick={goToTop}
+        ></Box>
         <Typography width="400px" m="80px auto 0">
           <img
             src={benner}

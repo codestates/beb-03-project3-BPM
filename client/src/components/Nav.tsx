@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   Grid,
   InputBase,
@@ -7,12 +7,15 @@ import {
   Toolbar,
   Tooltip,
   useTheme,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // icons
 import SearchIcon from "@mui/icons-material/Search";
+import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import GroupsIcon from "@mui/icons-material/Groups";
@@ -21,6 +24,22 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 export default function Nav() {
   const theme = useTheme();
   const userInfo = useSelector((state: any) => state.userReducer).data;
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl2, setAnchorEl2] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const open2 = Boolean(anchorEl2);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl2(event.currentTarget);
+  };
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
   return (
     <>
       <AppBar
@@ -54,6 +73,41 @@ export default function Nav() {
               xs={3}
               sx={{ display: "flex", justifyContent: "space-evenly" }}
             >
+              {/* About 버튼 */}
+              <Tooltip title="소개">
+                <IconButton
+                  id="about-button"
+                  aria-controls={open ? "about-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                  sx={{ color: "#fff" }}
+                >
+                  <HelpCenterIcon />
+                </IconButton>
+              </Tooltip>
+              {/* About 팝업 */}
+              <Menu
+                id="about-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "about-button",
+                }}
+              >
+                <Link to="/aboutus" style={{ textDecoration: "none" }}>
+                  <MenuItem onClick={handleClose} sx={{ color: "#333" }}>
+                    About Us
+                  </MenuItem>
+                </Link>
+                <Link to="/roadmap" style={{ textDecoration: "none" }}>
+                  <MenuItem onClick={handleClose} sx={{ color: "#333" }}>
+                    Road Map
+                  </MenuItem>
+                </Link>
+              </Menu>
+
               {/* chart 버튼 */}
               <Link to="/chart">
                 <Tooltip title="차트">
@@ -73,13 +127,43 @@ export default function Nav() {
               </Link>
 
               {/* wallet 버튼 */}
-              <Link to="/signin">
-                <Tooltip title="로그인">
-                  <IconButton>
-                    <AccountBalanceWalletIcon sx={{ color: "#fff" }} />
-                  </IconButton>
-                </Tooltip>
-              </Link>
+              <Tooltip title="로그인">
+                <IconButton
+                  id="wallet-button"
+                  aria-controls={open2 ? "wallet-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open2 ? "true" : undefined}
+                  onClick={handleClick2}
+                  sx={{ color: "#fff" }}
+                >
+                  <AccountBalanceWalletIcon sx={{ color: "#fff" }} />
+                </IconButton>
+              </Tooltip>
+              {/* Wallet 팝업 */}
+              <Menu
+                id="wallet-menu"
+                anchorEl={anchorEl2}
+                open={open2}
+                onClose={handleClose2}
+                MenuListProps={{
+                  "aria-labelledby": "wallet-button",
+                }}
+              >
+                <Link to="/signin" style={{ textDecoration: "none" }}>
+                  <MenuItem onClick={handleClose2} sx={{ color: "#333" }}>
+                    Sign In
+                  </MenuItem>
+                </Link>
+                <a
+                  href="https://app.uniswap.org/#/swap?inputCurrency=0x66595E934c056EF77c204A06Ea3FB8Bf6a92b5f6&use=v2&chain=mainnet"
+                  target="_blank"
+                  style={{ textDecoration: "none" }}
+                >
+                  <MenuItem onClick={handleClose2} sx={{ color: "#333" }}>
+                    Token Swap
+                  </MenuItem>
+                </a>
+              </Menu>
 
               {/* mypage 버튼 */}
               {userInfo !== null ? (
@@ -101,34 +185,6 @@ export default function Nav() {
                   </IconButton>
                 </Tooltip>
               )}
-
-              {/* 
-              버튼 누르는 효과 더 잘보이고 아래 버튼 명 나오는거
-              > 대신 모바일 버전은 따로 만들어야 될 듯
-              위에거를 모바일 아래를 풀화면 으로 사용해도 괜찮을 듯 하지만
-              우선은 이렇게,,
-              <BottomNavigation showLabels sx={{ bgcolor: '#333' }}>
-                <BottomNavigationAction
-                  sx={{ color: '#fff' }}
-                  label='chart'
-                  icon={<InsertChartIcon />}
-                ></BottomNavigationAction>
-                <BottomNavigationAction
-                  sx={{ color: '#fff' }}
-                  label='community'
-                  icon={<GroupsIcon />}
-                ></BottomNavigationAction>
-                <BottomNavigationAction
-                  sx={{ color: '#fff' }}
-                  label='wallet'
-                  icon={<AccountBalanceWalletIcon />}
-                ></BottomNavigationAction>
-                <BottomNavigationAction
-                  sx={{ color: '#fff' }}
-                  label='my'
-                  icon={<AccountBoxIcon />}
-                ></BottomNavigationAction>
-              </BottomNavigation> */}
             </Grid>
           </Grid>
         </Toolbar>

@@ -5,6 +5,7 @@ import {
   Typography,
   Grid,
   Stack,
+  Container,
 } from "@mui/material";
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
@@ -68,7 +69,7 @@ export default function SignIn() {
   };
 
   return (
-    <Stack>
+    <Stack height="80vh" px={5} mb={20}>
       <CssBaseline />
       <Box mt={8}>
         <Typography

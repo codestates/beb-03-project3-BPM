@@ -42,8 +42,9 @@ export default function Footer() {
                 href="https://github.com/journiyoon"
                 target="_blank"
                 style={{ textDecoration: "none", color: "#111" }}
-              ></a>
-              윤지연{" "}
+              >
+                윤지연
+              </a>{" "}
               <a
                 href="https://github.com/sujin96"
                 target="_blank"

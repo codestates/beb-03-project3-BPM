@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography, keyframes } from "@mui/material";
 import {
   motion,
   useSpring,
@@ -8,13 +8,14 @@ import {
   Variants,
   motionValue,
 } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Home() {
   const { scrollYProgress } = useViewportScroll();
   const yRange = useTransform(scrollYProgress, [0, 0.9], [0, 4]);
   const pathLength = useSpring(yRange, { stiffness: 400, damping: 90 });
-  // const { scrollY } = useViewportScroll();
+  const { scrollY } = useViewportScroll();
 
   const transition = { duration: 4, yoyo: Infinity, ease: "easeInOut" };
   const x = useMotionValue(0);
@@ -28,20 +29,17 @@ export default function Home() {
       stroke: "#000",
     },
   };
-  const draw = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: (i: any) => {
-      const delay = 1 + i * 0.5;
-      return {
-        pathLength: 1,
-        opacity: 1,
-        transition: {
-          pathLength: { delay, type: "spring", duration: 1.5, bounce: 0 },
-          opacity: { delay, duration: 0.01 },
-        },
-      };
-    },
-  };
+
+  const fade = keyframes`
+  0% {
+    margin-top: 20%;
+    opacity: 0;
+  } 100% {
+    margin-top: 0%;
+    opacity: 1;
+  }
+  `;
+
   return (
     <>
       <Box
@@ -88,6 +86,7 @@ export default function Home() {
                 // fontFamily: "Teko",
                 fontWeight: "600",
                 color: "#000",
+                animation: `${fade} 1s `,
               }}
             >
               Chart
@@ -134,6 +133,7 @@ export default function Home() {
                 // fontFamily: "Teko",
                 fontWeight: "600",
                 color: "#000",
+                animation: `${fade} 3s `,
               }}
             >
               Community
@@ -158,6 +158,8 @@ export default function Home() {
                 // fontFamily: "Teko",
                 fontWeight: "600",
                 color: "#000",
+                animation: `${fade} 4s `,
+                animationDelay: "1.5s",
               }}
             >
               My Page
@@ -182,6 +184,8 @@ export default function Home() {
                 // fontFamily: "Teko",
                 fontWeight: "600",
                 color: "#000",
+                animation: `${fade} 5s `,
+                animationDelay: "2s",
               }}
             >
               About Us

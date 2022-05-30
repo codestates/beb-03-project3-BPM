@@ -37,6 +37,9 @@ BPM자체 차트는 다음과 같은 방식으로 평가 집계 됩니다.
     - 평균 이용자 100명 기준 적용 가중치 : 2개 미만 - 0.2, 5개 미만 - 0.4, 7개 미만 - 0.6, 10개 미만 - 0.9
 - 가중치와 집계 방식은 거버 넌스를 통해 지속적으로 업데이트 되며 좋은 안건을 제공한 참여자들에게는 Treasury를 통해 인센티브 토큰을 제공할 예정입니다.
 
+#### 1-3. 비교 차트
+![image](https://user-images.githubusercontent.com/93569041/170912002-aecd9860-d264-4dce-ae63-25bd1da77d41.png)
+
 ---
 
 ### 2. 🪙 Tokenomics
@@ -164,6 +167,63 @@ BPM에서 활동하고 있는 창작자들과 아티스트들을 후원하고 �
 이를 통해, BPM은 단순한 구성원 끼리의 단방향 커뮤니티가 아닌, 모든 구성원들이 참여하고 그 안에서 새로운 가치를 창출할 수 있는 새로운 구조의 커뮤니티 플랫폼으로 거듭날 것 입니다.
 
 ---
+## 프로젝트 시연영상
+
+- 회원가입 / 로그인 기능
+    
+    ![login](https://user-images.githubusercontent.com/93569041/170912791-2ef9d9d2-380c-4930-8bb5-003057a464a4.gif)
+    
+    > 최초 입장 시, 메타 마스크 지갑을 연결한 후 닉네임과 e-mail을 통해 회원가입 합니다. 
+    회원 가입이 완료되면, 이후 입장 시엔 지갑 연결만으로 로그인 됩니다.
+    > 
+    
+- 마이 페이지 조회
+    
+    
+    ![mypage](https://user-images.githubusercontent.com/93569041/170912853-66951486-d2c1-4b1d-832e-9c77bb8ff635.gif)
+
+    > 우측 상단의 아이콘을 통해, 마이 페이지로 이동할 수 있습니다. 마이 페이지에는 닉네임과 지갑 주소, 그리고 내가 쓴 글을 조회할 수 있습니다.
+    > 
+    
+- 차트 전체 및 상세 조회
+    
+    ![chart](https://user-images.githubusercontent.com/93569041/170912879-c9be06a9-a484-43f9-9979-5c54f9e63a3e.gif)
+
+    
+    > 기존 차트(우측), BPM에서 새로 집계한 차트(좌측) 두 가지를 한번에 보여주어 한눈에 음원 순위를 비교해볼 수 있습니다. 또 사용자는 상세페이지를 통해 개별 음악에 대한 정보(칼럼, 사용자 리뷰, 별점)들을  한번에 확인할 수 있습니다.
+    > 
+- 게시판 생성
+    
+    ![BOARD CREATE](https://user-images.githubusercontent.com/93569041/170912896-991f7232-e006-464e-ac6c-647157c255f7.gif)
+
+    
+    > 리뷰 및 칼럼 작성으로 얻은 TEMPO 토큰 1,500개를 소모하여, 원하는 카테고리의 게시판을 생성할 수 있습니다. 최초 생성자는 생성된 게시판의 관리 권한을 가질 수 있으며, 무분별한 게시판 생성을 막기 위해, 생성 후 관리자 검수 과정을 거친 후 확정 됩니다.
+    > 
+    
+- 리뷰 작성
+    
+    
+    ![review write](https://user-images.githubusercontent.com/93569041/170912926-8365fd28-2999-4b70-9aa0-43122ec1dc6b.gif)
+
+    > 음원에 대한 리뷰를 작성하고 TEMPO 토큰을 지급 받을 수 있습니다. 리뷰는 총 다섯 가지 항목으로 별점을 매길 수 있으며, 리뷰 내용은 25자 이상으로 작성해야 합니다. 
+    마찬가지로, 칼럼 작성 시에도 TEMPO 토큰을 지급 받을 수 있습니다. 칼럼은 150자 이상의 글을 작성해야 TEMPO 토큰이 지급됩니다.
+    > 
+    
+- 일반 게시판 작성
+    
+    
+    ![free board write](https://user-images.githubusercontent.com/93569041/170912944-cf34d4b6-06d1-47f2-aa4a-e361b05c3f82.gif)
+
+    > 자유 게시판 및 일반 게시판에 글을 작성하고 BPM 토큰을 얻을 수 있습니다. 1회 작성 시, 15BPM 토큰이 지급되며, 일 3회까지 보상을 받을 수 있습니다. 보상은 30자 이상 작성 시에만 지급됩니다.
+    > 
+    
+- 댓글 작성
+    
+    ![comment write](https://user-images.githubusercontent.com/93569041/170912954-de4d0cc4-c5e9-4bdc-9f75-4057d4a8dc4f.gif)
+
+    
+    > 댓글 작성 시에도 BPM 토큰을 얻을 수 있습니다. 댓글은 1회 작성 시, 5BPM 토큰이 지급되며, 일 3회까지 보상 받을 수 있습니다. 보상은 10자 이상 댓글 작성 시에만 지급됩니다.
+    >
 
 ### DB Schema
 <img src="https://user-images.githubusercontent.com/93569041/170910421-39e9ad3b-d59f-49ee-8dea-2fa901a711ed.png" width="700" height="700"/>
@@ -205,3 +265,4 @@ BPM에서 활동하고 있는 창작자들과 아티스트들을 후원하고 �
   <img src="https://img.shields.io/badge/Vercel-000000.svg?style=flat-square&logo=Vercel&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/Amazon AWS-232F3E.svg?style=flat-square&logo=Amazon AWS&logoColor=white"/></a>&nbsp  
 </p>
+
